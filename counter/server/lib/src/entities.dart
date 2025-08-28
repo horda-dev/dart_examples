@@ -1,93 +1,57 @@
 import 'package:horda_server/horda_server.dart';
 
-class CreateCounterCommand extends RemoteCommand {
-  final String name;
-  final int initialCount;
-
-  CreateCounterCommand({required this.name, this.initialCount = 0});
-
-  factory CreateCounterCommand.fromJson(Map<String, dynamic> json) {
-    return CreateCounterCommand(
-      name: json['name'] as String,
-      initialCount: json['initialCount'] as int? ?? 0,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'initialCount': initialCount};
-  }
-}
-
-class IncrementCommand extends RemoteCommand {
-  final int amount;
-
-  IncrementCommand({this.amount = 1});
-
-  factory IncrementCommand.fromJson(Map<String, dynamic> json) {
-    return IncrementCommand(amount: json['amount'] as int? ?? 1);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {'amount': amount};
-  }
-}
-
-class CounterCreatedEvent extends RemoteEvent {
-  final String name;
-  final int count;
-
-  CounterCreatedEvent({required this.name, required this.count});
-
-  factory CounterCreatedEvent.fromJson(Map<String, dynamic> json) {
-    return CounterCreatedEvent(
-      name: json['name'] as String,
-      count: json['count'] as int,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'count': count};
-  }
-}
-
-class CounterIncrementedEvent extends RemoteEvent {
-  final int newCount;
-  final int amount;
-
-  CounterIncrementedEvent({required this.newCount, required this.amount});
-
-  factory CounterIncrementedEvent.fromJson(Map<String, dynamic> json) {
-    return CounterIncrementedEvent(
-      newCount: json['newCount'] as int,
-      amount: json['amount'] as int,
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {'newCount': newCount, 'amount': amount};
-  }
-}
+import 'messages.dart';
 
 class CounterEntity extends Entity<CounterState> {
-  Future<CounterCreatedEvent> handleInit(
+  Future<CounterCreatedEvent> create(
     CreateCounterCommand command,
     EntityContext context,
   ) async {
-    return CounterCreatedEvent(name: command.name, count: command.initialCount);
+    return CounterCreatedEvent(name: command.name, count: command.initialValue);
   }
 
-  Future<RemoteEvent> handleIncrement(
-    IncrementCommand command,
+  Future<RemoteEvent> delete(
+    DeleteCounterCommand command,
+    EntityContext context,
+  ) async {
+    context.stop();
+    return CounterDeletedEvent();
+  }
+
+  Future<RemoteEvent> increment(
+    IncrementCounterCommand command,
     CounterState state,
     EntityContext context,
   ) async {
-    final newCount = state.value + command.amount;
+    final newValue = state.value + command.amount;
 
-    return CounterIncrementedEvent(newCount: newCount, amount: command.amount);
+    return CounterIncrementedEvent(newValue: newValue);
+  }
+
+  Future<RemoteEvent> decrement(
+    DecrementCounterCommand command,
+    CounterState state,
+    EntityContext context,
+  ) async {
+    final newValue = state.value + command.amount;
+
+    return CounterDecrementedEvent(newValue: newValue);
+  }
+
+  Future<RemoteEvent> freeze(
+    FreezeCounterCommand command,
+    CounterState state,
+    EntityContext context,
+  ) async {
+    return CounterFreezeChangedEvent(newValue: true);
+  }
+
+  Future<RemoteEvent> unfreeze(
+    UnfreezeCounterCommand command,
+    CounterState state,
+    EntityContext context,
+  ) async {
+    return CounterFreezeChangedEvent(newValue: false);
   }
 
   CounterState _stateInit(CounterCreatedEvent event) {
@@ -99,11 +63,20 @@ class CounterEntity extends Entity<CounterState> {
     handlers
       ..addStateFromJson(CounterState.fromJson)
       ..addInit<CreateCounterCommand, CounterCreatedEvent>(
-        handleInit,
+        create,
         CreateCounterCommand.fromJson,
         _stateInit,
       )
-      ..add<IncrementCommand>(handleIncrement, IncrementCommand.fromJson);
+      ..add<IncrementCounterCommand>(
+        increment,
+        IncrementCounterCommand.fromJson,
+      )
+      ..add<DecrementCounterCommand>(
+        decrement,
+        DecrementCounterCommand.fromJson,
+      )
+      ..add<FreezeCounterCommand>(freeze, FreezeCounterCommand.fromJson)
+      ..add<UnfreezeCounterCommand>(unfreeze, UnfreezeCounterCommand.fromJson);
   }
 
   @override
@@ -127,7 +100,7 @@ class CounterState extends EntityState {
   }
 
   void incremented(CounterIncrementedEvent event) {
-    _value += event.amount;
+    _value += event.newValue;
   }
 
   @override
@@ -150,7 +123,7 @@ class CounterViewGroup extends EntityViewGroup {
       valueView = CounterView(name: 'value', value: event.count);
 
   void incremented(CounterIncrementedEvent event) {
-    valueView.increment(event.amount);
+    valueView.increment(event.newValue);
   }
 
   @override

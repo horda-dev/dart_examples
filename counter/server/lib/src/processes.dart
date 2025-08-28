@@ -48,6 +48,15 @@ class CounterProcesses extends Process {
     return FlowResult.ok();
   }
 
+  Future<FlowResult> unfreeze(
+    UnfreezeCounterRequested event,
+    ProcessContext context,
+  ) async {
+    print('Processing message: ${event.counterId}');
+
+    return FlowResult.ok();
+  }
+
   @override
   void initHandlers(ProcessHandlers handlers) {
     handlers.add<CreateCounterRequested>(
@@ -69,6 +78,10 @@ class CounterProcesses extends Process {
     handlers.add<FreezeCounterRequested>(
       freeze,
       FreezeCounterRequested.fromJson,
+    );
+    handlers.add<UnfreezeCounterRequested>(
+      unfreeze,
+      UnfreezeCounterRequested.fromJson,
     );
   }
 }
