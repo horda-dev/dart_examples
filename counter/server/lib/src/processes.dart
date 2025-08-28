@@ -1,26 +1,49 @@
 import 'package:horda_server/horda_server.dart';
 
-class CreateCounterRequested extends RemoteEvent {
-  final String message;
+import 'messages.dart';
 
-  CreateCounterRequested({required this.message});
-
-  factory CreateCounterRequested.fromJson(Map<String, dynamic> json) {
-    return CreateCounterRequested(message: json['message'] as String);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {'message': message};
-  }
-}
-
-class CreateCounterProcess extends Process {
-  Future<FlowResult> handleStart(
+class CounterProcesses extends Process {
+  Future<FlowResult> create(
     CreateCounterRequested event,
     ProcessContext context,
   ) async {
-    print('Processing message: ${event.message}');
+    print('Processing message: ${event.name}');
+
+    return FlowResult.ok();
+  }
+
+  Future<FlowResult> delete(
+    DeleteCounterRequested event,
+    ProcessContext context,
+  ) async {
+    print('Processing message: ${event.counterId}');
+
+    return FlowResult.ok();
+  }
+
+  Future<FlowResult> increment(
+    IncrementCounterRequested event,
+    ProcessContext context,
+  ) async {
+    print('Processing message: ${event.counterId}');
+
+    return FlowResult.ok();
+  }
+
+  Future<FlowResult> decrement(
+    DecrementCounterRequested event,
+    ProcessContext context,
+  ) async {
+    print('Processing message: ${event.counterId}');
+
+    return FlowResult.ok();
+  }
+
+  Future<FlowResult> freeze(
+    FreezeCounterRequested event,
+    ProcessContext context,
+  ) async {
+    print('Processing message: ${event.counterId}');
 
     return FlowResult.ok();
   }
@@ -28,8 +51,24 @@ class CreateCounterProcess extends Process {
   @override
   void initHandlers(ProcessHandlers handlers) {
     handlers.add<CreateCounterRequested>(
-      handleStart,
+      create,
       CreateCounterRequested.fromJson,
+    );
+    handlers.add<DeleteCounterRequested>(
+      delete,
+      DeleteCounterRequested.fromJson,
+    );
+    handlers.add<IncrementCounterRequested>(
+      increment,
+      IncrementCounterRequested.fromJson,
+    );
+    handlers.add<DecrementCounterRequested>(
+      decrement,
+      DecrementCounterRequested.fromJson,
+    );
+    handlers.add<FreezeCounterRequested>(
+      freeze,
+      FreezeCounterRequested.fromJson,
     );
   }
 }
