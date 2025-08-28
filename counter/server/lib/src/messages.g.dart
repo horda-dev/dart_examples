@@ -145,19 +145,19 @@ Map<String, dynamic> _$CounterDeletedEventToJson(
 
 CounterIncrementedEvent _$CounterIncrementedEventFromJson(
   Map<String, dynamic> json,
-) => CounterIncrementedEvent(newValue: (json['newValue'] as num).toInt());
+) => CounterIncrementedEvent(amount: (json['amount'] as num).toInt());
 
 Map<String, dynamic> _$CounterIncrementedEventToJson(
   CounterIncrementedEvent instance,
-) => <String, dynamic>{'newValue': instance.newValue};
+) => <String, dynamic>{'amount': instance.amount};
 
 CounterDecrementedEvent _$CounterDecrementedEventFromJson(
   Map<String, dynamic> json,
-) => CounterDecrementedEvent(newValue: (json['newValue'] as num).toInt());
+) => CounterDecrementedEvent(amount: (json['amount'] as num).toInt());
 
 Map<String, dynamic> _$CounterDecrementedEventToJson(
   CounterDecrementedEvent instance,
-) => <String, dynamic>{'newValue': instance.newValue};
+) => <String, dynamic>{'amount': instance.amount};
 
 CounterFreezeChangedEvent _$CounterFreezeChangedEventFromJson(
   Map<String, dynamic> json,

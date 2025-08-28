@@ -1,6 +1,8 @@
 import 'package:horda_server/horda_server.dart';
-
+import 'package:json_annotation/json_annotation.dart';
 import 'messages.dart';
+
+part 'entities.g.dart';
 
 class CounterEntity extends Entity<CounterState> {
   Future<CounterCreatedEvent> create(
@@ -23,9 +25,11 @@ class CounterEntity extends Entity<CounterState> {
     CounterState state,
     EntityContext context,
   ) async {
-    final newValue = state.value + command.amount;
+    if (state.isFrozen) {
+      throw CounterEntityException('counter is frozen');
+    }
 
-    return CounterIncrementedEvent(newValue: newValue);
+    return CounterIncrementedEvent(amount: command.amount);
   }
 
   Future<RemoteEvent> decrement(
@@ -33,9 +37,11 @@ class CounterEntity extends Entity<CounterState> {
     CounterState state,
     EntityContext context,
   ) async {
-    final newValue = state.value + command.amount;
+    if (state.isFrozen) {
+      throw CounterEntityException('counter is frozen');
+    }
 
-    return CounterDecrementedEvent(newValue: newValue);
+    return CounterDecrementedEvent(amount: command.amount);
   }
 
   Future<RemoteEvent> freeze(
@@ -43,6 +49,10 @@ class CounterEntity extends Entity<CounterState> {
     CounterState state,
     EntityContext context,
   ) async {
+    if (!state.isFrozen) {
+      throw CounterEntityException('counter is not frozen');
+    }
+
     return CounterFreezeChangedEvent(newValue: true);
   }
 
@@ -51,11 +61,15 @@ class CounterEntity extends Entity<CounterState> {
     CounterState state,
     EntityContext context,
   ) async {
+    if (state.isFrozen) {
+      throw CounterEntityException('counter is already frozen');
+    }
+
     return CounterFreezeChangedEvent(newValue: false);
   }
 
   CounterState _stateInit(CounterCreatedEvent event) {
-    return CounterState(value: event.count);
+    return CounterState();
   }
 
   @override
@@ -85,33 +99,31 @@ class CounterEntity extends Entity<CounterState> {
   }
 }
 
+@JsonSerializable()
 class CounterState extends EntityState {
-  int get value => _value;
+  bool get isFrozen => _isFrozen;
 
-  CounterState({required int value}) : _value = value;
+  CounterState({bool isFrozen = false}) : _isFrozen = isFrozen;
 
-  factory CounterState.fromJson(Map<String, dynamic> json) {
-    return CounterState(value: json['value'] as int);
-  }
+  factory CounterState.fromJson(Map<String, dynamic> json) =>
+      _$CounterStateFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() {
-    return {'value': value};
-  }
+  Map<String, dynamic> toJson() => _$CounterStateToJson(this);
 
-  void incremented(CounterIncrementedEvent event) {
-    _value += event.newValue;
+  void freezeChanged(CounterFreezeChangedEvent event) {
+    _isFrozen = event.newValue;
   }
 
   @override
   void project(RemoteEvent event) {
     return switch (event) {
-      CounterIncrementedEvent() => incremented(event),
+      CounterFreezeChangedEvent() => freezeChanged(event),
       _ => null,
     };
   }
 
-  int _value;
+  bool _isFrozen;
 }
 
 class CounterViewGroup extends EntityViewGroup {
@@ -123,7 +135,7 @@ class CounterViewGroup extends EntityViewGroup {
       valueView = CounterView(name: 'value', value: event.count);
 
   void incremented(CounterIncrementedEvent event) {
-    valueView.increment(event.newValue);
+    valueView.increment(event.amount);
   }
 
   @override
@@ -138,5 +150,16 @@ class CounterViewGroup extends EntityViewGroup {
     projectors
       ..addInit<CounterCreatedEvent>(CounterViewGroup.fromInitEvent)
       ..add<CounterIncrementedEvent>(incremented);
+  }
+}
+
+class CounterEntityException implements Exception {
+  final String message;
+
+  CounterEntityException(this.message);
+
+  @override
+  String toString() {
+    return 'CounterEntityException: $message';
   }
 }

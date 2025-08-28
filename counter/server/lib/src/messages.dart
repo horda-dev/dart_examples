@@ -196,9 +196,9 @@ class CounterDeletedEvent extends RemoteEvent {
 
 @JsonSerializable()
 class CounterIncrementedEvent extends RemoteEvent {
-  final int newValue;
+  final int amount;
 
-  CounterIncrementedEvent({required this.newValue});
+  CounterIncrementedEvent({required this.amount});
 
   factory CounterIncrementedEvent.fromJson(Map<String, dynamic> json) =>
       _$CounterIncrementedEventFromJson(json);
@@ -209,9 +209,9 @@ class CounterIncrementedEvent extends RemoteEvent {
 
 @JsonSerializable()
 class CounterDecrementedEvent extends RemoteEvent {
-  final int newValue;
+  final int amount;
 
-  CounterDecrementedEvent({required this.newValue});
+  CounterDecrementedEvent({required this.amount});
 
   factory CounterDecrementedEvent.fromJson(Map<String, dynamic> json) =>
       _$CounterDecrementedEventFromJson(json);
