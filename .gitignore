@@ -1,0 +1,60 @@
+# Miscellaneous
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code related
+.classpath
+.project
+.settings/
+.vscode/
+
+# Flutter/Dart/Pub related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Runner.xcworkspace/
+android/.gradle/
+android/app/*.apk
+android/app/build/
+android/app/intermediates/
+android/app/outputs/
+*.apk
+*.aab
+
+# Documentation
+doc/
+doc/api/
+
+# Keystore files
+# Uncomment this line if you do not want to check in your keystore files.
+# *.jks
+# key.properties
+
+# Firebase
+# If you're using Firebase, you might want to ignore the google-services.json file
+# if it contains sensitive information.
+# google-services.json
+
+# OS generated files
+Thumbs.db
