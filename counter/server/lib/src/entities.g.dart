@@ -6,6 +6,16 @@ part of 'entities.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+CounterListState _$CounterListStateFromJson(Map<String, dynamic> json) =>
+    CounterListState(
+      counterIds: (json['counterIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$CounterListStateToJson(CounterListState instance) =>
+    <String, dynamic>{'counterIds': instance.counterIds};
+
 CounterState _$CounterStateFromJson(Map<String, dynamic> json) =>
     CounterState(isFrozen: json['isFrozen'] as bool? ?? false);
 

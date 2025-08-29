@@ -251,6 +251,17 @@ class CreateCounterListCommand extends RemoteCommand {
 }
 
 @JsonSerializable()
+class CounterListCreatedEvent extends RemoteEvent {
+  CounterListCreatedEvent();
+
+  factory CounterListCreatedEvent.fromJson(Map<String, dynamic> json) =>
+      _$CounterListCreatedEventFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CounterListCreatedEventToJson(this);
+}
+
+@JsonSerializable()
 class AddCounterToListCommand extends RemoteCommand {
   final String counterId;
 
@@ -274,6 +285,32 @@ class RemoveCounterFromListCommand extends RemoteCommand {
 
   @override
   Map<String, dynamic> toJson() => _$RemoveCounterFromListCommandToJson(this);
+}
+
+@JsonSerializable()
+class CounterAddedToListEvent extends RemoteEvent {
+  final String counterId;
+
+  CounterAddedToListEvent({required this.counterId});
+
+  factory CounterAddedToListEvent.fromJson(Map<String, dynamic> json) =>
+      _$CounterAddedToListEventFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CounterAddedToListEventToJson(this);
+}
+
+@JsonSerializable()
+class CounterRemovedFromListEvent extends RemoteEvent {
+  final String counterId;
+
+  CounterRemovedFromListEvent({required this.counterId});
+
+  factory CounterRemovedFromListEvent.fromJson(Map<String, dynamic> json) =>
+      _$CounterRemovedFromListEventFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CounterRemovedFromListEventToJson(this);
 }
 
 //
@@ -316,4 +353,3 @@ class CounterNameIsInvalid extends RemoteEvent {
   @override
   Map<String, dynamic> toJson() => _$CounterNameIsInvalidToJson(this);
 }
-
