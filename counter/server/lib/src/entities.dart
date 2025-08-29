@@ -4,6 +4,12 @@ import 'messages.dart';
 
 part 'entities.g.dart';
 
+class CounterListEntity extends Entity<CounterState> {
+  // add counter to the list
+
+  // remove counter from the list
+}
+
 class CounterEntity extends Entity<CounterState> {
   Future<CounterCreatedEvent> create(
     CreateCounterCommand command,

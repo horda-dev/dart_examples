@@ -166,3 +166,48 @@ CounterFreezeChangedEvent _$CounterFreezeChangedEventFromJson(
 Map<String, dynamic> _$CounterFreezeChangedEventToJson(
   CounterFreezeChangedEvent instance,
 ) => <String, dynamic>{'newValue': instance.newValue};
+
+CreateCounterListCommand _$CreateCounterListCommandFromJson(
+  Map<String, dynamic> json,
+) => CreateCounterListCommand(counterId: json['counterId'] as String);
+
+Map<String, dynamic> _$CreateCounterListCommandToJson(
+  CreateCounterListCommand instance,
+) => <String, dynamic>{'counterId': instance.counterId};
+
+AddCounterToListCommand _$AddCounterToListCommandFromJson(
+  Map<String, dynamic> json,
+) => AddCounterToListCommand(counterId: json['counterId'] as String);
+
+Map<String, dynamic> _$AddCounterToListCommandToJson(
+  AddCounterToListCommand instance,
+) => <String, dynamic>{'counterId': instance.counterId};
+
+RemoveCounterFromListCommand _$RemoveCounterFromListCommandFromJson(
+  Map<String, dynamic> json,
+) => RemoveCounterFromListCommand(counterId: json['counterId'] as String);
+
+Map<String, dynamic> _$RemoveCounterFromListCommandToJson(
+  RemoveCounterFromListCommand instance,
+) => <String, dynamic>{'counterId': instance.counterId};
+
+ValidateCounterName _$ValidateCounterNameFromJson(Map<String, dynamic> json) =>
+    ValidateCounterName(name: json['name'] as String);
+
+Map<String, dynamic> _$ValidateCounterNameToJson(
+  ValidateCounterName instance,
+) => <String, dynamic>{'name': instance.name};
+
+CounterNameIsValid _$CounterNameIsValidFromJson(Map<String, dynamic> json) =>
+    CounterNameIsValid();
+
+Map<String, dynamic> _$CounterNameIsValidToJson(CounterNameIsValid instance) =>
+    <String, dynamic>{};
+
+CounterNameIsInvalid _$CounterNameIsInvalidFromJson(
+  Map<String, dynamic> json,
+) => CounterNameIsInvalid(reason: json['reason'] as String);
+
+Map<String, dynamic> _$CounterNameIsInvalidToJson(
+  CounterNameIsInvalid instance,
+) => <String, dynamic>{'reason': instance.reason};

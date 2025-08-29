@@ -166,7 +166,7 @@ class UnfreezeCounterCommand extends RemoteCommand {
 }
 
 //
-// Counter Events
+// CounterEntity Events
 //
 
 @JsonSerializable()
@@ -232,3 +232,88 @@ class CounterFreezeChangedEvent extends RemoteEvent {
   @override
   Map<String, dynamic> toJson() => _$CounterFreezeChangedEventToJson(this);
 }
+
+//
+// CounterListEntity messages
+//
+
+@JsonSerializable()
+class CreateCounterListCommand extends RemoteCommand {
+  final String counterId;
+
+  CreateCounterListCommand({required this.counterId});
+
+  factory CreateCounterListCommand.fromJson(Map<String, dynamic> json) =>
+      _$CreateCounterListCommandFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CreateCounterListCommandToJson(this);
+}
+
+@JsonSerializable()
+class AddCounterToListCommand extends RemoteCommand {
+  final String counterId;
+
+  AddCounterToListCommand({required this.counterId});
+
+  factory AddCounterToListCommand.fromJson(Map<String, dynamic> json) =>
+      _$AddCounterToListCommandFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$AddCounterToListCommandToJson(this);
+}
+
+@JsonSerializable()
+class RemoveCounterFromListCommand extends RemoteCommand {
+  final String counterId;
+
+  RemoveCounterFromListCommand({required this.counterId});
+
+  factory RemoveCounterFromListCommand.fromJson(Map<String, dynamic> json) =>
+      _$RemoveCounterFromListCommandFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$RemoveCounterFromListCommandToJson(this);
+}
+
+//
+// ValidationService messages
+//
+
+@JsonSerializable()
+class ValidateCounterName extends RemoteCommand {
+  final String name;
+
+  ValidateCounterName({required this.name});
+
+  factory ValidateCounterName.fromJson(Map<String, dynamic> json) =>
+      _$ValidateCounterNameFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ValidateCounterNameToJson(this);
+}
+
+@JsonSerializable()
+class CounterNameIsValid extends RemoteEvent {
+  CounterNameIsValid();
+
+  factory CounterNameIsValid.fromJson(Map<String, dynamic> json) =>
+      _$CounterNameIsValidFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CounterNameIsValidToJson(this);
+}
+
+@JsonSerializable()
+class CounterNameIsInvalid extends RemoteEvent {
+  final String reason;
+
+  CounterNameIsInvalid({required this.reason});
+
+  factory CounterNameIsInvalid.fromJson(Map<String, dynamic> json) =>
+      _$CounterNameIsInvalidFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CounterNameIsInvalidToJson(this);
+}
+
