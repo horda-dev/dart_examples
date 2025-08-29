@@ -222,16 +222,16 @@ Map<String, dynamic> _$ValidateCounterNameToJson(
   ValidateCounterName instance,
 ) => <String, dynamic>{'name': instance.name};
 
-CounterNameIsValid _$CounterNameIsValidFromJson(Map<String, dynamic> json) =>
-    CounterNameIsValid();
-
-Map<String, dynamic> _$CounterNameIsValidToJson(CounterNameIsValid instance) =>
-    <String, dynamic>{};
-
-CounterNameIsInvalid _$CounterNameIsInvalidFromJson(
+CounterNameValidated _$CounterNameValidatedFromJson(
   Map<String, dynamic> json,
-) => CounterNameIsInvalid(reason: json['reason'] as String);
+) => CounterNameValidated(
+  isValid: json['isValid'] as bool,
+  invalidReason: json['invalidReason'] as String,
+);
 
-Map<String, dynamic> _$CounterNameIsInvalidToJson(
-  CounterNameIsInvalid instance,
-) => <String, dynamic>{'reason': instance.reason};
+Map<String, dynamic> _$CounterNameValidatedToJson(
+  CounterNameValidated instance,
+) => <String, dynamic>{
+  'isValid': instance.isValid,
+  'invalidReason': instance.invalidReason,
+};

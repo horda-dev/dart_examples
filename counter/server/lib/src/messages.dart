@@ -331,25 +331,19 @@ class ValidateCounterName extends RemoteCommand {
 }
 
 @JsonSerializable()
-class CounterNameIsValid extends RemoteEvent {
-  CounterNameIsValid();
+class CounterNameValidated extends RemoteEvent {
+  final bool isValid;
+  final String invalidReason;
 
-  factory CounterNameIsValid.fromJson(Map<String, dynamic> json) =>
-      _$CounterNameIsValidFromJson(json);
+  CounterNameValidated.valid() : isValid = true, invalidReason = '';
 
-  @override
-  Map<String, dynamic> toJson() => _$CounterNameIsValidToJson(this);
-}
+  CounterNameValidated.invalid({required this.invalidReason}) : isValid = false;
 
-@JsonSerializable()
-class CounterNameIsInvalid extends RemoteEvent {
-  final String reason;
+  CounterNameValidated({required this.isValid, required this.invalidReason});
 
-  CounterNameIsInvalid({required this.reason});
-
-  factory CounterNameIsInvalid.fromJson(Map<String, dynamic> json) =>
-      _$CounterNameIsInvalidFromJson(json);
+  factory CounterNameValidated.fromJson(Map<String, dynamic> json) =>
+      _$CounterNameValidatedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterNameIsInvalidToJson(this);
+  Map<String, dynamic> toJson() => _$CounterNameValidatedToJson(this);
 }

@@ -8,10 +8,10 @@ class ValidationService extends Service {
     ServiceContext context,
   ) async {
     if (command.name.length > 10) {
-      return CounterNameIsInvalid(reason: 'Too long');
+      return CounterNameValidated.invalid(invalidReason: 'too long');
     }
 
-    return CounterNameIsValid();
+    return CounterNameValidated.valid();
   }
 
   @override
