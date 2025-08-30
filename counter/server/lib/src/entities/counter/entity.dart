@@ -98,6 +98,7 @@ class CounterEntity extends Entity<CounterState> {
   }
 }
 
+// TODO: move into separate file
 class CounterEntityException implements Exception {
   final String message;
 
