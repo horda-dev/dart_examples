@@ -1,6 +1,6 @@
 import 'package:horda_server/horda_server.dart';
 
-import 'entity.dart';
+import 'messages.dart';
 
 class CounterViewGroup extends EntityViewGroup {
   final ValueView<String> nameView;

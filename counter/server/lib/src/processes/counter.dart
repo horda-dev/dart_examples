@@ -1,10 +1,12 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:xid/xid.dart';
 
-import '../entities/counter/entity.dart';
-import '../entities/counter_list/entity.dart';
-import '../messages.dart';
+import '../entities/counter/entity.dart' show CounterEntityException;
+import '../entities/counter/messages.dart';
+import '../entities/counter_list/messages.dart';
+import '../services/validation/messages.dart';
 
+import 'messages.dart';
 import 'counter_list.dart';
 
 class CounterProcesses extends Process {
@@ -145,14 +147,8 @@ class CounterProcesses extends Process {
   @override
   void initHandlers(ProcessHandlers handlers) {
     handlers
-      ..add<CreateCounterRequested>(
-        create,
-        CreateCounterRequested.fromJson,
-      )
-      ..add<DeleteCounterRequested>(
-        delete,
-        DeleteCounterRequested.fromJson,
-      )
+      ..add<CreateCounterRequested>(create, CreateCounterRequested.fromJson)
+      ..add<DeleteCounterRequested>(delete, DeleteCounterRequested.fromJson)
       ..add<IncrementCounterRequested>(
         increment,
         IncrementCounterRequested.fromJson,
@@ -161,10 +157,7 @@ class CounterProcesses extends Process {
         decrement,
         DecrementCounterRequested.fromJson,
       )
-      ..add<FreezeCounterRequested>(
-        freeze,
-        FreezeCounterRequested.fromJson,
-      )
+      ..add<FreezeCounterRequested>(freeze, FreezeCounterRequested.fromJson)
       ..add<UnfreezeCounterRequested>(
         unfreeze,
         UnfreezeCounterRequested.fromJson,

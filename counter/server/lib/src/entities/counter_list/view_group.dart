@@ -1,6 +1,6 @@
 import 'package:horda_server/horda_server.dart';
 
-import 'entity.dart';
+import 'messages.dart';
 
 class CounterListViewGroup extends EntityViewGroup {
   final RefListView countersView = RefListView(name: 'counters');

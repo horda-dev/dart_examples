@@ -5,4 +5,3 @@ export 'src/entities/counter_list/entity.dart';
 export 'src/processes/counter.dart';
 export 'src/processes/counter_list.dart';
 export 'src/services/validation/service.dart';
-export 'src/messages.dart';

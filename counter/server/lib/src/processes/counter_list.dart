@@ -1,7 +1,7 @@
 import 'package:horda_server/horda_server.dart';
 
-import '../entities/counter_list/entity.dart';
-import '../messages.dart';
+import '../entities/counter_list/messages.dart';
+import 'messages.dart';
 
 final kCounterListEntityId = 'globalCounterListEntityId';
 
