@@ -1,9 +1,12 @@
+import 'package:counter_server/src/entities.dart';
 import 'package:horda_server/horda_server.dart';
 import 'package:xid/xid.dart';
 
 import 'messages.dart';
 
 final kCounterListEntityId = 'globalCounterListEntityId';
+
+// TODO: add create list process
 
 class CounterProcesses extends Process {
   Future<FlowResult> create(
@@ -51,7 +54,19 @@ class CounterProcesses extends Process {
     DeleteCounterRequested event,
     ProcessContext context,
   ) async {
-    print('Processing message: ${event.counterId}');
+    // delete entity (don't wait for a resulting event)
+    context.sendEntity(
+      name: 'CounterEntity',
+      id: event.counterId,
+      cmd: DeleteCounterCommand(),
+    );
+
+    // delete counter from the list (don't wait for a resulting event)
+    context.sendEntity(
+      name: 'CounterEntityEntity',
+      id: kCounterListEntityId,
+      cmd: RemoveCounterFromListCommand(counterId: event.counterId),
+    );
 
     return FlowResult.ok();
   }
@@ -60,7 +75,16 @@ class CounterProcesses extends Process {
     IncrementCounterRequested event,
     ProcessContext context,
   ) async {
-    print('Processing message: ${event.counterId}');
+    try {
+      // increment counter (don't wait for a resulting event)
+      context.sendEntity(
+        name: 'CounterEntity',
+        id: event.counterId,
+        cmd: IncrementCounterCommand(amount: event.amount),
+      );
+    } on CounterEntityException catch (e) {
+      return FlowResult.error(e.message);
+    }
 
     return FlowResult.ok();
   }
@@ -69,7 +93,16 @@ class CounterProcesses extends Process {
     DecrementCounterRequested event,
     ProcessContext context,
   ) async {
-    print('Processing message: ${event.counterId}');
+    try {
+      // decrement counter (don't wait for a resulting event)
+      context.sendEntity(
+        name: 'CounterEntity',
+        id: event.counterId,
+        cmd: DecrementCounterCommand(amount: event.amount),
+      );
+    } on CounterEntityException catch (e) {
+      return FlowResult.error(e.message);
+    }
 
     return FlowResult.ok();
   }
@@ -78,7 +111,16 @@ class CounterProcesses extends Process {
     FreezeCounterRequested event,
     ProcessContext context,
   ) async {
-    print('Processing message: ${event.counterId}');
+    try {
+      // freeze counter (don't wait for a resulting event)
+      context.sendEntity(
+        name: 'CounterEntity',
+        id: event.counterId,
+        cmd: FreezeCounterCommand(),
+      );
+    } on CounterEntityException catch (e) {
+      return FlowResult.error(e.message);
+    }
 
     return FlowResult.ok();
   }
@@ -87,7 +129,16 @@ class CounterProcesses extends Process {
     UnfreezeCounterRequested event,
     ProcessContext context,
   ) async {
-    print('Processing message: ${event.counterId}');
+    try {
+      // unfreeze counter (don't wait for a resulting event)
+      context.sendEntity(
+        name: 'CounterEntity',
+        id: event.counterId,
+        cmd: UnfreezeCounterCommand(),
+      );
+    } on CounterEntityException catch (e) {
+      return FlowResult.error(e.message);
+    }
 
     return FlowResult.ok();
   }

@@ -66,6 +66,7 @@ class CounterListEntity extends Entity<CounterListState> {
 
 @JsonSerializable()
 class CounterListState extends EntityState {
+  // TODO: remove this state
   final List<String> counterIds;
 
   CounterListState({List<String>? counterIds}) : counterIds = counterIds ?? [];
