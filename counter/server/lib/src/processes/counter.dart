@@ -1,34 +1,11 @@
-import 'package:counter_server/src/entities.dart';
 import 'package:horda_server/horda_server.dart';
 import 'package:xid/xid.dart';
 
-import 'messages.dart';
+import '../entities/counter/entity.dart';
+import '../entities/counter_list/entity.dart';
+import '../messages.dart';
 
-final kCounterListEntityId = 'globalCounterListEntityId';
-
-class CounterListProcesses extends Process {
-  Future<FlowResult> createList(
-    CreateCounterListRequested event,
-    ProcessContext context,
-  ) async {
-    await context.callEntity<CounterListCreatedEvent>(
-      name: 'CounterListEntity',
-      id: kCounterListEntityId,
-      cmd: CreateCounterListCommand(),
-      fac: CounterListCreatedEvent.fromJson,
-    );
-
-    return FlowResult.ok(kCounterListEntityId);
-  }
-
-  @override
-  void initHandlers(ProcessHandlers handlers) {
-    handlers.add<CreateCounterListRequested>(
-      createList,
-      CreateCounterListRequested.fromJson,
-    );
-  }
-}
+import 'counter_list.dart';
 
 class CounterProcesses extends Process {
   Future<FlowResult> create(

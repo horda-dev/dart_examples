@@ -1,6 +1,6 @@
 import 'package:horda_server/horda_server.dart';
 
-import 'messages.dart';
+import '../../messages.dart';
 
 class ValidationService extends Service {
   Future<RemoteEvent> validate(
