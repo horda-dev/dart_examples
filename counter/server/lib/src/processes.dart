@@ -6,7 +6,29 @@ import 'messages.dart';
 
 final kCounterListEntityId = 'globalCounterListEntityId';
 
-// TODO: add create list process
+class CounterListProcesses extends Process {
+  Future<FlowResult> createList(
+    CreateCounterListRequested event,
+    ProcessContext context,
+  ) async {
+    await context.callEntity<CounterListCreatedEvent>(
+      name: 'CounterListEntity',
+      id: kCounterListEntityId,
+      cmd: CreateCounterListCommand(),
+      fac: CounterListCreatedEvent.fromJson,
+    );
+
+    return FlowResult.ok(kCounterListEntityId);
+  }
+
+  @override
+  void initHandlers(ProcessHandlers handlers) {
+    handlers.add<CreateCounterListRequested>(
+      createList,
+      CreateCounterListRequested.fromJson,
+    );
+  }
+}
 
 class CounterProcesses extends Process {
   Future<FlowResult> create(

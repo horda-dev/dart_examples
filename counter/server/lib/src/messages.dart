@@ -8,6 +8,17 @@ part 'messages.g.dart';
 //
 
 @JsonSerializable()
+class CreateCounterListRequested extends RemoteEvent {
+  CreateCounterListRequested();
+
+  factory CreateCounterListRequested.fromJson(Map<String, dynamic> json) =>
+      _$CreateCounterListRequestedFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CreateCounterListRequestedToJson(this);
+}
+
+@JsonSerializable()
 class CreateCounterRequested extends RemoteEvent {
   final String name;
   final int initialValue;
@@ -239,9 +250,7 @@ class CounterFreezeChangedEvent extends RemoteEvent {
 
 @JsonSerializable()
 class CreateCounterListCommand extends RemoteCommand {
-  final String counterId;
-
-  CreateCounterListCommand({required this.counterId});
+  CreateCounterListCommand();
 
   factory CreateCounterListCommand.fromJson(Map<String, dynamic> json) =>
       _$CreateCounterListCommandFromJson(json);

@@ -6,6 +6,14 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+CreateCounterListRequested _$CreateCounterListRequestedFromJson(
+  Map<String, dynamic> json,
+) => CreateCounterListRequested();
+
+Map<String, dynamic> _$CreateCounterListRequestedToJson(
+  CreateCounterListRequested instance,
+) => <String, dynamic>{};
+
 CreateCounterRequested _$CreateCounterRequestedFromJson(
   Map<String, dynamic> json,
 ) => CreateCounterRequested(
@@ -169,11 +177,11 @@ Map<String, dynamic> _$CounterFreezeChangedEventToJson(
 
 CreateCounterListCommand _$CreateCounterListCommandFromJson(
   Map<String, dynamic> json,
-) => CreateCounterListCommand(counterId: json['counterId'] as String);
+) => CreateCounterListCommand();
 
 Map<String, dynamic> _$CreateCounterListCommandToJson(
   CreateCounterListCommand instance,
-) => <String, dynamic>{'counterId': instance.counterId};
+) => <String, dynamic>{};
 
 CounterListCreatedEvent _$CounterListCreatedEventFromJson(
   Map<String, dynamic> json,
