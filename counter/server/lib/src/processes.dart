@@ -167,29 +167,30 @@ class CounterProcesses extends Process {
 
   @override
   void initHandlers(ProcessHandlers handlers) {
-    handlers.add<CreateCounterRequested>(
-      create,
-      CreateCounterRequested.fromJson,
-    );
-    handlers.add<DeleteCounterRequested>(
-      delete,
-      DeleteCounterRequested.fromJson,
-    );
-    handlers.add<IncrementCounterRequested>(
-      increment,
-      IncrementCounterRequested.fromJson,
-    );
-    handlers.add<DecrementCounterRequested>(
-      decrement,
-      DecrementCounterRequested.fromJson,
-    );
-    handlers.add<FreezeCounterRequested>(
-      freeze,
-      FreezeCounterRequested.fromJson,
-    );
-    handlers.add<UnfreezeCounterRequested>(
-      unfreeze,
-      UnfreezeCounterRequested.fromJson,
-    );
+    handlers
+      ..add<CreateCounterRequested>(
+        create,
+        CreateCounterRequested.fromJson,
+      )
+      ..add<DeleteCounterRequested>(
+        delete,
+        DeleteCounterRequested.fromJson,
+      )
+      ..add<IncrementCounterRequested>(
+        increment,
+        IncrementCounterRequested.fromJson,
+      )
+      ..add<DecrementCounterRequested>(
+        decrement,
+        DecrementCounterRequested.fromJson,
+      )
+      ..add<FreezeCounterRequested>(
+        freeze,
+        FreezeCounterRequested.fromJson,
+      )
+      ..add<UnfreezeCounterRequested>(
+        unfreeze,
+        UnfreezeCounterRequested.fromJson,
+      );
   }
 }
