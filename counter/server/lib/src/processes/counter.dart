@@ -83,6 +83,7 @@ class CounterProcesses extends Process {
         id: event.counterId,
         cmd: IncrementCounterCommand(amount: event.amount),
       );
+      // TODO: do we throw entity defined excption type or just Exception
     } on CounterEntityException catch (e) {
       return FlowResult.error(e.message);
     }
