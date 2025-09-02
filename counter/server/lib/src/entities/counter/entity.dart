@@ -13,6 +13,7 @@ class CounterEntity extends Entity<CounterState> {
 
   Future<RemoteEvent> delete(
     DeleteCounter command,
+    CounterState state,
     EntityContext context,
   ) async {
     context.stop();
