@@ -5,11 +5,15 @@ import 'messages.dart';
 class CounterListViewGroup extends EntityViewGroup {
   final RefListView countersView = RefListView(name: 'counters');
 
-  void counterAdded(CounterAddedToListEvent event) {
+  CounterListViewGroup();
+
+  CounterListViewGroup.fromInitEvent(CounterListCreated event);
+
+  void counterAdded(CounterAddedToList event) {
     countersView.addItem(event.counterId);
   }
 
-  void counterRemoved(CounterRemovedFromListEvent event) {
+  void counterRemoved(CounterRemovedFromList event) {
     countersView.removeItem(event.counterId);
   }
 
@@ -21,7 +25,8 @@ class CounterListViewGroup extends EntityViewGroup {
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
     projectors
-      ..add<CounterAddedToListEvent>(counterAdded)
-      ..add<CounterRemovedFromListEvent>(counterRemoved);
+      ..addInit<CounterListCreated>(CounterListViewGroup.fromInitEvent)
+      ..add<CounterAddedToList>(counterAdded)
+      ..add<CounterRemovedFromList>(counterRemoved);
   }
 }

@@ -7,20 +7,25 @@ class CounterViewGroup extends EntityViewGroup {
   final CounterView valueView;
   final ValueView<String> frozenStateView;
 
-  CounterViewGroup.fromInitEvent(CounterCreatedEvent event)
+  CounterViewGroup()
+      : nameView = ValueView(name: 'name', value: ''),
+        valueView = CounterView(name: 'value', value: 0),
+        frozenStateView = ValueView(name: 'frozeStatus', value: "not frozen");
+
+  CounterViewGroup.fromInitEvent(CounterCreated event)
     : nameView = ValueView(name: 'name', value: event.name),
       valueView = CounterView(name: 'value', value: event.count),
-      frozenStateView = ValueView(name: 'isFroze', value: "not frozen");
+      frozenStateView = ValueView(name: 'frozeStatus', value: "not frozen");
 
-  void incremented(CounterIncrementedEvent event) {
+  void incremented(CounterIncremented event) {
     valueView.increment(event.amount);
   }
 
-  void decremented(CounterDecrementedEvent event) {
+  void decremented(CounterDecremented event) {
     valueView.decrement(event.amount);
   }
 
-  void freezeChanged(CounterFreezeChangedEvent event) {
+  void freezeChanged(CounterFreezeChanged event) {
     if (event.newValue) {
       frozenStateView.value = "frozen";
     } else {
@@ -39,9 +44,9 @@ class CounterViewGroup extends EntityViewGroup {
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
     projectors
-      ..addInit<CounterCreatedEvent>(CounterViewGroup.fromInitEvent)
-      ..add<CounterIncrementedEvent>(incremented)
-      ..add<CounterDecrementedEvent>(decremented)
-      ..add<CounterFreezeChangedEvent>(freezeChanged);
+      ..addInit<CounterCreated>(CounterViewGroup.fromInitEvent)
+      ..add<CounterIncremented>(incremented)
+      ..add<CounterDecremented>(decremented)
+      ..add<CounterFreezeChanged>(freezeChanged);
   }
 }

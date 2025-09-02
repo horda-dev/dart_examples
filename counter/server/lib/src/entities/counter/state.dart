@@ -17,14 +17,14 @@ class CounterState extends EntityState {
   @override
   Map<String, dynamic> toJson() => _$CounterStateToJson(this);
 
-  void freezeChanged(CounterFreezeChangedEvent event) {
+  void freezeChanged(CounterFreezeChanged event) {
     _isFrozen = event.newValue;
   }
 
   @override
   void project(RemoteEvent event) {
     return switch (event) {
-      CounterFreezeChangedEvent() => freezeChanged(event),
+      CounterFreezeChanged() => freezeChanged(event),
       _ => null,
     };
   }

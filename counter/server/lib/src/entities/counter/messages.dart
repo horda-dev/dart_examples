@@ -4,138 +4,138 @@ import 'package:json_annotation/json_annotation.dart';
 part 'messages.g.dart';
 
 @JsonSerializable()
-class CreateCounterCommand extends RemoteCommand {
+class CreateCounter extends RemoteCommand {
   final String name;
   final int initialValue;
 
-  CreateCounterCommand({required this.name, this.initialValue = 0});
+  CreateCounter({required this.name, this.initialValue = 0});
 
-  factory CreateCounterCommand.fromJson(Map<String, dynamic> json) =>
-      _$CreateCounterCommandFromJson(json);
+  factory CreateCounter.fromJson(Map<String, dynamic> json) =>
+      _$CreateCounterFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CreateCounterCommandToJson(this);
+  Map<String, dynamic> toJson() => _$CreateCounterToJson(this);
 }
 
 @JsonSerializable()
-class DeleteCounterCommand extends RemoteCommand {
-  DeleteCounterCommand();
+class DeleteCounter extends RemoteCommand {
+  DeleteCounter();
 
-  factory DeleteCounterCommand.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCounterCommandFromJson(json);
+  factory DeleteCounter.fromJson(Map<String, dynamic> json) =>
+      _$DeleteCounterFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$DeleteCounterCommandToJson(this);
+  Map<String, dynamic> toJson() => _$DeleteCounterToJson(this);
 }
 
 @JsonSerializable()
-class IncrementCounterCommand extends RemoteCommand {
+class IncrementCounter extends RemoteCommand {
   final int amount;
 
-  IncrementCounterCommand({this.amount = 1});
+  IncrementCounter({this.amount = 1});
 
-  factory IncrementCounterCommand.fromJson(Map<String, dynamic> json) =>
-      _$IncrementCounterCommandFromJson(json);
+  factory IncrementCounter.fromJson(Map<String, dynamic> json) =>
+      _$IncrementCounterFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$IncrementCounterCommandToJson(this);
+  Map<String, dynamic> toJson() => _$IncrementCounterToJson(this);
 }
 
 @JsonSerializable()
-class DecrementCounterCommand extends RemoteCommand {
+class DecrementCounter extends RemoteCommand {
   final int amount;
 
-  DecrementCounterCommand({this.amount = 1});
+  DecrementCounter({this.amount = 1});
 
-  factory DecrementCounterCommand.fromJson(Map<String, dynamic> json) =>
-      _$DecrementCounterCommandFromJson(json);
+  factory DecrementCounter.fromJson(Map<String, dynamic> json) =>
+      _$DecrementCounterFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$DecrementCounterCommandToJson(this);
+  Map<String, dynamic> toJson() => _$DecrementCounterToJson(this);
 }
 
 @JsonSerializable()
-class FreezeCounterCommand extends RemoteCommand {
-  FreezeCounterCommand();
+class FreezeCounter extends RemoteCommand {
+  FreezeCounter();
 
-  factory FreezeCounterCommand.fromJson(Map<String, dynamic> json) =>
-      _$FreezeCounterCommandFromJson(json);
+  factory FreezeCounter.fromJson(Map<String, dynamic> json) =>
+      _$FreezeCounterFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$FreezeCounterCommandToJson(this);
+  Map<String, dynamic> toJson() => _$FreezeCounterToJson(this);
 }
 
 @JsonSerializable()
-class UnfreezeCounterCommand extends RemoteCommand {
-  UnfreezeCounterCommand();
+class UnfreezeCounter extends RemoteCommand {
+  UnfreezeCounter();
 
-  factory UnfreezeCounterCommand.fromJson(Map<String, dynamic> json) =>
-      _$UnfreezeCounterCommandFromJson(json);
+  factory UnfreezeCounter.fromJson(Map<String, dynamic> json) =>
+      _$UnfreezeCounterFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$UnfreezeCounterCommandToJson(this);
+  Map<String, dynamic> toJson() => _$UnfreezeCounterToJson(this);
 }
 
 @JsonSerializable()
-class CounterCreatedEvent extends RemoteEvent {
+class CounterCreated extends RemoteEvent {
   final String name;
   final int count;
 
-  CounterCreatedEvent({required this.name, required this.count});
+  CounterCreated({required this.name, required this.count});
 
-  factory CounterCreatedEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterCreatedEventFromJson(json);
+  factory CounterCreated.fromJson(Map<String, dynamic> json) =>
+      _$CounterCreatedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterCreatedEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterCreatedToJson(this);
 }
 
 @JsonSerializable()
-class CounterDeletedEvent extends RemoteEvent {
-  CounterDeletedEvent();
+class CounterDeleted extends RemoteEvent {
+  CounterDeleted();
 
-  factory CounterDeletedEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterDeletedEventFromJson(json);
+  factory CounterDeleted.fromJson(Map<String, dynamic> json) =>
+      _$CounterDeletedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterDeletedEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterDeletedToJson(this);
 }
 
 @JsonSerializable()
-class CounterIncrementedEvent extends RemoteEvent {
+class CounterIncremented extends RemoteEvent {
   final int amount;
 
-  CounterIncrementedEvent({required this.amount});
+  CounterIncremented({required this.amount});
 
-  factory CounterIncrementedEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterIncrementedEventFromJson(json);
+  factory CounterIncremented.fromJson(Map<String, dynamic> json) =>
+      _$CounterIncrementedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterIncrementedEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterIncrementedToJson(this);
 }
 
 @JsonSerializable()
-class CounterDecrementedEvent extends RemoteEvent {
+class CounterDecremented extends RemoteEvent {
   final int amount;
 
-  CounterDecrementedEvent({required this.amount});
+  CounterDecremented({required this.amount});
 
-  factory CounterDecrementedEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterDecrementedEventFromJson(json);
+  factory CounterDecremented.fromJson(Map<String, dynamic> json) =>
+      _$CounterDecrementedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterDecrementedEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterDecrementedToJson(this);
 }
 
 @JsonSerializable()
-class CounterFreezeChangedEvent extends RemoteEvent {
+class CounterFreezeChanged extends RemoteEvent {
   final bool newValue;
 
-  CounterFreezeChangedEvent({required this.newValue});
+  CounterFreezeChanged({required this.newValue});
 
-  factory CounterFreezeChangedEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterFreezeChangedEventFromJson(json);
+  factory CounterFreezeChanged.fromJson(Map<String, dynamic> json) =>
+      _$CounterFreezeChangedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterFreezeChangedEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterFreezeChangedToJson(this);
 }

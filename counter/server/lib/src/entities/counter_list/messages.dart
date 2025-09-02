@@ -4,75 +4,75 @@ import 'package:json_annotation/json_annotation.dart';
 part 'messages.g.dart';
 
 @JsonSerializable()
-class CreateCounterListCommand extends RemoteCommand {
-  CreateCounterListCommand();
+class CreateCounterList extends RemoteCommand {
+  CreateCounterList();
 
-  factory CreateCounterListCommand.fromJson(Map<String, dynamic> json) =>
-      _$CreateCounterListCommandFromJson(json);
+  factory CreateCounterList.fromJson(Map<String, dynamic> json) =>
+      _$CreateCounterListFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CreateCounterListCommandToJson(this);
+  Map<String, dynamic> toJson() => _$CreateCounterListToJson(this);
 }
 
 @JsonSerializable()
-class CounterListCreatedEvent extends RemoteEvent {
-  CounterListCreatedEvent();
+class CounterListCreated extends RemoteEvent {
+  CounterListCreated();
 
-  factory CounterListCreatedEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterListCreatedEventFromJson(json);
+  factory CounterListCreated.fromJson(Map<String, dynamic> json) =>
+      _$CounterListCreatedFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterListCreatedEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterListCreatedToJson(this);
 }
 
 @JsonSerializable()
-class AddCounterToListCommand extends RemoteCommand {
+class AddCounterToList extends RemoteCommand {
   final String counterId;
 
-  AddCounterToListCommand({required this.counterId});
+  AddCounterToList({required this.counterId});
 
-  factory AddCounterToListCommand.fromJson(Map<String, dynamic> json) =>
-      _$AddCounterToListCommandFromJson(json);
+  factory AddCounterToList.fromJson(Map<String, dynamic> json) =>
+      _$AddCounterToListFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$AddCounterToListCommandToJson(this);
+  Map<String, dynamic> toJson() => _$AddCounterToListToJson(this);
 }
 
 @JsonSerializable()
-class RemoveCounterFromListCommand extends RemoteCommand {
+class RemoveCounterFromList extends RemoteCommand {
   final String counterId;
 
-  RemoveCounterFromListCommand({required this.counterId});
+  RemoveCounterFromList({required this.counterId});
 
-  factory RemoveCounterFromListCommand.fromJson(Map<String, dynamic> json) =>
-      _$RemoveCounterFromListCommandFromJson(json);
+  factory RemoveCounterFromList.fromJson(Map<String, dynamic> json) =>
+      _$RemoveCounterFromListFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$RemoveCounterFromListCommandToJson(this);
+  Map<String, dynamic> toJson() => _$RemoveCounterFromListToJson(this);
 }
 
 @JsonSerializable()
-class CounterAddedToListEvent extends RemoteEvent {
+class CounterAddedToList extends RemoteEvent {
   final String counterId;
 
-  CounterAddedToListEvent({required this.counterId});
+  CounterAddedToList({required this.counterId});
 
-  factory CounterAddedToListEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterAddedToListEventFromJson(json);
+  factory CounterAddedToList.fromJson(Map<String, dynamic> json) =>
+      _$CounterAddedToListFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterAddedToListEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterAddedToListToJson(this);
 }
 
 @JsonSerializable()
-class CounterRemovedFromListEvent extends RemoteEvent {
+class CounterRemovedFromList extends RemoteEvent {
   final String counterId;
 
-  CounterRemovedFromListEvent({required this.counterId});
+  CounterRemovedFromList({required this.counterId});
 
-  factory CounterRemovedFromListEvent.fromJson(Map<String, dynamic> json) =>
-      _$CounterRemovedFromListEventFromJson(json);
+  factory CounterRemovedFromList.fromJson(Map<String, dynamic> json) =>
+      _$CounterRemovedFromListFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$CounterRemovedFromListEventToJson(this);
+  Map<String, dynamic> toJson() => _$CounterRemovedFromListToJson(this);
 }

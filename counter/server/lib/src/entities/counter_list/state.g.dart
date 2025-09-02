@@ -7,11 +7,7 @@ part of 'state.dart';
 // **************************************************************************
 
 CounterListState _$CounterListStateFromJson(Map<String, dynamic> json) =>
-    CounterListState(
-      counterIds: (json['counterIds'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-    );
+    CounterListState();
 
 Map<String, dynamic> _$CounterListStateToJson(CounterListState instance) =>
-    <String, dynamic>{'counterIds': instance.counterIds};
+    <String, dynamic>{};

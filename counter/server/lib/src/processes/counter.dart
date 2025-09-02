@@ -1,15 +1,15 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:xid/xid.dart';
 
-import '../entities/counter/entity.dart' show CounterEntityException;
 import '../entities/counter/messages.dart';
 import '../entities/counter_list/messages.dart';
 import '../services/validation/messages.dart';
 
 import 'messages.dart';
-import 'counter_list.dart';
 
-class CounterProcesses extends Process {
+const kCounterListEntityId = 'globalCounterListEntityId';
+
+class ClientProcesses extends Process {
   Future<FlowResult> create(
     CreateCounterRequested event,
     ProcessContext context,
@@ -30,22 +30,22 @@ class CounterProcesses extends Process {
     }
 
     // create counter entity
-    await context.callEntity<CounterCreatedEvent>(
+    await context.callEntity<CounterCreated>(
       name: 'CounterEntity',
       id: newCounterId,
-      cmd: CreateCounterCommand(
+      cmd: CreateCounter(
         name: event.name,
         initialValue: event.initialValue,
       ),
-      fac: CounterCreatedEvent.fromJson,
+      fac: CounterCreated.fromJson,
     );
 
     // add the counter to the list
-    await context.callEntity<CounterAddedToListEvent>(
+    await context.callEntity<CounterAddedToList>(
       name: 'CounterListEntity',
       id: kCounterListEntityId,
-      cmd: AddCounterToListCommand(counterId: newCounterId),
-      fac: CounterAddedToListEvent.fromJson,
+      cmd: AddCounterToList(counterId: newCounterId),
+      fac: CounterAddedToList.fromJson,
     );
 
     return FlowResult.ok(newCounterId);
@@ -59,14 +59,14 @@ class CounterProcesses extends Process {
     context.sendEntity(
       name: 'CounterEntity',
       id: event.counterId,
-      cmd: DeleteCounterCommand(),
+      cmd: DeleteCounter(),
     );
 
     // delete counter from the list (don't wait for a resulting event)
     context.sendEntity(
-      name: 'CounterEntityEntity',
+      name: 'CounterListEntity',
       id: kCounterListEntityId,
-      cmd: RemoveCounterFromListCommand(counterId: event.counterId),
+      cmd: RemoveCounterFromList(counterId: event.counterId),
     );
 
     return FlowResult.ok();
@@ -76,18 +76,11 @@ class CounterProcesses extends Process {
     IncrementCounterRequested event,
     ProcessContext context,
   ) async {
-    try {
-      // increment counter (don't wait for a resulting event)
-      context.sendEntity(
-        name: 'CounterEntity',
-        id: event.counterId,
-        cmd: IncrementCounterCommand(amount: event.amount),
-      );
-      // TODO: do we throw entity defined excption type or just Exception
-    } on CounterEntityException catch (e) {
-      return FlowResult.error(e.message);
-    }
-
+    context.sendEntity(
+      name: 'CounterEntity',
+      id: event.counterId,
+      cmd: IncrementCounter(amount: event.amount),
+    );
     return FlowResult.ok();
   }
 
@@ -95,17 +88,11 @@ class CounterProcesses extends Process {
     DecrementCounterRequested event,
     ProcessContext context,
   ) async {
-    try {
-      // decrement counter (don't wait for a resulting event)
-      context.sendEntity(
-        name: 'CounterEntity',
-        id: event.counterId,
-        cmd: DecrementCounterCommand(amount: event.amount),
-      );
-    } on CounterEntityException catch (e) {
-      return FlowResult.error(e.message);
-    }
-
+    context.sendEntity(
+      name: 'CounterEntity',
+      id: event.counterId,
+      cmd: DecrementCounter(amount: event.amount),
+    );
     return FlowResult.ok();
   }
 
@@ -113,17 +100,11 @@ class CounterProcesses extends Process {
     FreezeCounterRequested event,
     ProcessContext context,
   ) async {
-    try {
-      // freeze counter (don't wait for a resulting event)
-      context.sendEntity(
-        name: 'CounterEntity',
-        id: event.counterId,
-        cmd: FreezeCounterCommand(),
-      );
-    } on CounterEntityException catch (e) {
-      return FlowResult.error(e.message);
-    }
-
+    context.sendEntity(
+      name: 'CounterEntity',
+      id: event.counterId,
+      cmd: FreezeCounter(),
+    );
     return FlowResult.ok();
   }
 
@@ -131,18 +112,26 @@ class CounterProcesses extends Process {
     UnfreezeCounterRequested event,
     ProcessContext context,
   ) async {
-    try {
-      // unfreeze counter (don't wait for a resulting event)
-      context.sendEntity(
-        name: 'CounterEntity',
-        id: event.counterId,
-        cmd: UnfreezeCounterCommand(),
-      );
-    } on CounterEntityException catch (e) {
-      return FlowResult.error(e.message);
-    }
-
+    context.sendEntity(
+      name: 'CounterEntity',
+      id: event.counterId,
+      cmd: UnfreezeCounter(),
+    );
     return FlowResult.ok();
+  }
+
+  Future<FlowResult> createList(
+    CreateCounterListRequested event,
+    ProcessContext context,
+  ) async {
+    await context.callEntity<CounterListCreated>(
+      name: 'CounterListEntity',
+      id: kCounterListEntityId,
+      cmd: CreateCounterList(),
+      fac: CounterListCreated.fromJson,
+    );
+
+    return FlowResult.ok(kCounterListEntityId);
   }
 
   @override
@@ -162,6 +151,10 @@ class CounterProcesses extends Process {
       ..add<UnfreezeCounterRequested>(
         unfreeze,
         UnfreezeCounterRequested.fromJson,
+      )
+      ..add<CreateCounterListRequested>(
+        createList,
+        CreateCounterListRequested.fromJson,
       );
   }
 }

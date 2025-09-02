@@ -6,50 +6,42 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateCounterListCommand _$CreateCounterListCommandFromJson(
+CreateCounterList _$CreateCounterListFromJson(Map<String, dynamic> json) =>
+    CreateCounterList();
+
+Map<String, dynamic> _$CreateCounterListToJson(CreateCounterList instance) =>
+    <String, dynamic>{};
+
+CounterListCreated _$CounterListCreatedFromJson(Map<String, dynamic> json) =>
+    CounterListCreated();
+
+Map<String, dynamic> _$CounterListCreatedToJson(CounterListCreated instance) =>
+    <String, dynamic>{};
+
+AddCounterToList _$AddCounterToListFromJson(Map<String, dynamic> json) =>
+    AddCounterToList(counterId: json['counterId'] as String);
+
+Map<String, dynamic> _$AddCounterToListToJson(AddCounterToList instance) =>
+    <String, dynamic>{'counterId': instance.counterId};
+
+RemoveCounterFromList _$RemoveCounterFromListFromJson(
   Map<String, dynamic> json,
-) => CreateCounterListCommand();
+) => RemoveCounterFromList(counterId: json['counterId'] as String);
 
-Map<String, dynamic> _$CreateCounterListCommandToJson(
-  CreateCounterListCommand instance,
-) => <String, dynamic>{};
-
-CounterListCreatedEvent _$CounterListCreatedEventFromJson(
-  Map<String, dynamic> json,
-) => CounterListCreatedEvent();
-
-Map<String, dynamic> _$CounterListCreatedEventToJson(
-  CounterListCreatedEvent instance,
-) => <String, dynamic>{};
-
-AddCounterToListCommand _$AddCounterToListCommandFromJson(
-  Map<String, dynamic> json,
-) => AddCounterToListCommand(counterId: json['counterId'] as String);
-
-Map<String, dynamic> _$AddCounterToListCommandToJson(
-  AddCounterToListCommand instance,
+Map<String, dynamic> _$RemoveCounterFromListToJson(
+  RemoveCounterFromList instance,
 ) => <String, dynamic>{'counterId': instance.counterId};
 
-RemoveCounterFromListCommand _$RemoveCounterFromListCommandFromJson(
+CounterAddedToList _$CounterAddedToListFromJson(Map<String, dynamic> json) =>
+    CounterAddedToList(counterId: json['counterId'] as String);
+
+Map<String, dynamic> _$CounterAddedToListToJson(CounterAddedToList instance) =>
+    <String, dynamic>{'counterId': instance.counterId};
+
+CounterRemovedFromList _$CounterRemovedFromListFromJson(
   Map<String, dynamic> json,
-) => RemoveCounterFromListCommand(counterId: json['counterId'] as String);
+) => CounterRemovedFromList(counterId: json['counterId'] as String);
 
-Map<String, dynamic> _$RemoveCounterFromListCommandToJson(
-  RemoveCounterFromListCommand instance,
-) => <String, dynamic>{'counterId': instance.counterId};
-
-CounterAddedToListEvent _$CounterAddedToListEventFromJson(
-  Map<String, dynamic> json,
-) => CounterAddedToListEvent(counterId: json['counterId'] as String);
-
-Map<String, dynamic> _$CounterAddedToListEventToJson(
-  CounterAddedToListEvent instance,
-) => <String, dynamic>{'counterId': instance.counterId};
-
-CounterRemovedFromListEvent _$CounterRemovedFromListEventFromJson(
-  Map<String, dynamic> json,
-) => CounterRemovedFromListEvent(counterId: json['counterId'] as String);
-
-Map<String, dynamic> _$CounterRemovedFromListEventToJson(
-  CounterRemovedFromListEvent instance,
+Map<String, dynamic> _$CounterRemovedFromListToJson(
+  CounterRemovedFromList instance,
 ) => <String, dynamic>{'counterId': instance.counterId};

@@ -6,97 +6,79 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateCounterCommand _$CreateCounterCommandFromJson(
-  Map<String, dynamic> json,
-) => CreateCounterCommand(
-  name: json['name'] as String,
-  initialValue: (json['initialValue'] as num?)?.toInt() ?? 0,
-);
+CreateCounter _$CreateCounterFromJson(Map<String, dynamic> json) =>
+    CreateCounter(
+      name: json['name'] as String,
+      initialValue: (json['initialValue'] as num?)?.toInt() ?? 0,
+    );
 
-Map<String, dynamic> _$CreateCounterCommandToJson(
-  CreateCounterCommand instance,
-) => <String, dynamic>{
-  'name': instance.name,
-  'initialValue': instance.initialValue,
-};
+Map<String, dynamic> _$CreateCounterToJson(CreateCounter instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'initialValue': instance.initialValue,
+    };
 
-DeleteCounterCommand _$DeleteCounterCommandFromJson(
-  Map<String, dynamic> json,
-) => DeleteCounterCommand();
+DeleteCounter _$DeleteCounterFromJson(Map<String, dynamic> json) =>
+    DeleteCounter();
 
-Map<String, dynamic> _$DeleteCounterCommandToJson(
-  DeleteCounterCommand instance,
-) => <String, dynamic>{};
+Map<String, dynamic> _$DeleteCounterToJson(DeleteCounter instance) =>
+    <String, dynamic>{};
 
-IncrementCounterCommand _$IncrementCounterCommandFromJson(
-  Map<String, dynamic> json,
-) => IncrementCounterCommand(amount: (json['amount'] as num?)?.toInt() ?? 1);
+IncrementCounter _$IncrementCounterFromJson(Map<String, dynamic> json) =>
+    IncrementCounter(amount: (json['amount'] as num?)?.toInt() ?? 1);
 
-Map<String, dynamic> _$IncrementCounterCommandToJson(
-  IncrementCounterCommand instance,
-) => <String, dynamic>{'amount': instance.amount};
+Map<String, dynamic> _$IncrementCounterToJson(IncrementCounter instance) =>
+    <String, dynamic>{'amount': instance.amount};
 
-DecrementCounterCommand _$DecrementCounterCommandFromJson(
-  Map<String, dynamic> json,
-) => DecrementCounterCommand(amount: (json['amount'] as num?)?.toInt() ?? 1);
+DecrementCounter _$DecrementCounterFromJson(Map<String, dynamic> json) =>
+    DecrementCounter(amount: (json['amount'] as num?)?.toInt() ?? 1);
 
-Map<String, dynamic> _$DecrementCounterCommandToJson(
-  DecrementCounterCommand instance,
-) => <String, dynamic>{'amount': instance.amount};
+Map<String, dynamic> _$DecrementCounterToJson(DecrementCounter instance) =>
+    <String, dynamic>{'amount': instance.amount};
 
-FreezeCounterCommand _$FreezeCounterCommandFromJson(
-  Map<String, dynamic> json,
-) => FreezeCounterCommand();
+FreezeCounter _$FreezeCounterFromJson(Map<String, dynamic> json) =>
+    FreezeCounter();
 
-Map<String, dynamic> _$FreezeCounterCommandToJson(
-  FreezeCounterCommand instance,
-) => <String, dynamic>{};
+Map<String, dynamic> _$FreezeCounterToJson(FreezeCounter instance) =>
+    <String, dynamic>{};
 
-UnfreezeCounterCommand _$UnfreezeCounterCommandFromJson(
-  Map<String, dynamic> json,
-) => UnfreezeCounterCommand();
+UnfreezeCounter _$UnfreezeCounterFromJson(Map<String, dynamic> json) =>
+    UnfreezeCounter();
 
-Map<String, dynamic> _$UnfreezeCounterCommandToJson(
-  UnfreezeCounterCommand instance,
-) => <String, dynamic>{};
+Map<String, dynamic> _$UnfreezeCounterToJson(UnfreezeCounter instance) =>
+    <String, dynamic>{};
 
-CounterCreatedEvent _$CounterCreatedEventFromJson(Map<String, dynamic> json) =>
-    CounterCreatedEvent(
+CounterCreated _$CounterCreatedFromJson(Map<String, dynamic> json) =>
+    CounterCreated(
       name: json['name'] as String,
       count: (json['count'] as num).toInt(),
     );
 
-Map<String, dynamic> _$CounterCreatedEventToJson(
-  CounterCreatedEvent instance,
-) => <String, dynamic>{'name': instance.name, 'count': instance.count};
+Map<String, dynamic> _$CounterCreatedToJson(CounterCreated instance) =>
+    <String, dynamic>{'name': instance.name, 'count': instance.count};
 
-CounterDeletedEvent _$CounterDeletedEventFromJson(Map<String, dynamic> json) =>
-    CounterDeletedEvent();
+CounterDeleted _$CounterDeletedFromJson(Map<String, dynamic> json) =>
+    CounterDeleted();
 
-Map<String, dynamic> _$CounterDeletedEventToJson(
-  CounterDeletedEvent instance,
-) => <String, dynamic>{};
+Map<String, dynamic> _$CounterDeletedToJson(CounterDeleted instance) =>
+    <String, dynamic>{};
 
-CounterIncrementedEvent _$CounterIncrementedEventFromJson(
+CounterIncremented _$CounterIncrementedFromJson(Map<String, dynamic> json) =>
+    CounterIncremented(amount: (json['amount'] as num).toInt());
+
+Map<String, dynamic> _$CounterIncrementedToJson(CounterIncremented instance) =>
+    <String, dynamic>{'amount': instance.amount};
+
+CounterDecremented _$CounterDecrementedFromJson(Map<String, dynamic> json) =>
+    CounterDecremented(amount: (json['amount'] as num).toInt());
+
+Map<String, dynamic> _$CounterDecrementedToJson(CounterDecremented instance) =>
+    <String, dynamic>{'amount': instance.amount};
+
+CounterFreezeChanged _$CounterFreezeChangedFromJson(
   Map<String, dynamic> json,
-) => CounterIncrementedEvent(amount: (json['amount'] as num).toInt());
+) => CounterFreezeChanged(newValue: json['newValue'] as bool);
 
-Map<String, dynamic> _$CounterIncrementedEventToJson(
-  CounterIncrementedEvent instance,
-) => <String, dynamic>{'amount': instance.amount};
-
-CounterDecrementedEvent _$CounterDecrementedEventFromJson(
-  Map<String, dynamic> json,
-) => CounterDecrementedEvent(amount: (json['amount'] as num).toInt());
-
-Map<String, dynamic> _$CounterDecrementedEventToJson(
-  CounterDecrementedEvent instance,
-) => <String, dynamic>{'amount': instance.amount};
-
-CounterFreezeChangedEvent _$CounterFreezeChangedEventFromJson(
-  Map<String, dynamic> json,
-) => CounterFreezeChangedEvent(newValue: json['newValue'] as bool);
-
-Map<String, dynamic> _$CounterFreezeChangedEventToJson(
-  CounterFreezeChangedEvent instance,
+Map<String, dynamic> _$CounterFreezeChangedToJson(
+  CounterFreezeChanged instance,
 ) => <String, dynamic>{'newValue': instance.newValue};

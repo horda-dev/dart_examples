@@ -4,23 +4,23 @@ import 'messages.dart';
 import 'state.dart';
 
 class CounterEntity extends Entity<CounterState> {
-  Future<CounterCreatedEvent> create(
-    CreateCounterCommand command,
+  Future<CounterCreated> create(
+    CreateCounter command,
     EntityContext context,
   ) async {
-    return CounterCreatedEvent(name: command.name, count: command.initialValue);
+    return CounterCreated(name: command.name, count: command.initialValue);
   }
 
   Future<RemoteEvent> delete(
-    DeleteCounterCommand command,
+    DeleteCounter command,
     EntityContext context,
   ) async {
     context.stop();
-    return CounterDeletedEvent();
+    return CounterDeleted();
   }
 
   Future<RemoteEvent> increment(
-    IncrementCounterCommand command,
+    IncrementCounter command,
     CounterState state,
     EntityContext context,
   ) async {
@@ -28,11 +28,11 @@ class CounterEntity extends Entity<CounterState> {
       throw CounterEntityException('counter is frozen');
     }
 
-    return CounterIncrementedEvent(amount: command.amount);
+    return CounterIncremented(amount: command.amount);
   }
 
   Future<RemoteEvent> decrement(
-    DecrementCounterCommand command,
+    DecrementCounter command,
     CounterState state,
     EntityContext context,
   ) async {
@@ -40,11 +40,11 @@ class CounterEntity extends Entity<CounterState> {
       throw CounterEntityException('counter is frozen');
     }
 
-    return CounterDecrementedEvent(amount: command.amount);
+    return CounterDecremented(amount: command.amount);
   }
 
   Future<RemoteEvent> freeze(
-    FreezeCounterCommand command,
+    FreezeCounter command,
     CounterState state,
     EntityContext context,
   ) async {
@@ -52,11 +52,11 @@ class CounterEntity extends Entity<CounterState> {
       throw CounterEntityException('counter is not frozen');
     }
 
-    return CounterFreezeChangedEvent(newValue: true);
+    return CounterFreezeChanged(newValue: true);
   }
 
   Future<RemoteEvent> unfreeze(
-    UnfreezeCounterCommand command,
+    UnfreezeCounter command,
     CounterState state,
     EntityContext context,
   ) async {
@@ -64,10 +64,10 @@ class CounterEntity extends Entity<CounterState> {
       throw CounterEntityException('counter is already frozen');
     }
 
-    return CounterFreezeChangedEvent(newValue: false);
+    return CounterFreezeChanged(newValue: false);
   }
 
-  CounterState _stateInit(CounterCreatedEvent event) {
+  CounterState _stateInit(CounterCreated event) {
     return CounterState();
   }
 
@@ -75,21 +75,16 @@ class CounterEntity extends Entity<CounterState> {
   void initHandlers(EntityHandlers<CounterState> handlers) {
     handlers
       ..addStateFromJson(CounterState.fromJson)
-      ..addInit<CreateCounterCommand, CounterCreatedEvent>(
+      ..addInit<CreateCounter, CounterCreated>(
         create,
-        CreateCounterCommand.fromJson,
+        CreateCounter.fromJson,
         _stateInit,
       )
-      ..add<IncrementCounterCommand>(
-        increment,
-        IncrementCounterCommand.fromJson,
-      )
-      ..add<DecrementCounterCommand>(
-        decrement,
-        DecrementCounterCommand.fromJson,
-      )
-      ..add<FreezeCounterCommand>(freeze, FreezeCounterCommand.fromJson)
-      ..add<UnfreezeCounterCommand>(unfreeze, UnfreezeCounterCommand.fromJson);
+      ..add<IncrementCounter>(increment, IncrementCounter.fromJson)
+      ..add<DecrementCounter>(decrement, DecrementCounter.fromJson)
+      ..add<FreezeCounter>(freeze, FreezeCounter.fromJson)
+      ..add<UnfreezeCounter>(unfreeze, UnfreezeCounter.fromJson)
+      ..add<DeleteCounter>(delete, DeleteCounter.fromJson);
   }
 
   @override
@@ -98,7 +93,6 @@ class CounterEntity extends Entity<CounterState> {
   }
 }
 
-// TODO: move into separate file
 class CounterEntityException implements Exception {
   final String message;
 

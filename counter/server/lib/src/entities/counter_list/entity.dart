@@ -4,52 +4,42 @@ import 'state.dart';
 import 'messages.dart';
 
 class CounterListEntity extends Entity<CounterListState> {
-  Future<CounterListCreatedEvent> create(
-    CreateCounterListCommand command,
+  Future<CounterListCreated> create(
+    CreateCounterList command,
     EntityContext context,
   ) async {
-    return CounterListCreatedEvent();
+    return CounterListCreated();
   }
 
   Future<RemoteEvent> add(
-    AddCounterToListCommand command,
+    AddCounterToList command,
     CounterListState state,
     EntityContext context,
   ) async {
-    if (state.counterIds.contains(command.counterId)) {
-      throw Exception('Counter already in list');
-    }
-    return CounterAddedToListEvent(counterId: command.counterId);
+    return CounterAddedToList(counterId: command.counterId);
   }
 
   Future<RemoteEvent> remove(
-    RemoveCounterFromListCommand command,
+    RemoveCounterFromList command,
     CounterListState state,
     EntityContext context,
   ) async {
-    if (!state.counterIds.contains(command.counterId)) {
-      throw Exception('Counter not in list');
-    }
-    return CounterRemovedFromListEvent(counterId: command.counterId);
-  }
-
-  CounterListState _stateInit(CounterListCreatedEvent event) {
-    return CounterListState();
+    return CounterRemovedFromList(counterId: command.counterId);
   }
 
   @override
   void initHandlers(EntityHandlers<CounterListState> handlers) {
     handlers
       ..addStateFromJson(CounterListState.fromJson)
-      ..addInit<CreateCounterListCommand, CounterListCreatedEvent>(
+      ..addInit<CreateCounterList, CounterListCreated>(
         create,
-        CreateCounterListCommand.fromJson,
-        _stateInit,
+        CreateCounterList.fromJson,
+        (_) => CounterListState(),
       )
-      ..add<AddCounterToListCommand>(add, AddCounterToListCommand.fromJson)
-      ..add<RemoveCounterFromListCommand>(
+      ..add<AddCounterToList>(add, AddCounterToList.fromJson)
+      ..add<RemoveCounterFromList>(
         remove,
-        RemoveCounterFromListCommand.fromJson,
+        RemoveCounterFromList.fromJson,
       );
   }
 
