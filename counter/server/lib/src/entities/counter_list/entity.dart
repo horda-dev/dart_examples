@@ -37,10 +37,7 @@ class CounterListEntity extends Entity<CounterListState> {
         (_) => CounterListState(),
       )
       ..add<AddCounterToList>(add, AddCounterToList.fromJson)
-      ..add<RemoveCounterFromList>(
-        remove,
-        RemoveCounterFromList.fromJson,
-      );
+      ..add<RemoveCounterFromList>(remove, RemoveCounterFromList.fromJson);
   }
 
   @override

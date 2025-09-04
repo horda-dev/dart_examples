@@ -8,9 +8,9 @@ class CounterViewGroup extends EntityViewGroup {
   final ValueView<String> frozenStateView;
 
   CounterViewGroup()
-      : nameView = ValueView(name: 'name', value: ''),
-        valueView = CounterView(name: 'value', value: 0),
-        frozenStateView = ValueView(name: 'frozeStatus', value: "not frozen");
+    : nameView = ValueView(name: 'name', value: ''),
+      valueView = CounterView(name: 'value', value: 0),
+      frozenStateView = ValueView(name: 'frozeStatus', value: "not frozen");
 
   CounterViewGroup.fromInitEvent(CounterCreated event)
     : nameView = ValueView(name: 'name', value: event.name),

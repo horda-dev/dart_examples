@@ -33,10 +33,7 @@ class ClientProcesses extends Process {
     await context.callEntity<CounterCreated>(
       name: 'CounterEntity',
       id: newCounterId,
-      cmd: CreateCounter(
-        name: event.name,
-        initialValue: event.initialValue,
-      ),
+      cmd: CreateCounter(name: event.name, initialValue: event.initialValue),
       fac: CounterCreated.fromJson,
     );
 
