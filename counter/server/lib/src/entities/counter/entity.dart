@@ -49,8 +49,8 @@ class CounterEntity extends Entity<CounterState> {
     CounterState state,
     EntityContext context,
   ) async {
-    if (!state.isFrozen) {
-      throw CounterEntityException('counter is not frozen');
+    if (state.isFrozen) {
+      throw CounterEntityException('counter is already frozen');
     }
 
     return CounterFreezeChanged(newValue: true);
@@ -61,8 +61,8 @@ class CounterEntity extends Entity<CounterState> {
     CounterState state,
     EntityContext context,
   ) async {
-    if (state.isFrozen) {
-      throw CounterEntityException('counter is already frozen');
+    if (!state.isFrozen) {
+      throw CounterEntityException('counter is not frozen');
     }
 
     return CounterFreezeChanged(newValue: false);
