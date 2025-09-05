@@ -143,14 +143,16 @@ class _LoadedPageState extends State<_LoadedPage> {
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: 'decrementFAB',
-            onPressed: model.decrement,
+            onPressed: model.isFrozen ? null : model.decrement,
+            backgroundColor: model.isFrozen ? Colors.grey.shade300 : null,
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: 'incrementFAB',
-            onPressed: model.increment,
+            onPressed: model.isFrozen ? null : model.increment,
+            backgroundColor: model.isFrozen ? Colors.grey.shade300 : null,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
