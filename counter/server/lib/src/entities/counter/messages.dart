@@ -4,17 +4,18 @@ import 'package:json_annotation/json_annotation.dart';
 part 'messages.g.dart';
 
 /// Command to create a new counter with a given name and initial value.
-/// 
+///
 /// This is the initialization command for a counter entity in the Horda platform.
 @JsonSerializable()
 class CreateCounter extends RemoteCommand {
   /// The display name for the counter.
   final String name;
+
   /// The starting value for the counter (defaults to 0).
   final int initialValue;
 
   /// Creates a new counter creation command.
-  /// 
+  ///
   /// [name] is required and will be the display name of the counter.
   /// [initialValue] defaults to 0 if not specified.
   CreateCounter({required this.name, this.initialValue = 0});
@@ -27,7 +28,7 @@ class CreateCounter extends RemoteCommand {
 }
 
 /// Command to delete an existing counter.
-/// 
+///
 /// This command will stop the counter entity and remove it from the system.
 @JsonSerializable()
 class DeleteCounter extends RemoteCommand {
@@ -42,7 +43,7 @@ class DeleteCounter extends RemoteCommand {
 }
 
 /// Command to increment a counter by a specified amount.
-/// 
+///
 /// The counter must not be frozen for this operation to succeed.
 @JsonSerializable()
 class IncrementCounter extends RemoteCommand {
@@ -50,7 +51,7 @@ class IncrementCounter extends RemoteCommand {
   final int amount;
 
   /// Creates a new increment command.
-  /// 
+  ///
   /// [amount] defaults to 1 if not specified.
   IncrementCounter({this.amount = 1});
 
@@ -62,7 +63,7 @@ class IncrementCounter extends RemoteCommand {
 }
 
 /// Command to decrement a counter by a specified amount.
-/// 
+///
 /// The counter must not be frozen for this operation to succeed.
 @JsonSerializable()
 class DecrementCounter extends RemoteCommand {
@@ -70,7 +71,7 @@ class DecrementCounter extends RemoteCommand {
   final int amount;
 
   /// Creates a new decrement command.
-  /// 
+  ///
   /// [amount] defaults to 1 if not specified.
   DecrementCounter({this.amount = 1});
 
@@ -82,7 +83,7 @@ class DecrementCounter extends RemoteCommand {
 }
 
 /// Command to freeze a counter, preventing increment and decrement operations.
-/// 
+///
 /// A frozen counter cannot be modified until it is unfrozen.
 @JsonSerializable()
 class FreezeCounter extends RemoteCommand {
@@ -97,7 +98,7 @@ class FreezeCounter extends RemoteCommand {
 }
 
 /// Command to unfreeze a counter, allowing increment and decrement operations.
-/// 
+///
 /// This restores the counter to its normal operational state.
 @JsonSerializable()
 class UnfreezeCounter extends RemoteCommand {
@@ -112,17 +113,18 @@ class UnfreezeCounter extends RemoteCommand {
 }
 
 /// Event indicating a counter has been successfully created.
-/// 
+///
 /// This event is emitted when a new counter entity is initialized.
 @JsonSerializable()
 class CounterCreated extends RemoteEvent {
   /// The name of the newly created counter.
   final String name;
+
   /// The initial count value of the counter.
   final int count;
 
   /// Creates a new counter created event.
-  /// 
+  ///
   /// Both [name] and [count] are required parameters.
   CounterCreated({required this.name, required this.count});
 
@@ -134,7 +136,7 @@ class CounterCreated extends RemoteEvent {
 }
 
 /// Event indicating a counter has been successfully deleted.
-/// 
+///
 /// This event is emitted when a counter entity is removed from the system.
 @JsonSerializable()
 class CounterDeleted extends RemoteEvent {
@@ -149,7 +151,7 @@ class CounterDeleted extends RemoteEvent {
 }
 
 /// Event indicating a counter has been incremented.
-/// 
+///
 /// This event is emitted when a counter's value is successfully increased.
 @JsonSerializable()
 class CounterIncremented extends RemoteEvent {
@@ -157,7 +159,7 @@ class CounterIncremented extends RemoteEvent {
   final int amount;
 
   /// Creates a new counter incremented event.
-  /// 
+  ///
   /// [amount] is required and represents the increment value.
   CounterIncremented({required this.amount});
 
@@ -169,7 +171,7 @@ class CounterIncremented extends RemoteEvent {
 }
 
 /// Event indicating a counter has been decremented.
-/// 
+///
 /// This event is emitted when a counter's value is successfully decreased.
 @JsonSerializable()
 class CounterDecremented extends RemoteEvent {
@@ -177,7 +179,7 @@ class CounterDecremented extends RemoteEvent {
   final int amount;
 
   /// Creates a new counter decremented event.
-  /// 
+  ///
   /// [amount] is required and represents the decrement value.
   CounterDecremented({required this.amount});
 
@@ -189,7 +191,7 @@ class CounterDecremented extends RemoteEvent {
 }
 
 /// Event indicating a counter's freeze status has changed.
-/// 
+///
 /// This event is emitted when a counter is frozen or unfrozen.
 @JsonSerializable()
 class CounterFreezeChanged extends RemoteEvent {
@@ -197,7 +199,7 @@ class CounterFreezeChanged extends RemoteEvent {
   final bool newValue;
 
   /// Creates a new counter freeze changed event.
-  /// 
+  ///
   /// [newValue] is required - true indicates frozen, false indicates unfrozen.
   CounterFreezeChanged({required this.newValue});
 

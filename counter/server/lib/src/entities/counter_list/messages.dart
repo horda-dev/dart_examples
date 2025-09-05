@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'messages.g.dart';
 
 /// Command to create a new counter list.
-/// 
+///
 /// This initializes an empty list that can hold references to counter entities.
 @JsonSerializable()
 class CreateCounterList extends RemoteCommand {
@@ -19,7 +19,7 @@ class CreateCounterList extends RemoteCommand {
 }
 
 /// Event indicating a counter list has been successfully created.
-/// 
+///
 /// This event is emitted when a new counter list entity is initialized.
 @JsonSerializable()
 class CounterListCreated extends RemoteEvent {
@@ -34,7 +34,7 @@ class CounterListCreated extends RemoteEvent {
 }
 
 /// Command to add a counter reference to the list.
-/// 
+///
 /// This adds a reference to an existing counter entity to the managed list.
 @JsonSerializable()
 class AddCounterToList extends RemoteCommand {
@@ -42,7 +42,7 @@ class AddCounterToList extends RemoteCommand {
   final String counterId;
 
   /// Creates a new add counter to list command.
-  /// 
+  ///
   /// [counterId] is required and must be a valid counter entity ID.
   AddCounterToList({required this.counterId});
 
@@ -54,7 +54,7 @@ class AddCounterToList extends RemoteCommand {
 }
 
 /// Command to remove a counter reference from the list.
-/// 
+///
 /// This removes a reference to a counter entity from the managed list.
 @JsonSerializable()
 class RemoveCounterFromList extends RemoteCommand {
@@ -62,7 +62,7 @@ class RemoveCounterFromList extends RemoteCommand {
   final String counterId;
 
   /// Creates a new remove counter from list command.
-  /// 
+  ///
   /// [counterId] is required and should exist in the current list.
   RemoveCounterFromList({required this.counterId});
 
@@ -74,7 +74,7 @@ class RemoveCounterFromList extends RemoteCommand {
 }
 
 /// Event indicating a counter reference has been added to the list.
-/// 
+///
 /// This event is emitted when a counter reference is successfully added.
 @JsonSerializable()
 class CounterAddedToList extends RemoteEvent {
@@ -82,7 +82,7 @@ class CounterAddedToList extends RemoteEvent {
   final String counterId;
 
   /// Creates a new counter added to list event.
-  /// 
+  ///
   /// [counterId] is required and identifies the added counter.
   CounterAddedToList({required this.counterId});
 
@@ -94,7 +94,7 @@ class CounterAddedToList extends RemoteEvent {
 }
 
 /// Event indicating a counter reference has been removed from the list.
-/// 
+///
 /// This event is emitted when a counter reference is successfully removed.
 @JsonSerializable()
 class CounterRemovedFromList extends RemoteEvent {
@@ -102,7 +102,7 @@ class CounterRemovedFromList extends RemoteEvent {
   final String counterId;
 
   /// Creates a new counter removed from list event.
-  /// 
+  ///
   /// [counterId] is required and identifies the removed counter.
   CounterRemovedFromList({required this.counterId});
 

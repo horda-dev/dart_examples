@@ -4,13 +4,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'messages.g.dart';
 
 /// Process request messages for counter operations.
-/// 
+///
 /// These events are sent to the ClientProcesses to initiate various
 /// counter-related workflows. Each request triggers a coordinated
 /// sequence of entity and service interactions.
 
 /// Request to create the global counter list entity.
-/// 
+///
 /// This request should typically be sent once during system initialization
 /// to set up the shared counter list that will manage all counters.
 @JsonSerializable()
@@ -26,18 +26,19 @@ class CreateCounterListRequested extends RemoteEvent {
 }
 
 /// Request to create a new counter with validation and list registration.
-/// 
+///
 /// This request triggers a multi-step process involving name validation,
 /// counter entity creation, and registration in the global counter list.
 @JsonSerializable()
 class CreateCounterRequested extends RemoteEvent {
   /// The display name for the new counter.
   final String name;
+
   /// The initial value for the counter.
   final int initialValue;
 
   /// Creates a new counter creation request.
-  /// 
+  ///
   /// [name] is required and will be validated for length
   /// [initialValue] is required and sets the starting counter value
   CreateCounterRequested({required this.name, required this.initialValue});
@@ -50,7 +51,7 @@ class CreateCounterRequested extends RemoteEvent {
 }
 
 /// Request to delete a counter and remove it from the global list.
-/// 
+///
 /// This request triggers the deletion of the counter entity and its
 /// removal from the shared counter list.
 @JsonSerializable()
@@ -59,7 +60,7 @@ class DeleteCounterRequested extends RemoteEvent {
   final String counterId;
 
   /// Creates a new counter deletion request.
-  /// 
+  ///
   /// [counterId] must be a valid existing counter entity ID.
   DeleteCounterRequested({required this.counterId});
 
@@ -71,18 +72,19 @@ class DeleteCounterRequested extends RemoteEvent {
 }
 
 /// Request to increment a counter by a specified amount.
-/// 
+///
 /// This request sends an increment command to the target counter entity.
 /// The operation will fail if the counter is currently frozen.
 @JsonSerializable()
 class IncrementCounterRequested extends RemoteEvent {
   /// The unique identifier of the counter to increment.
   final String counterId;
+
   /// The amount by which to increment the counter.
   final int amount;
 
   /// Creates a new counter increment request.
-  /// 
+  ///
   /// [counterId] must be a valid existing counter entity ID
   /// [amount] is the increment value (can be positive or negative)
   IncrementCounterRequested({required this.counterId, required this.amount});
@@ -95,18 +97,19 @@ class IncrementCounterRequested extends RemoteEvent {
 }
 
 /// Request to decrement a counter by a specified amount.
-/// 
+///
 /// This request sends a decrement command to the target counter entity.
 /// The operation will fail if the counter is currently frozen.
 @JsonSerializable()
 class DecrementCounterRequested extends RemoteEvent {
   /// The unique identifier of the counter to decrement.
   final String counterId;
+
   /// The amount by which to decrement the counter.
   final int amount;
 
   /// Creates a new counter decrement request.
-  /// 
+  ///
   /// [counterId] must be a valid existing counter entity ID
   /// [amount] is the decrement value (should be positive)
   DecrementCounterRequested({required this.counterId, required this.amount});
@@ -119,7 +122,7 @@ class DecrementCounterRequested extends RemoteEvent {
 }
 
 /// Request to freeze a counter to prevent modifications.
-/// 
+///
 /// This request sends a freeze command to the target counter entity.
 /// A frozen counter cannot be incremented or decremented.
 @JsonSerializable()
@@ -128,7 +131,7 @@ class FreezeCounterRequested extends RemoteEvent {
   final String counterId;
 
   /// Creates a new counter freeze request.
-  /// 
+  ///
   /// [counterId] must be a valid existing counter entity ID.
   FreezeCounterRequested({required this.counterId});
 
@@ -140,7 +143,7 @@ class FreezeCounterRequested extends RemoteEvent {
 }
 
 /// Request to unfreeze a counter to allow modifications.
-/// 
+///
 /// This request sends an unfreeze command to the target counter entity.
 /// An unfrozen counter can be incremented and decremented normally.
 @JsonSerializable()
@@ -149,7 +152,7 @@ class UnfreezeCounterRequested extends RemoteEvent {
   final String counterId;
 
   /// Creates a new counter unfreeze request.
-  /// 
+  ///
   /// [counterId] must be a valid existing frozen counter entity ID.
   UnfreezeCounterRequested({required this.counterId});
 

@@ -6,7 +6,7 @@ import 'messages.dart';
 part 'state.g.dart';
 
 /// The persistent state of a counter entity.
-/// 
+///
 /// This class maintains the counter's freeze status and handles state projections
 /// from counter-related events.
 @JsonSerializable()
@@ -15,7 +15,7 @@ class CounterState extends EntityState {
   bool get isFrozen => _isFrozen;
 
   /// Creates a new counter state.
-  /// 
+  ///
   /// [isFrozen] defaults to false, meaning the counter starts unfrozen.
   CounterState({bool isFrozen = false}) : _isFrozen = isFrozen;
 
@@ -26,14 +26,14 @@ class CounterState extends EntityState {
   Map<String, dynamic> toJson() => _$CounterStateToJson(this);
 
   /// Updates the freeze status based on a [CounterFreezeChanged] event.
-  /// 
+  ///
   /// [event] contains the new freeze status value.
   void freezeChanged(CounterFreezeChanged event) {
     _isFrozen = event.newValue;
   }
 
   /// Projects events onto the counter state.
-  /// 
+  ///
   /// This method handles state changes by dispatching events to appropriate
   /// handler methods. Currently only handles [CounterFreezeChanged] events.
   @override

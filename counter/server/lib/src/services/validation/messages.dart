@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'messages.g.dart';
 
 /// Command to validate a counter name according to business rules.
-/// 
+///
 /// This command is sent to the ValidationService to check if a proposed
 /// counter name meets the system's validation criteria.
 @JsonSerializable()
@@ -13,7 +13,7 @@ class ValidateCounterName extends RemoteCommand {
   final String name;
 
   /// Creates a new counter name validation command.
-  /// 
+  ///
   /// [name] is the proposed counter name to be validated.
   ValidateCounterName({required this.name});
 
@@ -25,13 +25,14 @@ class ValidateCounterName extends RemoteCommand {
 }
 
 /// Event indicating the result of counter name validation.
-/// 
+///
 /// This event is returned by the ValidationService to indicate whether
 /// a proposed counter name is valid according to business rules.
 @JsonSerializable()
 class CounterNameValidated extends RemoteEvent {
   /// Whether the counter name passed validation.
   final bool isValid;
+
   /// The reason for validation failure (empty if valid).
   final String invalidReason;
 
@@ -39,12 +40,12 @@ class CounterNameValidated extends RemoteEvent {
   CounterNameValidated.valid() : isValid = true, invalidReason = '';
 
   /// Creates a validation result indicating the name is invalid.
-  /// 
+  ///
   /// [invalidReason] describes why the validation failed.
   CounterNameValidated.invalid({required this.invalidReason}) : isValid = false;
 
   /// Creates a validation result with explicit values.
-  /// 
+  ///
   /// [isValid] indicates if validation passed
   /// [invalidReason] describes the failure reason (should be empty if valid)
   CounterNameValidated({required this.isValid, required this.invalidReason});

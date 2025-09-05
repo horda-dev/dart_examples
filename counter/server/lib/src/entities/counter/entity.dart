@@ -4,16 +4,16 @@ import 'messages.dart';
 import 'state.dart';
 
 /// A Horda entity representing a simple counter with freeze/unfreeze functionality.
-/// 
+///
 /// This entity demonstrates basic CRUD operations and state management within the Horda
 /// serverless platform. It maintains a counter value that can be incremented, decremented,
 /// and toggled between frozen and unfrozen states.
 class CounterEntity extends Entity<CounterState> {
   /// Creates a new counter with the specified name and initial value.
-  /// 
+  ///
   /// [command] contains the counter name and optional initial value (defaults to 0)
   /// [context] provides the entity execution context
-  /// 
+  ///
   /// Returns a [CounterCreated] event with the counter's initial state.
   Future<CounterCreated> create(
     CreateCounter command,
@@ -23,11 +23,11 @@ class CounterEntity extends Entity<CounterState> {
   }
 
   /// Deletes the counter and stops the entity.
-  /// 
+  ///
   /// [command] the delete command
   /// [state] current counter state
   /// [context] provides the entity execution context
-  /// 
+  ///
   /// Returns a [CounterDeleted] event and stops the entity.
   Future<RemoteEvent> delete(
     DeleteCounter command,
@@ -39,11 +39,11 @@ class CounterEntity extends Entity<CounterState> {
   }
 
   /// Increments the counter by the specified amount.
-  /// 
+  ///
   /// [command] contains the amount to increment (defaults to 1)
   /// [state] current counter state
   /// [context] provides the entity execution context
-  /// 
+  ///
   /// Returns a [CounterIncremented] event.
   /// Throws [CounterEntityException] if the counter is frozen.
   Future<RemoteEvent> increment(
@@ -59,11 +59,11 @@ class CounterEntity extends Entity<CounterState> {
   }
 
   /// Decrements the counter by the specified amount.
-  /// 
+  ///
   /// [command] contains the amount to decrement (defaults to 1)
   /// [state] current counter state
   /// [context] provides the entity execution context
-  /// 
+  ///
   /// Returns a [CounterDecremented] event.
   /// Throws [CounterEntityException] if the counter is frozen.
   Future<RemoteEvent> decrement(
@@ -79,11 +79,11 @@ class CounterEntity extends Entity<CounterState> {
   }
 
   /// Freezes the counter, preventing increment and decrement operations.
-  /// 
+  ///
   /// [command] the freeze command
   /// [state] current counter state
   /// [context] provides the entity execution context
-  /// 
+  ///
   /// Returns a [CounterFreezeChanged] event with newValue set to true.
   /// Throws [CounterEntityException] if the counter is already frozen.
   Future<RemoteEvent> freeze(
@@ -99,11 +99,11 @@ class CounterEntity extends Entity<CounterState> {
   }
 
   /// Unfreezes the counter, allowing increment and decrement operations.
-  /// 
+  ///
   /// [command] the unfreeze command
   /// [state] current counter state
   /// [context] provides the entity execution context
-  /// 
+  ///
   /// Returns a [CounterFreezeChanged] event with newValue set to false.
   /// Throws [CounterEntityException] if the counter is not frozen.
   Future<RemoteEvent> unfreeze(
@@ -145,7 +145,7 @@ class CounterEntity extends Entity<CounterState> {
 }
 
 /// Exception thrown when counter operations violate business rules.
-/// 
+///
 /// This exception is thrown when attempting to perform operations on a counter
 /// that is in an invalid state (e.g., incrementing a frozen counter).
 class CounterEntityException implements Exception {
