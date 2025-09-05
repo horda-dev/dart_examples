@@ -5,17 +5,17 @@ import 'messages.dart';
 class CounterViewGroup extends EntityViewGroup {
   final ValueView<String> nameView;
   final CounterView valueView;
-  final ValueView<String> frozenStateView;
+  final ValueView<String> freezeStatusView;
 
   CounterViewGroup()
     : nameView = ValueView(name: 'name', value: ''),
       valueView = CounterView(name: 'value', value: 0),
-      frozenStateView = ValueView(name: 'frozeStatus', value: "not frozen");
+      freezeStatusView = ValueView(name: 'freezeStatus', value: "not frozen");
 
   CounterViewGroup.fromInitEvent(CounterCreated event)
     : nameView = ValueView(name: 'name', value: event.name),
       valueView = CounterView(name: 'value', value: event.count),
-      frozenStateView = ValueView(name: 'frozeStatus', value: "not frozen");
+      freezeStatusView = ValueView(name: 'freezeStatus', value: "not frozen");
 
   void incremented(CounterIncremented event) {
     valueView.increment(event.amount);
@@ -27,9 +27,9 @@ class CounterViewGroup extends EntityViewGroup {
 
   void freezeChanged(CounterFreezeChanged event) {
     if (event.newValue) {
-      frozenStateView.value = "frozen";
+      freezeStatusView.value = "frozen";
     } else {
-      frozenStateView.value = "not frozen";
+      freezeStatusView.value = "not frozen";
     }
   }
 
@@ -38,7 +38,7 @@ class CounterViewGroup extends EntityViewGroup {
     views
       ..add(nameView)
       ..add(valueView)
-      ..add(frozenStateView);
+      ..add(freezeStatusView);
   }
 
   @override
