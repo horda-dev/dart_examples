@@ -42,7 +42,7 @@ Entity representing a simple counter with freeze/unfreeze functionality.
 ### CounterListEntity
 **Location:** `lib/src/entities/counter_list/`
 
-An entity that manages a list of counter references.platform.
+An entity that manages a list of counter references.
 
 #### Entity Commands
 - `CreateCounterList` - Command to create a new counter list
