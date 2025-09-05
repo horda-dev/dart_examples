@@ -61,6 +61,3 @@ A service for validating counter-related data and business rules.
 
 #### Service Commands
 - `ValidateCounterName` - Command to validate a counter name according to business rules
-  - **Validation Rules:**
-    - Maximum length: 10 characters
-    - Additional rules can be added as needed
