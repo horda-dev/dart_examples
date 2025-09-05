@@ -1,5 +1,6 @@
 name: counter_client
 description: Horda client example.
+license: MIT
 
 publish_to: "none"
 
