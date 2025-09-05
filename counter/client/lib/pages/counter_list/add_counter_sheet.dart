@@ -52,6 +52,10 @@ class _AddCounterSheetState extends State<AddCounterSheet> {
         _nameController.text,
         int.tryParse(_valueController.text) ?? 0,
       );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     } catch (e) {
       if (mounted) {
         showAlertDialog(
@@ -65,7 +69,6 @@ class _AddCounterSheetState extends State<AddCounterSheet> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.of(context).pop();
       }
     }
   }

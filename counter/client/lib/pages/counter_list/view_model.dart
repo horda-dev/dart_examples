@@ -40,8 +40,15 @@ class CounterListViewModel {
     final res = await system.dispatchEvent(
       CreateCounterRequested(name: name, initialValue: initialValue),
     );
+
     if (res.isError) {
-      throw CounterListException(res.value ?? '');
+      final message = switch (res.value) {
+        'counter name is invalid' =>
+          'Counter name must not be longer than 10 characters.',
+        _ => 'Something went wrong.',
+      };
+
+      throw CounterListException(message);
     }
   }
 }
