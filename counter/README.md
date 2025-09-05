@@ -8,6 +8,10 @@ This project is a full-stack counter application demonstrating the capabilities 
 *   **State Control**: Counters can be "frozen" to prevent modifications and "unfrozen" to allow them.
 *   **List Management**: A central list of all counters is maintained.
 
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/679eef38-0caa-4096-bd41-bb258dc2bdd7" />
+</div>
+
 ## Server-Side Implementation
 
 The server-side application uses the `horda_server` package. It defines counter list and counter entities, each with its own messages, state, and view group. It also contain a service for validation and business processes to orchestrate operations like counter creation, incrementing, decrementing, etc.
