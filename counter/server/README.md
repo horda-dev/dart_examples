@@ -2,13 +2,13 @@
 
 ## Project Description
 
-A Horda's "hello world" backend that demonstrates key Horda concepts including entities, processes, and services working together to manage counter state and operations.
+A Horda "hello world" backend that demonstrates key Horda concepts including entities, processes, and services working together to manage counter state and operations.
 
 ## Processes
 
 **Location:** `lib/src/processes/counter.dart`
 
-Process handler for client-initiated counter operations.
+A process handler for client-initiated counter operations.
 
 **Process Request Events:**
 - `CreateCounterListRequested` - Request to create the global counter list entity
@@ -24,13 +24,13 @@ Process handler for client-initiated counter operations.
 ### CounterEntity
 **Location:** `lib/src/entities/counter/`
 
-Entity representing a simple counter with freeze/unfreeze functionality.
+An entity representing a simple counter with freeze/unfreeze functionality.
 
 #### Entity Commands
 - `CreateCounter` - Command to create a new counter with name and initial value
 - `DeleteCounter` - Command to delete an existing counter
-- `IncrementCounter` - Command to increment a counter by specified amount
-- `DecrementCounter` - Command to decrement a counter by specified amount  
+- `IncrementCounter` - Command to increment a counter by a specified amount
+- `DecrementCounter` - Command to decrement a counter by a specified amount  
 - `FreezeCounter` - Command to freeze a counter, preventing modifications
 - `UnfreezeCounter` - Command to unfreeze a counter, allowing modifications
 
@@ -57,7 +57,7 @@ An entity that manages a list of counter references.
 ### ValidationService
 **Location:** `lib/src/services/validation/`
 
-Service for validating counter-related data and business rules.
+A service for validating counter-related data and business rules.
 
 #### Service Commands
 - `ValidateCounterName` - Command to validate a counter name according to business rules
