@@ -11,8 +11,8 @@ class CounterListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return context.actorQuery(
-      actorId: kCounterListEntityId,
+    return context.entityQuery(
+      entityId: kCounterListEntityId,
       query: CounterListQuery(),
       loading: const _LoadingPage(),
       error: const _ErrorPage(),

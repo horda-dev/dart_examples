@@ -18,8 +18,8 @@ class CounterDetailsPage extends StatelessWidget {
       );
     }
 
-    return context.actorQuery(
-      actorId: id,
+    return context.entityQuery(
+      entityId: id,
       query: CounterQuery(),
       loading: const _LoadingPage(),
       error: const _ErrorPage(),

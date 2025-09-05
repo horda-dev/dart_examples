@@ -6,11 +6,11 @@ import 'query.dart';
 
 class CounterDetailsViewModel {
   CounterDetailsViewModel(this.context)
-    : system = FluirSystemProvider.of(context);
+    : system = HordaSystemProvider.of(context);
 
   final BuildContext context;
 
-  final FluirClientSystem system;
+  final HordaClientSystem system;
 
   String get id {
     return context.query<CounterQuery>().id();
@@ -25,7 +25,7 @@ class CounterDetailsViewModel {
   }
 
   String get status {
-    return context.query<CounterQuery>().value((q) => q.frozeStatus);
+    return context.query<CounterQuery>().value((q) => q.freezeStatus);
   }
 
   bool get isFrozen {

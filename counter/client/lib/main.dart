@@ -16,11 +16,11 @@ void main() {
 
   final conn = NoAuthConfig(url: url, apiKey: apiKey);
 
-  final system = FluirClientSystem(conn, NoAuth());
+  final system = HordaClientSystem(conn, NoAuth());
 
   system.start();
 
-  runApp(FluirSystemProvider(system: system, child: const CounterClient()));
+  runApp(HordaSystemProvider(system: system, child: const CounterClient()));
 }
 
 class CounterClient extends StatelessWidget {

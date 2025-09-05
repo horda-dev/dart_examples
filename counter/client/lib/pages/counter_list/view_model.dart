@@ -5,11 +5,11 @@ import 'package:horda_client/horda_client.dart';
 import 'query.dart';
 
 class CounterListViewModel {
-  CounterListViewModel(this.context) : system = FluirSystemProvider.of(context);
+  CounterListViewModel(this.context) : system = HordaSystemProvider.of(context);
 
   final BuildContext context;
 
-  final FluirClientSystem system;
+  final HordaClientSystem system;
 
   int get countersLength {
     return context.query<CounterListQuery>().listLength((q) => q.counters);
@@ -24,7 +24,7 @@ class CounterListViewModel {
     return CounterListItem(
       counter.id(),
       counter.value((q) => q.counterName),
-      counter.value((q) => q.frozeStatus),
+      counter.value((q) => q.freezeStatus),
       counter.counter((q) => q.counterValue),
     );
   }

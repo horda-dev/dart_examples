@@ -1,17 +1,17 @@
 import 'package:horda_client/horda_client.dart';
 
-class CounterQuery extends ActorQuery {
-  final counterName = ActorValueView<String>('name');
+class CounterQuery extends EntityQuery {
+  final counterName = EntityValueView<String>('name');
 
-  final counterValue = ActorCounterView('value');
+  final counterValue = EntityCounterView('value');
 
-  final frozeStatus = ActorValueView<String>('frozeStatus');
+  final freezeStatus = EntityValueView<String>('freezeStatus');
 
   @override
-  void initViews(ActorQueryGroup views) {
+  void initViews(EntityQueryGroup views) {
     views
       ..add(counterName)
       ..add(counterValue)
-      ..add(frozeStatus);
+      ..add(freezeStatus);
   }
 }
