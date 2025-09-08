@@ -1,14 +1,12 @@
-# Counter Example Server
+# Counter Example Backend
 
-## Project Description
+## Overview
 
-A Horda "hello world" backend that demonstrates key Horda concepts including entities, processes, and services working together to manage counter state and operations.
+A "Hello World" project showcasing basic Horda Server SDK concepts including Entity, State, and View Group, and how to use them to create a stateful serverless backend.
 
 ## Processes
 
 **Location:** `lib/src/processes/counter.dart`
-
-A process handler for client-initiated counter operations.
 
 **Process Request Events:**
 - `CreateCounterListRequested` - Request to create the global counter list entity
