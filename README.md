@@ -2,13 +2,17 @@
 
 Flutter example projects demonstrating Horda's stateful serverless backend features and client integration.
 
+All projects come with a Horda client API key provided, so you can run and test each project's Flutter app on your machine and see it in action.
+
 Projects are ordered by increasing complexity:
 
-- **Counter** - [View Code](counter/)
+- **Counter**
 - TBD
 - TBD
 
 ## Counter Example
+
+[View Code](counter/)
 
 A "Hello World" project showcasing basic Horda Server SDK concepts including Entity, State, and View Group, and how to use them to create a stateful serverless backend.
 
