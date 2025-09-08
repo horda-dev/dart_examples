@@ -1,5 +1,6 @@
 import 'package:horda_server/horda_server.dart';
 
+import '../counter/entity.dart';
 import 'messages.dart';
 
 /// View group for counter list entities that manages client-side list representation.
@@ -8,7 +9,7 @@ import 'messages.dart';
 /// managing the addition and removal of counter references from the view.
 class CounterListViewGroup extends EntityViewGroup {
   /// View displaying the list of counter references.
-  final RefListView countersView = RefListView(name: 'counters');
+  final RefListView<CounterEntity> countersView = RefListView(name: 'counters');
 
   /// Creates a default counter list view group with an empty list.
   CounterListViewGroup();
