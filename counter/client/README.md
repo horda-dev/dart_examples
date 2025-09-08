@@ -1,0 +1,133 @@
+# Counter Example Client
+
+## Overview
+
+Counter Flutter app showcasing how to use Horda Client SDK to connect to Horda Counter backend, request business processes, query entity views, and display results.
+
+## Demo:
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/679eef38-0caa-4096-bd41-bb258dc2bdd7" />
+</div>
+
+### Backend Connection
+
+The connection to the Counter backend is established in the `main.dart` file. The process involves these steps:
+
+1.  A `projectId` and `apiKey` are defined to identify the backend project.
+2.  A WebSocket URL is constructed in the format `wss://api.horda.ai/[PROJECT_ID]/client`.
+3.  A configuration object (`NoAuthConfig`) is created using the URL and API key.
+4.  This configuration is used to initialize the `HordaClientSystem`.
+5.  The `system.start()` method is called to initiate the connection.
+6.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.
+
+```dart
+// In main.dart
+
+// 1. Configuration
+final projectId = '[PROJECT_ID]';
+final apiKey = '[API_KEY]';
+final url = 'wss://api.horda.ai/$projectId/client';
+final conn = NoAuthConfig(url: url, apiKey: apiKey);
+
+// 2. System Initialization
+final system = HordaClientSystem(conn, NoAuth());
+system.start();
+
+// 3. Provider Setup
+runApp(HordaSystemProvider(system: system, child: const CounterClient()));
+```
+
+### Screens and Data Display
+
+The application is composed of two screens:
+1.  **Counter List Screen** (`counter/client/lib/pages/counter_list/page.dart`): This screen displays a list of all available counters.
+2.  **Counter Details Screen** (`counter/client/lib/pages/counter_details/page.dart`): This screen shows the details of a single counter and provides buttons for interaction.
+
+Both screens use the `entityQuery` context extension method from the Horda Client SDK package to run a query and subscribe to live data from the server.
+
+Here is an example of how it's used in the `CounterDetailsPage`:
+
+```dart
+return context.entityQuery(
+  entityId: id,
+  query: CounterQuery(),
+  loading: const _LoadingPage(),
+  error: const _ErrorPage(),
+  child: const _LoadedPage(),
+);
+```
+
+Any descendant widget can then access the data from the query's result using the `context.query<T>()` method, where `T` is the type of the query class.
+
+For example, the `CounterDetailsViewModel` accesses the counter's name like this:
+
+```dart
+String get name {
+  return context.query<CounterQuery>().value((q) => q.counterName);
+}
+```
+
+The screens define the following custom `EntityQuery` classes to specify which data views they need from the server's corresponding `ViewGroup`.
+
+*   **CounterListQuery** (`counter/client/lib/pages/counter_list/query.dart`)
+
+    This query fetches the list of counter IDs.
+
+    ```dart
+    class CounterListQuery extends EntityQuery {
+      final counters = EntityListView('counters', query: CounterQuery());
+    
+      @override
+      void initViews(EntityQueryGroup views) {
+        views.add(counters);
+      }
+    }
+    ```
+
+*   **CounterQuery** (`counter/client/lib/pages/counter_details/query.dart`)
+
+    This query defines the specific data fields to retrieve for each counter: its name, value, and freeze status.
+
+    ```dart
+    class CounterQuery extends EntityQuery {
+      final counterName = EntityValueView<String>('name');
+    
+      final counterValue = EntityCounterView('value');
+    
+      final freezeStatus = EntityValueView<String>('freezeStatus');
+    
+      @override
+      void initViews(EntityQueryGroup views) {
+        views
+          ..add(counterName)
+          ..add(counterValue)
+          ..add(freezeStatus);
+      }
+    }
+    ```
+
+### Requesting Server Business Processes
+
+User interactions, such as pressing a button to increment a counter or create a new one, are handled by a `ViewModel`. The ViewModel methods dispatch client events to the server to request specific business process. For example, when a user creates a counter, the client sends a `CreateCounterRequested` event, which triggers the corresponding `create` business process on the server.
+
+For instance, the `CounterDetailsViewModel` first retrieves the `HordaClientSystem` from the context, and then uses its `dispatchEvent` method to send an event to the server:
+
+```dart
+class CounterDetailsViewModel {
+  CounterDetailsViewModel(this.context)
+    : system = HordaSystemProvider.of(context);
+
+  final HordaClientSystem system;
+
+  // ...
+
+  Future<void> increment() async {
+    await system.dispatchEvent(
+      IncrementCounterRequested(counterId: id, amount: 1),
+    );
+  }
+
+  // ...
+}
+```
