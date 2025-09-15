@@ -1,0 +1,36 @@
+dartdoc:
+  categories:
+    "Process":
+      markdown: doc/Process.md
+    "Client Event":
+      markdown: doc/ClientEvent.md
+    "Entity":
+      markdown: doc/Entity.md
+    "Entity Command":
+      markdown: doc/EntityCommand.md
+    "Entity Event":
+      markdown: doc/EntityEvent.md
+    "Entity State":
+      markdown: doc/Entity.md
+    "View Group":
+      markdown: doc/ViewGroup.md
+    "Service":
+      markdown: doc/Service.md
+    "Service Command":
+      markdown: doc/ServiceCommand.md
+    "Service Event":
+      markdown: doc/ServiceEvent.md
+  categoryOrder:
+    [
+      "Process",
+      "Client Event",
+      "Entity",
+      "Entity Command",
+      "Entity Event",
+      "Entity State",
+      "View Group",
+      "Service",
+      "Service Command",
+      "Service Event",
+    ]
+  showUndocumentedCategories: true
