@@ -49,6 +49,12 @@ class UserAccountViewGroup implements EntityViewGroup {
     value: '',
   );
 
+  /// View that references the user's timeline entity
+  final RefView<TimelineEntity> timelineView = RefView<TimelineEntity>(
+    name: 'timelineView',
+    value: null,
+  );
+
   @override
   void initViews(ViewGroup views) {}
 

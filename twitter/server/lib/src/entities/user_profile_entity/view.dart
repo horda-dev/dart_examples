@@ -21,17 +21,7 @@ class UserProfileViewGroup implements EntityViewGroup {
     value: DateTime.fromMicrosecondsSinceEpoch(0),
   );
 
-  /// View for the list of followers
-  final RefListView<UserAccountEntity> followersView =
-      RefListView<UserAccountEntity>(name: 'followersView');
-
-  /// View for the count of users followed
-  final CounterView followingCountView = CounterView(
-    name: 'followingCountView',
-  );
-
-  /// View for the count of followers
-  final CounterView followerCountView = CounterView(name: 'followerCountView');
+  
 
   /// View for the user's bio
   final ValueView<String> bioView = ValueView<String>(

@@ -54,13 +54,16 @@ Future<FlowResult> clientRegisterUserRequested(
 /// {@category Client Event}
 @JsonSerializable()
 class ClientRegisterUserRequested extends RemoteEvent {
-  ClientRegisterUserRequested(this.handle, this.displayName);
+  ClientRegisterUserRequested(this.handle, this.displayName, this.email);
 
   /// User's unique handle
   String handle;
 
   /// User's display name
   String displayName;
+
+  /// User's email address
+  String email;
 
   factory ClientRegisterUserRequested.fromJson(Map<String, dynamic> json) {
     return _$ClientRegisterUserRequestedFromJson(json);
