@@ -15,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _handleController = TextEditingController();
   final _displayNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _passwordController = TextEditingController(); // New controller
 
   late final SignUpViewModel _viewModel;
   bool _isLoading = false;
@@ -31,6 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _handleController.dispose();
     _displayNameController.dispose();
     _emailController.dispose();
+    _passwordController.dispose(); // Dispose new controller
     super.dispose();
   }
 
@@ -46,6 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
           handle: _handleController.text,
           displayName: _displayNameController.text,
           email: _emailController.text,
+          password: _passwordController.text, // Pass password
         );
 
         if (mounted) {
@@ -118,6 +121,21 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                   if (!value.contains('@') || !value.contains('.')) {
                     return 'Please enter a valid email';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters long';
                   }
                   return null;
                 },

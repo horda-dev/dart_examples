@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart';
+import 'package:twitter_client/auth.dart';
 
 import 'sign_up_exception.dart';
 
@@ -16,12 +16,18 @@ class SignUpViewModel {
     required String handle,
     required String displayName,
     required String email,
+    required String password,
   }) async {
-    final event = ClientRegisterUserRequested(handle, displayName, email);
-    final result = await _hordaSystem.dispatchEvent(event);
+    await kAuthService.signUpWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    // No need to check FlowResult.isError here, as signUpWithEmailAndPassword
+    // will throw AuthException on failure.
 
-    if (result.isError) {
-      throw SignUpException(result.value ?? 'Unknown sign up error.');
-    }
+    // Optionally, you might still want to dispatch an event to the Horda backend
+    // to register the user's profile details (handle, displayName) after Firebase auth.
+    // This would involve a new client event like ClientUserProfileCreatedRequested.
+    // For now, we'll just focus on Firebase auth.
   }
 }

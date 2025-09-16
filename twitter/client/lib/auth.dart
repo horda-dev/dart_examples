@@ -52,6 +52,22 @@ class FirebaseAuthService implements AuthProvider {
     }
   }
 
+  Future<void> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Firebase authentication error.');
+    } catch (e) {
+      throw AuthException('An unexpected error occurred during sign up: $e');
+    }
+  }
+
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
   }
