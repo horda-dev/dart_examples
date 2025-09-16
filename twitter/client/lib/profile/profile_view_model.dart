@@ -1,68 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_client/queries.dart';
-import '../home/home_models.dart'; // For UserAccountItem, UserProfileItem, TweetItem
+
+import '../queries.dart';
 
 class ProfileViewModel {
   final BuildContext context;
-  late final HordaClientSystem _hordaSystem;
-  late final EntityQueryDependencyBuilder<UserAccountQuery> _userAccountQuery;
+  final HordaClientSystem system;
 
-  ProfileViewModel(this.context, String userId) {
-    _hordaSystem = HordaSystemProvider.of(context);
-    _userAccountQuery = context
-        .query<UserAccountQuery>(); // Get the query for the specific user
+  ProfileViewModel(this.context) : system = HordaSystemProvider.of(context);
+
+  EntityQueryDependencyBuilder<UserAccountQuery> get userAccountQuery {
+    return context.query<UserAccountQuery>();
   }
 
-  // Getters for UserAccount details
-  String get handle => _userAccountQuery.value((q) => q.handle);
-  String get email => _userAccountQuery.value((q) => q.email);
-  int get followerCount => _userAccountQuery.counter((q) => q.followerCount);
-  int get followingCount => _userAccountQuery.counter((q) => q.followingCount);
-  DateTime get registeredAt => _userAccountQuery.value((q) => q.registeredAt);
-
-  UserProfileItem get profile {
-    final profileQuery = _userAccountQuery.ref((q) => q.profile);
-    return UserProfileItem(
-      id: profileQuery.id(), // Assuming profileQuery has an ID
-      displayName: profileQuery.value((q) => q.displayName),
-      bio: profileQuery.value((q) => q.bio),
-    );
+  EntityQueryDependencyBuilder<UserProfileQuery> get userProfileQuery {
+    return userAccountQuery.ref((q) => q.profile);
   }
 
-  // Getters for Timeline
-  int get tweetsLength {
-    final timelineQuery = _userAccountQuery.ref((q) => q.timeline);
-    return timelineQuery.listLength((q) => q.tweets);
-  }
+  String get handle => userAccountQuery.value((q) => q.handle);
 
-  TweetItem getTweet(int index) {
-    final timelineQuery = _userAccountQuery.ref((q) => q.timeline);
-    final tweetQuery = timelineQuery.listItem((q) => q.tweets, index);
+  int get followerCount => userAccountQuery.counter((q) => q.followerCount);
 
-    final authorAccountQuery = tweetQuery.ref((q) => q.authorUser);
-    final authorProfileQuery = authorAccountQuery.ref((q) => q.profile);
-    final authorAccountItem = UserAccountItem(
-      id: _userAccountQuery.id(),
-      handle: authorAccountQuery.value((q) => q.handle),
-      email: authorAccountQuery.value((q) => q.email),
-      profile: UserProfileItem(
-        id: authorProfileQuery.id(),
-        displayName: authorProfileQuery.value((q) => q.displayName),
-        bio: authorProfileQuery.value((q) => q.bio),
-      ),
-      followerCount: authorAccountQuery.counter((q) => q.followerCount),
-      followingCount: authorAccountQuery.counter((q) => q.followingCount),
-      registeredAt: authorAccountQuery.value((q) => q.registeredAt),
-    );
+  int get followingCount => userAccountQuery.counter((q) => q.followingCount);
 
-    return TweetItem(
-      id: tweetQuery.id(),
-      author: authorAccountItem,
-      text: tweetQuery.value((q) => q.text),
-      createdAt: tweetQuery.value((q) => q.createdAt),
-      likeCount: tweetQuery.counter((q) => q.likeCount),
-      retweetCount: tweetQuery.counter((q) => q.retweetCount),
-    );
-  }
+  DateTime get registeredAt => userAccountQuery.value((q) => q.registeredAt);
+
+  String get displayName => userProfileQuery.value((q) => q.displayName);
+
+  String get bio => userProfileQuery.value((q) => q.bio);
 }
