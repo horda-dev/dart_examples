@@ -6,6 +6,7 @@ import 'processes/toggle_tweet_like_requested_process.dart';
 import 'processes/retweet_requested_process.dart';
 import 'processes/block_user_requested_process.dart';
 import 'processes/toggle_comment_like_requested_process.dart';
+import 'processes/create_comment_requested_process.dart';
 
 class ClientProcess extends Process {
   Future<FlowResult> registerUserRequested(
@@ -57,6 +58,13 @@ class ClientProcess extends Process {
     return clientToggleCommentLikeRequested(event, context);
   }
 
+  Future<FlowResult> createCommentRequested(
+    ClientCreateCommentRequested event,
+    ProcessContext context,
+  ) async {
+    return clientCreateCommentRequested(event, context);
+  }
+
   @override
   void initHandlers(ProcessHandlers handlers) {
     handlers.add<ClientRegisterUserRequested>(
@@ -86,6 +94,10 @@ class ClientProcess extends Process {
     handlers.add<ClientToggleCommentLikeRequested>(
       toggleCommentLikeRequested,
       ClientToggleCommentLikeRequested.fromJson,
+    );
+    handlers.add<ClientCreateCommentRequested>(
+      createCommentRequested,
+      ClientCreateCommentRequested.fromJson,
     );
   }
 }

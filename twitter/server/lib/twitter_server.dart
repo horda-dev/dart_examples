@@ -63,3 +63,5 @@ export 'src/services/content_moderation_service/messages.dart';
 export 'src/services/notification_service/messages.dart';
 
 export 'src/client/processes/toggle_comment_like_requested_process.dart';
+
+export 'src/client/processes/create_comment_requested_process.dart';
