@@ -106,7 +106,10 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 const SizedBox(height: 24.0),
                 if (_errorMessage != null)
-                  Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
+                  Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                 const SizedBox(height: 16.0),
                 _isLoading
                     ? const CircularProgressIndicator()
@@ -117,7 +120,7 @@ class _SignInPageState extends State<SignInPage> {
                 const SizedBox(height: 16.0),
                 TextButton(
                   onPressed: () {
-                    context.push('/signin/signup'); // Navigate to sign up page
+                    context.push('/signin/signup');
                   },
                   child: const Text('Don\'t have an account? Sign Up'),
                 ),

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_client/auth.dart';
 
-import 'sign_up_exception.dart';
+import '../auth.dart';
 
 class SignUpViewModel {
   final BuildContext context;
-  late final HordaClientSystem _hordaSystem;
+  final HordaClientSystem system;
 
-  SignUpViewModel(this.context) {
-    _hordaSystem = HordaSystemProvider.of(context);
-  }
+  SignUpViewModel(this.context) : system = HordaSystemProvider.of(context);
 
   Future<void> signUp({
     required String handle,
@@ -22,6 +19,7 @@ class SignUpViewModel {
       email: email,
       password: password,
     );
+
     // No need to check FlowResult.isError here, as signUpWithEmailAndPassword
     // will throw AuthException on failure.
 
