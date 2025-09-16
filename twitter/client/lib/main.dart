@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
 import 'package:twitter_client/auth.dart';
 import 'package:twitter_client/firebase_options.dart';
+import 'package:twitter_client/logger.dart';
 import 'package:twitter_client/router.dart';
 
 import 'config.dart';
 
 void main() async {
+  AppLogger.init();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
