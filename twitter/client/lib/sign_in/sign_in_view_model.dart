@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart';
+import 'package:twitter_client/auth.dart'; // Import kAuthService
 
 import 'sign_in_exception.dart';
 
@@ -12,12 +12,9 @@ class SignInViewModel {
     _hordaSystem = HordaSystemProvider.of(context);
   }
 
-  Future<void> signIn() async {
-    final event = ClientLogInUserRequested(); // No parameters
-    final result = await _hordaSystem.dispatchEvent(event);
-
-    if (result.isError) {
-      throw SignInException(result.value ?? 'Unknown sign in error.');
-    }
+  Future<void> signIn({required String email, required String password}) async {
+    await kAuthService.signInWithEmailAndPassword(email: email, password: password);
+    // No need to check FlowResult.isError here, as signInWithEmailAndPassword
+    // will throw AuthException on failure.
   }
 }
