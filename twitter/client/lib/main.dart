@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart';
 import 'package:go_router/go_router.dart';
+import 'package:horda_client/horda_client.dart';
+import 'package:twitter_client/tweet_details/tweet_details_page.dart';
 
 import 'home/home_page.dart';
-import 'sign_up/sign_up_page.dart';
 import 'sign_in/sign_in_page.dart'; // Import SignInPage
+import 'sign_up/sign_up_page.dart';
 
 void main() {
   final projectId = 'YOUR_PROJECT_ID';
@@ -36,6 +36,26 @@ void main() {
         path: '/signin',
         builder: (BuildContext context, GoRouterState state) {
           return const SignInPage();
+        },
+      ),
+      GoRoute(
+        path: '/tweet/:tweetId',
+        builder: (BuildContext context, GoRouterState state) {
+          final tweetId = state.pathParameters['tweetId']!;
+          return TweetDetailsPage(tweetId: tweetId);
+        },
+      ),
+      GoRoute(
+        path: '/profile/:userId',
+        builder: (BuildContext context, GoRouterState state) {
+          final userId = state.pathParameters['userId']!;
+          return ProfilePage(userId: userId);
+        },
+      ),
+      GoRoute(
+        path: '/explore',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ExplorePage();
         },
       ),
     ],

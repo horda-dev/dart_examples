@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart'; // Import GoRouter
 import 'package:horda_client/horda_client.dart';
 import 'package:twitter_client/queries.dart'; // Import client queries
 import 'home_view_model.dart'; // Import the new ViewModel
@@ -27,6 +28,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.explore),
+            onPressed: () {
+              context.go('/explore');
+            },
+          ),
+        ],
       ),
       body: context.entityQuery(
         entityId: _dummyUserId,
@@ -78,29 +87,38 @@ class TweetCard extends StatelessWidget {
     final retweetCount = tweet.retweetCount;
     final createdAt = tweet.createdAt;
 
-    return Card(
+    return GestureDetector(
+      onTap: () {
+        context.go('/tweet/${tweet.id}');
+      },
+      child: Card(
       margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  authorDisplayName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  ' @$authorHandle',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                const Spacer(),
-                Text(
-                  _formatTimestamp(createdAt),
-                  style: const TextStyle(color: Colors.grey, fontSize: 12.0),
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                context.go('/profile/${tweet.author.id}');
+              },
+              child: Row(
+                children: [
+                  Text(
+                    authorDisplayName,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    ' @$authorHandle',
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  const Spacer(),
+                  Text(
+                    _formatTimestamp(createdAt),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8.0),
             Text(tweetText),

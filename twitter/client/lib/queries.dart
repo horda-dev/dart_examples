@@ -1,5 +1,4 @@
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart'; // Import server views
 
 // Query for a single Tweet
 class TweetQuery extends EntityQuery {
@@ -11,6 +10,10 @@ class TweetQuery extends EntityQuery {
   final createdAt = EntityDateTimeView('createdAtView', isUtc: true);
   final likeCount = EntityCounterView('likeCountView');
   final retweetCount = EntityCounterView('retweetCountView');
+  final comments = EntityListView<CommentQuery>(
+    'commentsView', // Assuming TweetViewGroup has a commentsView
+    query: CommentQuery(),
+  );
 
   @override
   void initViews(EntityQueryGroup views) {
@@ -19,7 +22,8 @@ class TweetQuery extends EntityQuery {
       ..add(text)
       ..add(createdAt)
       ..add(likeCount)
-      ..add(retweetCount);
+      ..add(retweetCount)
+      ..add(comments);
   }
 }
 
@@ -42,10 +46,7 @@ class UserProfileQuery extends EntityQuery {
 
 // Query for a User's Timeline
 class TimelineQuery extends EntityQuery {
-  final tweets = EntityListView<TweetQuery>(
-    'tweetsView',
-    query: TweetQuery(),
-  );
+  final tweets = EntityListView<TweetQuery>('tweetsView', query: TweetQuery());
 
   @override
   void initViews(EntityQueryGroup views) {
@@ -57,22 +58,20 @@ class TimelineQuery extends EntityQuery {
 class UserAccountQuery extends EntityQuery {
   final handle = EntityValueView<String>('handleView');
   final email = EntityValueView<String>('emailView');
-  final profile = EntityRefView<UserProfileQuery>(
-    'profileView',
-    query: UserProfileQuery(),
-  );
-  final followers = EntityListView<UserAccountQuery>(
+  final profile = EntityRefView('profileView', query: UserProfileQuery());
+  final followers = EntityListView(
     'followersView',
     query: UserAccountQuery(), // Nested query for followers
   );
-  final following = EntityListView<UserAccountQuery>(
+  final following = EntityListView(
     'followingView',
     query: UserAccountQuery(), // Nested query for following
   );
   final followerCount = EntityCounterView('followerCountView');
   final followingCount = EntityCounterView('followingCountView');
   final registeredAt = EntityDateTimeView('registeredAtView', isUtc: true);
-  final timeline = EntityRefView<TimelineQuery>( // New timeline view
+  final timeline = EntityRefView(
+    // New timeline view
     'timelineView',
     query: TimelineQuery(),
   );
@@ -89,5 +88,44 @@ class UserAccountQuery extends EntityQuery {
       ..add(followingCount)
       ..add(registeredAt)
       ..add(timeline); // Add timeline view
+  }
+}
+
+// Query for a single Comment
+class CommentQuery extends EntityQuery {
+  final authorUser = EntityRefView<UserProfileQuery>(
+    'authorUserView',
+    query: UserProfileQuery(),
+  );
+  final text = EntityValueView<String>('textView');
+  final createdAt = EntityDateTimeView('createdAtView', isUtc: true);
+  final likeCount = EntityCounterView('likeCountView');
+  final replies = EntityListView<CommentQuery>(
+    // Nested replies
+    'repliesView',
+    query: CommentQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views
+      ..add(authorUser)
+      ..add(text)
+      ..add(createdAt)
+      ..add(likeCount)
+      ..add(replies);
+  }
+}
+
+// Query for Explore Feed
+class ExploreFeedQuery extends EntityQuery {
+  final tweets = EntityListView<TweetQuery>(
+    'tweetsView',
+    query: TweetQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(tweets);
   }
 }
