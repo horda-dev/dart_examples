@@ -44,6 +44,12 @@ class _HomePageState extends State<HomePage> {
         error: const Center(child: Text('Failed to load user account')),
         child: _UserAccountLoadedView(viewModel: _viewModel),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.go('/compose_tweet');
+        },
+        child: const Icon(Icons.edit),
+      ),
     );
   }
 }

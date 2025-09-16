@@ -58,6 +58,12 @@ void main() {
           return const ExplorePage();
         },
       ),
+      GoRoute(
+        path: '/compose_tweet',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ComposeTweetPage();
+        },
+      ),
     ],
     initialLocation: '/signin', // Set initial route to signin for testing
   );
