@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart'; // Import GoRouter
+import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_client/queries.dart'; // Import client queries
-import 'home_view_model.dart'; // Import the new ViewModel
-import 'home_models.dart'; // Import the new models
+
+import '../queries.dart';
+import 'home_models.dart';
+import 'home_view_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,16 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final HomeViewModel _viewModel;
-
-  @override
-  void initState() {
-    super.initState();
-    _viewModel = HomeViewModel(context);
-  }
-
-  static const String _dummyUserId = 'user-account-123'; // Placeholder
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +29,16 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: context.entityQuery(
-        entityId: _dummyUserId,
-        query: UserAccountQuery(),
+        entityId: context.hordaAuthUserId!,
+        query: UserTimelineQuery(),
         loading: const Center(child: CircularProgressIndicator()),
         error: const Center(child: Text('Failed to load user account')),
-        child: _UserAccountLoadedView(viewModel: _viewModel),
+        child: Builder(
+          builder: (context) {
+            final viewModel = HomeViewModel(context);
+            return _LoadedView(viewModel: viewModel);
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -54,10 +50,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _UserAccountLoadedView extends StatelessWidget {
+class _LoadedView extends StatelessWidget {
   final HomeViewModel viewModel;
 
-  const _UserAccountLoadedView({required this.viewModel});
+  const _LoadedView({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +61,9 @@ class _UserAccountLoadedView extends StatelessWidget {
 
     if (tweetsLength == 0) {
       return const Center(
-        child: Text('No tweets yet. Start following someone or post your first tweet!'),
+        child: Text(
+          'No tweets yet. Start following someone or post your first tweet!',
+        ),
       );
     }
 
@@ -86,8 +84,8 @@ class TweetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authorDisplayName = tweet.author.profile.displayName;
-    final authorHandle = tweet.author.profile.bio;
+    final authorDisplayName = tweet.author.displayName;
+    final authorHandle = tweet.author.handle;
     final tweetText = tweet.text;
     final likeCount = tweet.likeCount;
     final retweetCount = tweet.retweetCount;
@@ -121,7 +119,10 @@ class TweetCard extends StatelessWidget {
                     const Spacer(),
                     Text(
                       _formatTimestamp(createdAt),
-                      style: const TextStyle(color: Colors.grey, fontSize: 12.0),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12.0,
+                      ),
                     ),
                   ],
                 ),
