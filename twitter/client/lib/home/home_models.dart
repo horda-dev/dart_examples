@@ -1,20 +1,18 @@
 class UserProfileItem {
+  final String id;
   final String displayName;
   final String bio;
-  final int followerCount;
-  final int followingCount;
 
   UserProfileItem({
+    required this.id,
     required this.displayName,
     required this.bio,
-    required this.followerCount,
-    required this.followingCount,
   });
 }
 
 class TweetItem {
   final String id; // Assuming tweet has an ID
-  final UserProfileItem author;
+  final UserAccountItem author;
   final String text;
   final DateTime createdAt;
   final int likeCount;
@@ -31,6 +29,7 @@ class TweetItem {
 }
 
 class UserAccountItem {
+  final String id;
   final String handle;
   final String email;
   final UserProfileItem profile;
@@ -40,6 +39,7 @@ class UserAccountItem {
   // No direct list of followers/following or timeline here, as they are accessed via methods
 
   UserAccountItem({
+    required this.id,
     required this.handle,
     required this.email,
     required this.profile,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart'; // Import GoRouter
-import 'package:horda_client/horda_client.dart'; // For HordaSystemProvider.of(context)
 
-import 'sign_up_exception.dart';
 import 'sign_up_view_model.dart';
 
 class SignUpPage extends StatefulWidget {

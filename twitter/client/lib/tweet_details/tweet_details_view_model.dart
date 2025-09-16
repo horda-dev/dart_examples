@@ -12,22 +12,31 @@ class TweetDetailsViewModel {
 
   TweetDetailsViewModel(this.context, String tweetId) {
     _hordaSystem = HordaSystemProvider.of(context);
-    _tweetQuery = context.query<TweetQuery>(); // Get the query for the specific tweet
+    _tweetQuery = context
+        .query<TweetQuery>(); // Get the query for the specific tweet
   }
 
   // Getters for main tweet details
   TweetItem get tweet {
-    final authorProfileQuery = _tweetQuery.ref((q) => q.authorUser);
-    final authorProfileItem = UserProfileItem(
-      displayName: authorProfileQuery.value((q) => q.displayName),
-      bio: authorProfileQuery.value((q) => q.bio),
-      followerCount: authorProfileQuery.counter((q) => q.followerCount),
-      followingCount: authorProfileQuery.counter((q) => q.followingCount),
+    final authorAccountQuery = _tweetQuery.ref((q) => q.authorUser);
+    final authorProfileQuery = authorAccountQuery.ref((q) => q.profile);
+    final authorAccountItem = UserAccountItem(
+      id: authorAccountQuery.id(),
+      handle: authorAccountQuery.value((q) => q.handle),
+      email: authorAccountQuery.value((q) => q.email),
+      profile: UserProfileItem(
+        id: authorProfileQuery.id(),
+        displayName: authorProfileQuery.value((q) => q.displayName),
+        bio: authorProfileQuery.value((q) => q.bio),
+      ),
+      followerCount: authorAccountQuery.counter((q) => q.followerCount),
+      followingCount: authorAccountQuery.counter((q) => q.followingCount),
+      registeredAt: authorAccountQuery.value((q) => q.registeredAt),
     );
 
     return TweetItem(
       id: _tweetQuery.id(), // Assuming TweetQuery has an ID
-      author: authorProfileItem,
+      author: authorAccountItem,
       text: _tweetQuery.value((q) => q.text),
       createdAt: _tweetQuery.value((q) => q.createdAt),
       likeCount: _tweetQuery.counter((q) => q.likeCount),
@@ -43,24 +52,36 @@ class TweetDetailsViewModel {
     return _processCommentQuery(commentQuery);
   }
 
-  CommentItem _processCommentQuery(EntityQueryDependencyBuilder<CommentQuery> commentQuery) {
-    final authorProfileQuery = commentQuery.ref((q) => q.authorUser);
-    final authorProfileItem = UserProfileItem(
-      displayName: authorProfileQuery.value((q) => q.displayName),
-      bio: authorProfileQuery.value((q) => q.bio),
-      followerCount: authorProfileQuery.counter((q) => q.followerCount),
-      followingCount: authorProfileQuery.counter((q) => q.followingCount),
+  CommentItem _processCommentQuery(
+    EntityQueryDependencyBuilder<CommentQuery> commentQuery,
+  ) {
+    final authorAccountQuery = commentQuery.ref((q) => q.authorUser);
+    final authorProfileQuery = authorAccountQuery.ref((q) => q.profile);
+    final authorAccountItem = UserAccountItem(
+      id: authorAccountQuery.id(),
+      handle: authorAccountQuery.value((q) => q.handle),
+      email: authorAccountQuery.value((q) => q.email),
+      profile: UserProfileItem(
+        id: authorProfileQuery.id(),
+        displayName: authorProfileQuery.value((q) => q.displayName),
+        bio: authorProfileQuery.value((q) => q.bio),
+      ),
+      followerCount: authorAccountQuery.counter((q) => q.followerCount),
+      followingCount: authorAccountQuery.counter((q) => q.followingCount),
+      registeredAt: authorAccountQuery.value((q) => q.registeredAt),
     );
 
     final repliesLength = commentQuery.listLength((q) => q.replies);
     final List<CommentItem> replies = [];
     for (int i = 0; i < repliesLength; i++) {
-      replies.add(_processCommentQuery(commentQuery.listItem((q) => q.replies, i)));
+      replies.add(
+        _processCommentQuery(commentQuery.listItem((q) => q.replies, i)),
+      );
     }
 
     return CommentItem(
       id: commentQuery.id(),
-      author: authorProfileItem,
+      author: authorAccountItem,
       text: commentQuery.value((q) => q.text),
       createdAt: commentQuery.value((q) => q.createdAt),
       likeCount: commentQuery.counter((q) => q.likeCount),
@@ -70,14 +91,18 @@ class TweetDetailsViewModel {
 
   // Interaction methods
   Future<void> toggleLikeTweet(String tweetId) async {
-    final result = await _hordaSystem.dispatchEvent(ClientToggleTweetLikeRequested(tweetId));
+    final result = await _hordaSystem.dispatchEvent(
+      ClientToggleTweetLikeRequested(tweetId),
+    );
     if (result.isError) {
       throw Exception(result.value ?? 'Failed to toggle like.');
     }
   }
 
   Future<void> retweet(String tweetId) async {
-    final result = await _hordaSystem.dispatchEvent(ClientRetweetRequested(tweetId));
+    final result = await _hordaSystem.dispatchEvent(
+      ClientRetweetRequested(tweetId),
+    );
     if (result.isError) {
       throw Exception(result.value ?? 'Failed to retweet.');
     }
@@ -103,7 +128,9 @@ class TweetDetailsViewModel {
   }
 
   Future<void> toggleLikeComment(String commentId) async {
-    final result = await _hordaSystem.dispatchEvent(ClientToggleCommentLikeRequested(commentId));
+    final result = await _hordaSystem.dispatchEvent(
+      ClientToggleCommentLikeRequested(commentId),
+    );
     if (result.isError) {
       throw Exception(result.value ?? 'Failed to toggle comment like.');
     }

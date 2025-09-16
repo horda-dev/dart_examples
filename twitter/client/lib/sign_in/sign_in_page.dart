@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'sign_in_exception.dart';
 import 'sign_in_view_model.dart';
 
 class SignInPage extends StatefulWidget {

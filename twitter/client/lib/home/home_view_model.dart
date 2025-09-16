@@ -23,10 +23,9 @@ class HomeViewModel {
   UserProfileItem get profile {
     final profileQuery = _userAccountQuery.ref((q) => q.profile);
     return UserProfileItem(
+      id: profileQuery.id(), // Assuming profileQuery has an ID
       displayName: profileQuery.value((q) => q.displayName),
       bio: profileQuery.value((q) => q.bio),
-      followerCount: profileQuery.counter((q) => q.followerCount),
-      followingCount: profileQuery.counter((q) => q.followingCount),
     );
   }
 
@@ -40,17 +39,25 @@ class HomeViewModel {
     final timelineQuery = _userAccountQuery.ref((q) => q.timeline);
     final tweetQuery = timelineQuery.listItem((q) => q.tweets, index);
 
-    final authorProfileQuery = tweetQuery.ref((q) => q.authorUser);
-    final authorProfileItem = UserProfileItem(
-      displayName: authorProfileQuery.value((q) => q.displayName),
-      bio: authorProfileQuery.value((q) => q.bio),
-      followerCount: authorProfileQuery.counter((q) => q.followerCount),
-      followingCount: authorProfileQuery.counter((q) => q.followingCount),
+    final authorAccountQuery = tweetQuery.ref((q) => q.authorUser);
+    final authorProfileQuery = authorAccountQuery.ref((q) => q.profile); // Access profile through UserAccount
+    final authorAccountItem = UserAccountItem(
+      id: _userAccountQuery.id(),
+      handle: authorAccountQuery.value((q) => q.handle),
+      email: authorAccountQuery.value((q) => q.email),
+      profile: UserProfileItem(
+        id: authorProfileQuery.id(),
+        displayName: authorProfileQuery.value((q) => q.displayName),
+        bio: authorProfileQuery.value((q) => q.bio),
+      ),
+      followerCount: authorAccountQuery.counter((q) => q.followerCount),
+      followingCount: authorAccountQuery.counter((q) => q.followingCount),
+      registeredAt: authorAccountQuery.value((q) => q.registeredAt),
     );
 
     return TweetItem(
-      id: tweetQuery.id(), // Assuming TweetQuery has an ID
-      author: authorProfileItem,
+      id: tweetQuery.id(),
+      author: authorAccountItem,
       text: tweetQuery.value((q) => q.text),
       createdAt: tweetQuery.value((q) => q.createdAt),
       likeCount: tweetQuery.counter((q) => q.likeCount),

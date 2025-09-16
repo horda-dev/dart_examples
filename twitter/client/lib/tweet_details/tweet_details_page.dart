@@ -105,11 +105,11 @@ class _TweetDetailsLoadedView extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        tweet.author.displayName,
+                        tweet.author.profile.displayName,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        ' @${tweet.author.bio}', // Using bio as handle
+                        ' @${tweet.author.profile.bio}', // Using bio as handle
                         style: const TextStyle(color: Colors.grey),
                       ),
                       const Spacer(),
@@ -221,11 +221,11 @@ class CommentCard extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    comment.author.displayName,
+                    comment.author.profile.displayName,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    ' @${comment.author.bio}', // Using bio as handle
+                    ' @${comment.author.profile.bio}', // Using bio as handle
                     style: const TextStyle(color: Colors.grey),
                   ),
                   const Spacer(),

@@ -6,6 +6,9 @@ import 'package:twitter_client/tweet_details/tweet_details_page.dart';
 import 'home/home_page.dart';
 import 'sign_in/sign_in_page.dart'; // Import SignInPage
 import 'sign_up/sign_up_page.dart';
+import 'explore/explore_page.dart'; // New import
+import 'compose_tweet/compose_tweet_page.dart'; // New import
+import 'profile/profile_page.dart'; // New import
 
 void main() {
   final projectId = 'YOUR_PROJECT_ID';
@@ -18,7 +21,7 @@ void main() {
 
   system.start();
 
-  final GoRouter _router = GoRouter(
+  final GoRouter router = GoRouter(
     routes: <RouteBase>[
       GoRoute(
         path: '/',
@@ -71,7 +74,7 @@ void main() {
   runApp(
     HordaSystemProvider(
       system: system,
-      child: MyApp(router: _router),
+      child: MyApp(router: router),
     ),
   );
 }

@@ -86,8 +86,8 @@ class TweetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authorDisplayName = tweet.author.displayName;
-    final authorHandle = tweet.author.bio;
+    final authorDisplayName = tweet.author.profile.displayName;
+    final authorHandle = tweet.author.profile.bio;
     final tweetText = tweet.text;
     final likeCount = tweet.likeCount;
     final retweetCount = tweet.retweetCount;
@@ -98,47 +98,48 @@ class TweetCard extends StatelessWidget {
         context.go('/tweet/${tweet.id}');
       },
       child: Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () {
-                context.go('/profile/${tweet.author.id}');
-              },
-              child: Row(
+        margin: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  context.go('/profile/${tweet.author.id}');
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      authorDisplayName,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      ' @$authorHandle',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    const Spacer(),
+                    Text(
+                      _formatTimestamp(createdAt),
+                      style: const TextStyle(color: Colors.grey, fontSize: 12.0),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              Text(tweetText),
+              const SizedBox(height: 8.0),
+              Row(
                 children: [
-                  Text(
-                    authorDisplayName,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    ' @$authorHandle',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  const Spacer(),
-                  Text(
-                    _formatTimestamp(createdAt),
-                    style: const TextStyle(color: Colors.grey, fontSize: 12.0),
-                  ),
+                  Icon(Icons.favorite_border),
+                  Text('$likeCount'),
+                  const SizedBox(width: 16.0),
+                  Icon(Icons.repeat),
+                  Text('$retweetCount'),
                 ],
               ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(tweetText),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                Icon(Icons.favorite_border),
-                Text('$likeCount'),
-                const SizedBox(width: 16.0),
-                Icon(Icons.repeat),
-                Text('$retweetCount'),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

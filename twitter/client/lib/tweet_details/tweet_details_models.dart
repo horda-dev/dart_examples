@@ -2,7 +2,7 @@ import '../home/home_models.dart'; // For UserProfileItem
 
 class CommentItem {
   final String id;
-  final UserProfileItem author;
+  final UserAccountItem author;
   final String text;
   final DateTime createdAt;
   final int likeCount;

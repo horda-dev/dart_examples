@@ -2,9 +2,9 @@ import 'package:horda_client/horda_client.dart';
 
 // Query for a single Tweet
 class TweetQuery extends EntityQuery {
-  final authorUser = EntityRefView<UserProfileQuery>(
+  final authorUser = EntityRefView<UserAccountQuery>(
     'authorUserView',
-    query: UserProfileQuery(),
+    query: UserAccountQuery(),
   );
   final text = EntityValueView<String>('textView');
   final createdAt = EntityDateTimeView('createdAtView', isUtc: true);
@@ -31,16 +31,12 @@ class TweetQuery extends EntityQuery {
 class UserProfileQuery extends EntityQuery {
   final displayName = EntityValueView<String>('displayNameView');
   final bio = EntityValueView<String>('bioView');
-  final followerCount = EntityCounterView('followerCountView');
-  final followingCount = EntityCounterView('followingCountView');
 
   @override
   void initViews(EntityQueryGroup views) {
     views
       ..add(displayName)
-      ..add(bio)
-      ..add(followerCount)
-      ..add(followingCount);
+      ..add(bio);
   }
 }
 
@@ -93,10 +89,7 @@ class UserAccountQuery extends EntityQuery {
 
 // Query for a single Comment
 class CommentQuery extends EntityQuery {
-  final authorUser = EntityRefView<UserProfileQuery>(
-    'authorUserView',
-    query: UserProfileQuery(),
-  );
+  final authorUser = EntityRefView('authorUserView', query: UserAccountQuery());
   final text = EntityValueView<String>('textView');
   final createdAt = EntityDateTimeView('createdAtView', isUtc: true);
   final likeCount = EntityCounterView('likeCountView');
@@ -119,10 +112,7 @@ class CommentQuery extends EntityQuery {
 
 // Query for Explore Feed
 class ExploreFeedQuery extends EntityQuery {
-  final tweets = EntityListView<TweetQuery>(
-    'tweetsView',
-    query: TweetQuery(),
-  );
+  final tweets = EntityListView<TweetQuery>('tweetsView', query: TweetQuery());
 
   @override
   void initViews(EntityQueryGroup views) {

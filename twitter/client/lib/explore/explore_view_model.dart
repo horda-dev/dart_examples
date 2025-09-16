@@ -10,7 +10,8 @@ class ExploreViewModel {
 
   ExploreViewModel(this.context) {
     _hordaSystem = HordaSystemProvider.of(context);
-    _exploreFeedQuery = context.query<ExploreFeedQuery>(); // Get the query for the explore feed
+    _exploreFeedQuery = context
+        .query<ExploreFeedQuery>(); // Get the query for the explore feed
   }
 
   // Getters for Explore Feed Tweets
@@ -21,12 +22,21 @@ class ExploreViewModel {
   TweetItem getTweet(int index) {
     final tweetQuery = _exploreFeedQuery.listItem((q) => q.tweets, index);
 
-    final authorProfileQuery = tweetQuery.ref((q) => q.authorUser);
-    final authorProfileItem = UserProfileItem(
-      displayName: authorProfileQuery.value((q) => q.displayName),
-      bio: authorProfileQuery.value((q) => q.bio),
-      followerCount: authorProfileQuery.counter((q) => q.followerCount),
-      followingCount: authorProfileQuery.counter((q) => q.followingCount),
+    final authorAccountQuery = tweetQuery.ref((q) => q.authorUser);
+    final authorProfileQuery = authorAccountQuery.ref((q) => q.profile);
+
+    final authorProfileItem = UserAccountItem(
+      id: authorAccountQuery.id(),
+      handle: authorAccountQuery.value((q) => q.handle),
+      email: authorAccountQuery.value((q) => q.handle),
+      profile: UserProfileItem(
+        id: authorProfileQuery.id(),
+        displayName: authorProfileQuery.value((q) => q.displayName),
+        bio: authorProfileQuery.value((q) => q.bio),
+      ),
+      followerCount: authorAccountQuery.counter((q) => q.followerCount),
+      followingCount: authorAccountQuery.counter((q) => q.followingCount),
+      registeredAt: authorAccountQuery.value((q) => q.registeredAt),
     );
 
     return TweetItem(
