@@ -24,6 +24,12 @@ final kRouter = GoRouter(
             return const ExplorePage();
           },
         ),
+        GoRoute(
+          path: 'compose_tweet',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ComposeTweetPage();
+          },
+        ),
       ],
     ),
     GoRoute(
@@ -59,12 +65,6 @@ final kRouter = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         final userId = state.pathParameters['userId']!;
         return ProfilePage(userId: userId);
-      },
-    ),
-    GoRoute(
-      path: '/compose_tweet',
-      builder: (BuildContext context, GoRouterState state) {
-        return const ComposeTweetPage();
       },
     ),
   ],

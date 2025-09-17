@@ -67,12 +67,18 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Compose Tweet'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
         actions: [
-          TextButton(
+          IconButton(
+            icon: _isLoading
+                ? const CircularProgressIndicator(color: Colors.black)
+                : const Icon(Icons.send, color: Colors.black),
             onPressed: _isLoading ? null : _onSendTweetPressed,
-            child: _isLoading
-                ? const CircularProgressIndicator(color: Colors.white)
-                : const Text('Tweet', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
