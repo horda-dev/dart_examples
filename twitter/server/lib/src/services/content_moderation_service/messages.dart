@@ -8,13 +8,10 @@ part 'messages.g.dart';
 /// {@category Service Command}
 @JsonSerializable()
 class ModerateText extends RemoteCommand {
-  ModerateText(this.text, this.userId);
+  ModerateText(this.text);
 
   /// text content to moderate
   String text;
-
-  /// ID of the user sending the content
-  String userId;
 
   factory ModerateText.fromJson(Map<String, dynamic> json) {
     return _$ModerateTextFromJson(json);

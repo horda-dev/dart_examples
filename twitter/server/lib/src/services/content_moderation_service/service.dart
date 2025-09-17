@@ -11,8 +11,15 @@ class ContentModerationService extends Service {
     ModerateText cmd,
     ServiceContext context,
   ) async {
-    // TODO: implement moderateText handler
-    throw UnimplementedError('moderateText handler is not implemented');
+    if (_containsBadWords(cmd.text)) {
+      return TextModerationCompleted(
+        false,
+        'Contains forbidden words.',
+        cmd.text,
+      );
+    }
+
+    return TextModerationCompleted(true, '', cmd.text);
   }
 
   @override
@@ -20,6 +27,15 @@ class ContentModerationService extends Service {
     handlers.add<ModerateText>(moderateText, ModerateText.fromJson);
   }
 
-  @override
-  void initMigrations(EntityStateMigrations migrations) {}
+  bool _containsBadWords(String text) {
+    final textInLower = text.toLowerCase();
+
+    return [
+      'shit',
+      'fuck',
+      'bitch',
+    ].any(
+      (badWord) => textInLower.contains(badWord),
+    );
+  }
 }

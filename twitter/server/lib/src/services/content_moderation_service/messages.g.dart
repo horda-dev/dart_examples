@@ -7,10 +7,10 @@ part of 'messages.dart';
 // **************************************************************************
 
 ModerateText _$ModerateTextFromJson(Map<String, dynamic> json) =>
-    ModerateText(json['text'] as String, json['userId'] as String);
+    ModerateText(json['text'] as String);
 
 Map<String, dynamic> _$ModerateTextToJson(ModerateText instance) =>
-    <String, dynamic>{'text': instance.text, 'userId': instance.userId};
+    <String, dynamic>{'text': instance.text};
 
 TextModerationCompleted _$TextModerationCompletedFromJson(
   Map<String, dynamic> json,

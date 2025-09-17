@@ -8,14 +8,27 @@ part 'create_tweet_requested_process.g.dart';
 /// {@category Process}
 ///
 /// Handles the business process for creating a new tweet.
-/// 1. Sends 'CreateTweet' to TweetEntity.
-/// 2. Waits for 'TweetCreated' event.
-/// 3. Sends 'AddTweetToExploreFeed'.
-/// 4. Sends 'AddTweetToTimeline' for each timeline id in the client event.
+/// 1. Sends 'ModerateText' to ContentModerationService.
+/// 2. Waits for 'TextModerationCompleted'.
+/// 3. Returns error if text did not pass moderation.
+/// 4. Sends 'CreateTweet' to TweetEntity.
+/// 5. Waits for 'TweetCreated' event.
+/// 6. Sends 'AddTweetToExploreFeed'.
+/// 7. Sends 'AddTweetToTimeline' for each timeline id in the client event.
 Future<FlowResult> clientCreateTweetRequested(
   ClientCreateTweetRequested event,
   ProcessContext context,
 ) async {
+  final result = await context.callService(
+    name: 'ContentModerationService',
+    cmd: ModerateText(event.text),
+    fac: TextModerationCompleted.fromJson,
+  );
+
+  if (!result.isValid) {
+    return FlowResult.error('text did not pass moderation');
+  }
+
   final tweetId = Xid().toString();
 
   await context.callEntity<TweetCreated>(
