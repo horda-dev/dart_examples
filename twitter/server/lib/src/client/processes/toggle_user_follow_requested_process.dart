@@ -1,5 +1,6 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:twitter_server/twitter_server.dart'; // Import twitter_server.dart
 
 part 'toggle_user_follow_requested_process.g.dart';
 
@@ -9,42 +10,38 @@ part 'toggle_user_follow_requested_process.g.dart';
 ///
 /// Flow:
 /// 1. Sends 'ToggleFollower' command to UserAccountEntity.
-/// 2. Waits for either 'FollowerAdded' or 'FollowerRemoved' event to decide what to do next.
+/// 2. Waits for either 'FollowerAdded' or 'FollowerRemoved' event
 /// 3. Sends 'ToggleFollowing' command to UserAccountEntity.
-/// 4. Waits for either 'FollowingAdded' or 'FollowingRemoved' event to decide what to do next.
+/// 4. Waits for either 'FollowingAdded' or 'FollowingRemoved' event
 /// 5. Completes the process.
 Future<FlowResult> clientToggleUserFollowRequested(
   ClientToggleUserFollowRequested event,
   ProcessContext context,
 ) async {
-  /*
-  // Step 1: Send 'ToggleFollower' to UserAccountEntity
-  final followerEvent = await context.callActor<RemoteEvent>(
-    name: 'UserAccountEntity',
-    id: event.userId,
-    cmd: ToggleFollower(),
-    fac: RemoteEvent.fromJson,
-  );
+  await Future.wait([
+    context.callEntityDynamic(
+      name: 'UserAccountEntity',
+      id: event.followedUserId, // The user being followed/unfollowed
+      cmd: ToggleFollower(context.senderId), // The current user is the follower
+      fac: [
+        FollowerAdded.fromJson,
+        FollowerRemoved.fromJson,
+      ],
+    ),
+    context.callEntityDynamic(
+      name: 'UserAccountEntity',
+      id: context.senderId, // The current user
+      cmd: ToggleFollowing(
+        event.followedUserId, // The user being followed/unfollowed
+      ),
+      fac: [
+        FollowingAdded.fromJson,
+        FollowerRemoved.fromJson,
+      ],
+    ),
+  ]);
 
-  // Step 2: Decide if Follower was added or removed
-  // (Decide based on followerEvent payload)
-
-  // Step 3: Send 'ToggleFollowing' to UserAccountEntity
-  final followingEvent = await context.callActor<RemoteEvent>(
-    name: 'UserAccountEntity',
-    id: event.targetId,
-    cmd: ToggleFollowing(),
-    fac: RemoteEvent.fromJson,
-  );
-
-  // Step 4: Decide if Following was added or removed
-  // (Decide based on followingEvent payload)
-  
-  // Step 5: Complete process
   return FlowResult.ok();
-  */
-  // TODO: Implement ToggleUserFollowRequested
-  return FlowResult.error("Unimplemented");
 }
 
 /// {@category Client Event}
