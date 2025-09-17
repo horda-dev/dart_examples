@@ -2,21 +2,21 @@ import 'package:horda_client/horda_client.dart';
 
 class TweetQuery extends EntityQuery {
   final authorUser = EntityRefView(
-    'authorUserView',
+    'tweetAuthorUserView',
     query: BasicUserInfoQuery(),
   );
 
   final text = EntityValueView<String>(
-    'textView',
+    'tweetTextView',
   );
 
   final createdAt = EntityDateTimeView(
-    'createdAtView',
+    'tweetCreatedAtView',
     isUtc: true,
   );
 
   final likeCount = EntityCounterView(
-    'likeCountView',
+    'tweetLikeCountView',
   );
 
   final retweetCount = EntityCounterView(
@@ -42,26 +42,26 @@ class TweetQuery extends EntityQuery {
 
 class CommentQuery extends EntityQuery {
   final authorUser = EntityRefView(
-    'authorUserView',
+    'commentAuthorUserView',
     query: BasicUserInfoQuery(),
   );
 
   final text = EntityValueView<String>(
-    'textView',
+    'commentTextView',
   );
 
   final createdAt = EntityDateTimeView(
-    'createdAtView',
+    'commentCreatedAtView',
     isUtc: true,
   );
 
   final likeCount = EntityCounterView(
-    'likeCountView',
+    'commentLikeCountView',
   );
 
-  final replies = EntityListView<CommentQuery>(
+  final replies = EntityListView<CommentReplyQuery>(
     'repliesView',
-    query: CommentQuery(),
+    query: CommentReplyQuery(),
   );
 
   @override
@@ -72,6 +72,35 @@ class CommentQuery extends EntityQuery {
       ..add(createdAt)
       ..add(likeCount)
       ..add(replies);
+  }
+}
+
+class CommentReplyQuery extends EntityQuery {
+  final authorUser = EntityRefView(
+    'commentAuthorUserView',
+    query: BasicUserInfoQuery(),
+  );
+
+  final text = EntityValueView<String>(
+    'commentTextView',
+  );
+
+  final createdAt = EntityDateTimeView(
+    'commentCreatedAtView',
+    isUtc: true,
+  );
+
+  final likeCount = EntityCounterView(
+    'commentLikeCountView',
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views
+      ..add(authorUser)
+      ..add(text)
+      ..add(createdAt)
+      ..add(likeCount);
   }
 }
 
@@ -169,7 +198,10 @@ class UserTimelineQuery extends EntityQuery {
 }
 
 class TimelineQuery extends EntityQuery {
-  final tweets = EntityListView<TweetQuery>('tweetsView', query: TweetQuery());
+  final tweets = EntityListView<TweetQuery>(
+    'timelineTweetsView',
+    query: TweetQuery(),
+  );
 
   @override
   void initViews(EntityQueryGroup views) {
@@ -178,7 +210,10 @@ class TimelineQuery extends EntityQuery {
 }
 
 class ExploreFeedQuery extends EntityQuery {
-  final tweets = EntityListView<TweetQuery>('tweetsView', query: TweetQuery());
+  final tweets = EntityListView<TweetQuery>(
+    'exploreFeedTweetsView',
+    query: TweetQuery(),
+  );
 
   @override
   void initViews(EntityQueryGroup views) {
