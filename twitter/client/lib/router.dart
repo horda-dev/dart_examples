@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:horda_client/horda_client.dart';
 
 import 'compose_tweet/compose_tweet_page.dart';
 import 'explore/explore_page.dart';
@@ -17,7 +18,6 @@ final kRouter = GoRouter(
         return const HomePage();
       },
     ),
-
     GoRoute(
       path: '/signin',
       builder: (BuildContext context, GoRouterState state) {
@@ -31,6 +31,13 @@ final kRouter = GoRouter(
           },
         ),
       ],
+      redirect: (BuildContext context, GoRouterState state) {
+        if (context.hordaAuthState is AuthStateLoggedIn) {
+          return '/';
+        }
+
+        return null;
+      },
     ),
     GoRoute(
       path: '/tweet/:tweetId',
