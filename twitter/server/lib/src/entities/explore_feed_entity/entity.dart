@@ -17,8 +17,7 @@ class ExploreFeedEntity extends Entity<ExploreFeedEntityState> {
     CreateExploreFeed cmd,
     EntityContext context,
   ) async {
-    // TODO: implement CreateExploreFeed handler
-    throw UnimplementedError('CreateExploreFeed handler is not implemented');
+    return ExploreFeedCreated();
   }
 
   /// For command description, see [AddTweetToExploreFeed].
@@ -27,20 +26,17 @@ class ExploreFeedEntity extends Entity<ExploreFeedEntityState> {
     ExploreFeedEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement AddTweetToExploreFeed handler
-    throw UnimplementedError(
-      'AddTweetToExploreFeed handler is not implemented',
-    );
+    return TweetAddedToExploreFeed(cmd.tweetId);
   }
 
   @override
   void initHandlers(EntityHandlers<ExploreFeedEntityState> handlers) {
-    // TODO: uncomment when ExploreFeedEntityState.fromExploreFeedCreated is implemented
-    // handlers.addInit<CreateExploreFeed, ExploreFeedCreated>(
-    //   createExploreFeed,
-    //   CreateExploreFeed.fromJson,
-    //   ExploreFeedEntityState.fromExploreFeedCreated,
-    // );
+    handlers.addStateFromJson(ExploreFeedEntityState.fromJson);
+    handlers.addInit<CreateExploreFeed, ExploreFeedCreated>(
+      createExploreFeed,
+      CreateExploreFeed.fromJson,
+      ExploreFeedEntityState.fromExploreFeedCreated,
+    );
 
     handlers.add<AddTweetToExploreFeed>(
       addTweetToExploreFeed,

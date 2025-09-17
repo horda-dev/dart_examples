@@ -52,6 +52,8 @@ export 'src/entities/tweet_entity/state.dart';
 
 export 'src/entities/timeline_entity/messages.dart';
 
+export 'src/entities/explore_feed_entity/state.dart';
+
 export 'src/entities/explore_feed_entity/messages.dart';
 
 export 'src/entities/comment_entity/state.dart';
