@@ -1,6 +1,7 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart'; // For CreateComment
+import 'package:twitter_server/twitter_server.dart';
+import 'package:xid/xid.dart';
 
 part 'create_comment_requested_process.g.dart';
 
@@ -18,14 +19,17 @@ Future<FlowResult> clientCreateCommentRequested(
   ClientCreateCommentRequested event,
   ProcessContext context,
 ) async {
-  // TODO: Implement clientCreateCommentRequested
-  /*
-  // 1. Send 'CreateComment' to CommentEntity
-  final commentCreated = await context.callActor(
+  if (event.parentTweetId.isEmpty) {
+    return FlowResult.error('parent tweet id can not be empty');
+  }
+
+  final commentId = Xid().toString();
+
+  await context.callEntity<CommentCreated>(
     name: 'CommentEntity',
-    id: context.newId(), // Generate a new ID for the comment
+    id: commentId,
     cmd: CreateComment(
-      event.authorUserId,
+      context.senderId,
       event.text,
       event.parentTweetId,
       event.parentCommentId,
@@ -33,21 +37,23 @@ Future<FlowResult> clientCreateCommentRequested(
     fac: CommentCreated.fromJson,
   );
 
-  // 2. If parentTweetId is provided, send 'AddTweetComment' to TweetEntity
-  if (event.parentTweetId != null && event.parentTweetId.isNotEmpty) {
-    await context.callActor(
-      name: 'TweetEntity',
-      id: event.parentTweetId,
-      cmd: AddTweetComment(commentCreated.commentId), // Assuming CommentCreated returns commentId
-      fac: TweetCommentAdded.fromJson,
+  await context.callEntity<TweetCommentAdded>(
+    name: 'TweetEntity',
+    id: event.parentTweetId,
+    cmd: AddTweetComment(commentId),
+    fac: TweetCommentAdded.fromJson,
+  );
+
+  if (event.parentCommentId != null && event.parentCommentId!.isNotEmpty) {
+    await context.callEntity<CommentReplyAdded>(
+      name: 'CommentEntity',
+      id: event.parentCommentId!,
+      cmd: AddCommentReply(commentId),
+      fac: CommentReplyAdded.fromJson,
     );
   }
 
-  // TODO: Handle parentCommentId if provided (add reply to comment)
-
-  return FlowResult.ok();
-  */
-  return FlowResult.error("Unimplemented");
+  return FlowResult.ok(commentId);
 }
 
 /// {@category Client Event}
