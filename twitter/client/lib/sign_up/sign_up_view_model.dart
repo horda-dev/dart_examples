@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
+import 'package:twitter_server/twitter_server.dart';
 
 import '../auth.dart';
+import '../config.dart';
+import '../main.dart';
 
 class SignUpViewModel {
   final BuildContext context;
@@ -14,18 +17,31 @@ class SignUpViewModel {
     required String displayName,
     required String email,
     required String password,
+    required String avatarBase64,
   }) async {
     await kAuthService.signUpWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    // No need to check FlowResult.isError here, as signUpWithEmailAndPassword
-    // will throw AuthException on failure.
+    system.reopen(
+      NoAuthConfig(url: kUrl, apiKey: kApiKey),
+    );
 
-    // Optionally, you might still want to dispatch an event to the Horda backend
-    // to register the user's profile details (handle, displayName) after Firebase auth.
-    // This would involve a new client event like ClientUserProfileCreatedRequested.
-    // For now, we'll just focus on Firebase auth.
+    // Has to be done, because we can't wait until the connection is reopened.
+    await Future.delayed(const Duration(seconds: 10));
+
+    final result = await system.dispatchEvent(
+      ClientRegisterUserRequested(
+        handle,
+        displayName,
+        email,
+        avatarBase64,
+      ),
+    );
+
+    if (result.isError) {
+      throw Exception(result.value ?? 'Failed to register user profile.');
+    }
   }
 }

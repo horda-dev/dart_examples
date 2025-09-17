@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart'; // Import GoRouter
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'sign_up_view_model.dart';
 
@@ -15,7 +19,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final _handleController = TextEditingController();
   final _displayNameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController(); // New controller
+  final _passwordController = TextEditingController();
+
+  File? _selectedImage;
+  String? _imageBytes;
 
   late final SignUpViewModel _viewModel;
   bool _isLoading = false;
@@ -32,41 +39,66 @@ class _SignUpPageState extends State<SignUpPage> {
     _handleController.dispose();
     _displayNameController.dispose();
     _emailController.dispose();
-    _passwordController.dispose(); // Dispose new controller
+    _passwordController.dispose();
     super.dispose();
   }
 
-  Future<void> _onSignUpPressed() async {
-    if (_formKey.currentState?.validate() ?? false) {
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final bytes = await pickedFile.readAsBytes();
       setState(() {
-        _isLoading = true;
-        _errorMessage = null;
+        _selectedImage = File(pickedFile.path);
+        _imageBytes = base64Encode(bytes);
       });
+    }
+  }
 
-      try {
-        await _viewModel.signUp(
-          handle: _handleController.text,
-          displayName: _displayNameController.text,
-          email: _emailController.text,
-          password: _passwordController.text, // Pass password
-        );
+  bool _validateImage() {
+    if (_selectedImage == null) {
+      setState(() {
+        _errorMessage = 'Please select a profile picture.';
+      });
+      return false;
+    }
+    return true;
+  }
 
-        if (mounted) {
-          // Navigate to home page using GoRouter on success
-          context.go('/');
-        }
-      } catch (e) {
-        if (mounted) {
-          setState(() {
-            _errorMessage = e.toString();
-          });
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
+  Future<void> _onSignUpPressed() async {
+    if (!(_formKey.currentState?.validate() ?? false) || !_validateImage()) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await _viewModel.signUp(
+        handle: _handleController.text,
+        displayName: _displayNameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        avatarBase64: _imageBytes!,
+      );
+
+      if (mounted) {
+        context.go('/');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.toString();
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -89,6 +121,24 @@ class _SignUpPageState extends State<SignUpPage> {
           key: _formKey,
           child: Column(
             children: [
+              GestureDetector(
+                onTap: _pickImage,
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.grey[200],
+                  backgroundImage: _selectedImage != null
+                      ? FileImage(_selectedImage!)
+                      : null,
+                  child: _selectedImage == null
+                      ? Icon(
+                          Icons.camera_alt,
+                          size: 40,
+                          color: Colors.grey[800],
+                        )
+                      : null,
+                ),
+              ),
+              const SizedBox(height: 24.0),
               TextFormField(
                 controller: _handleController,
                 decoration: const InputDecoration(labelText: 'Handle'),
