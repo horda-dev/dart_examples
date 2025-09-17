@@ -1,13 +1,13 @@
 import 'package:horda_server/horda_server.dart';
-import 'processes/register_user_requested_process.dart';
-import 'processes/log_in_user_requested_process.dart';
-import 'processes/toggle_user_follow_requested_process.dart';
-import 'processes/toggle_tweet_like_requested_process.dart';
-import 'processes/retweet_requested_process.dart';
-import 'processes/block_user_requested_process.dart';
-import 'processes/toggle_comment_like_requested_process.dart';
+
 import 'processes/create_comment_requested_process.dart';
 import 'processes/create_tweet_requested_process.dart';
+import 'processes/register_user_requested_process.dart';
+import 'processes/retweet_requested_process.dart';
+import 'processes/toggle_comment_like_requested_process.dart';
+import 'processes/toggle_tweet_like_requested_process.dart';
+import 'processes/toggle_user_block_requested_process.dart';
+import 'processes/toggle_user_follow_requested_process.dart';
 
 class ClientProcess extends Process {
   Future<FlowResult> registerUserRequested(
@@ -15,13 +15,6 @@ class ClientProcess extends Process {
     ProcessContext context,
   ) async {
     return clientRegisterUserRequested(event, context);
-  }
-
-  Future<FlowResult> logInUserRequested(
-    ClientLogInUserRequested event,
-    ProcessContext context,
-  ) async {
-    return clientLogInUserRequested(event, context);
   }
 
   Future<FlowResult> toggleUserFollowRequested(
@@ -45,11 +38,11 @@ class ClientProcess extends Process {
     return clientRetweetRequested(event, context);
   }
 
-  Future<FlowResult> blockUserRequested(
-    ClientBlockUserRequested event,
+  Future<FlowResult> toggleUserBlockRequested(
+    ClientToggleUserBlockRequested event,
     ProcessContext context,
   ) async {
-    return clientBlockUserRequested(event, context);
+    return clientToggleUserBlockRequested(event, context);
   }
 
   Future<FlowResult> toggleCommentLikeRequested(
@@ -79,10 +72,6 @@ class ClientProcess extends Process {
       registerUserRequested,
       ClientRegisterUserRequested.fromJson,
     );
-    handlers.add<ClientLogInUserRequested>(
-      logInUserRequested,
-      ClientLogInUserRequested.fromJson,
-    );
     handlers.add<ClientToggleUserFollowRequested>(
       toggleUserFollowRequested,
       ClientToggleUserFollowRequested.fromJson,
@@ -95,9 +84,9 @@ class ClientProcess extends Process {
       retweetRequested,
       ClientRetweetRequested.fromJson,
     );
-    handlers.add<ClientBlockUserRequested>(
-      blockUserRequested,
-      ClientBlockUserRequested.fromJson,
+    handlers.add<ClientToggleUserBlockRequested>(
+      toggleUserBlockRequested,
+      ClientToggleUserBlockRequested.fromJson,
     );
     handlers.add<ClientToggleCommentLikeRequested>(
       toggleCommentLikeRequested,
