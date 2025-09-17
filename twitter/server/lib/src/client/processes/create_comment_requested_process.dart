@@ -54,14 +54,10 @@ Future<FlowResult> clientCreateCommentRequested(
 @JsonSerializable()
 class ClientCreateCommentRequested extends RemoteEvent {
   ClientCreateCommentRequested({
-    required this.authorUserId,
     required this.text,
     required this.parentTweetId,
     this.parentCommentId,
   });
-
-  /// ID of the user who authored the comment
-  final String authorUserId;
 
   /// Text content of the comment
   final String text;
