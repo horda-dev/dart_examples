@@ -2,8 +2,6 @@ export 'src/client/processes/register_user_requested_process.dart';
 
 export 'src/client/processes.dart';
 
-export 'src/client/processes/log_in_user_requested_process.dart';
-
 export 'src/client/processes/toggle_user_follow_requested_process.dart';
 
 export 'src/client/processes/toggle_tweet_like_requested_process.dart';
