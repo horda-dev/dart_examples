@@ -1,4 +1,5 @@
 import 'package:horda_server/horda_server.dart';
+import 'package:xid/xid.dart';
 
 import 'messages.dart';
 
@@ -11,8 +12,10 @@ class NotificationService extends Service {
     SendPushNotification cmd,
     ServiceContext context,
   ) async {
-    // TODO: implement SendPushNotification handler
-    throw UnimplementedError('SendPushNotification handler is not implemented');
+    // For the sake of the example we just wait for a second.
+    await Future.delayed(const Duration(seconds: 1));
+
+    return PushNotificationSent(Xid().toString(), cmd.userId, true);
   }
 
   /// For command description, see [SendUserRegistrationEmail].
@@ -20,9 +23,13 @@ class NotificationService extends Service {
     SendUserRegistrationEmail cmd,
     ServiceContext context,
   ) async {
-    // TODO: implement SendUserRegistrationEmail handler
-    throw UnimplementedError(
-      'SendUserRegistrationEmail handler is not implemented',
+    // For the sake of the example we just wait for a second.
+    await Future.delayed(const Duration(seconds: 1));
+
+    return UserRegistrationEmailSent(
+      cmd.userId,
+      cmd.email,
+      DateTime.now().toUtc(),
     );
   }
 
@@ -37,7 +44,4 @@ class NotificationService extends Service {
       SendUserRegistrationEmail.fromJson,
     );
   }
-
-  @override
-  void initMigrations(EntityStateMigrations migrations) {}
 }
