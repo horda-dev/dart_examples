@@ -44,6 +44,8 @@ export 'src/entities/user_account_entity/messages.dart';
 
 export 'src/entities/user_profile_entity/messages.dart';
 
+export 'src/entities/user_profile_entity/state.dart';
+
 export 'src/entities/user_account_entity/state.dart';
 
 export 'src/entities/tweet_entity/messages.dart';

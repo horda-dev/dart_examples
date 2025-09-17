@@ -8,7 +8,7 @@ part of 'state.dart';
 
 UserProfileEntityState _$UserProfileEntityStateFromJson(
   Map<String, dynamic> json,
-) => UserProfileEntityState._json();
+) => UserProfileEntityState();
 
 Map<String, dynamic> _$UserProfileEntityStateToJson(
   UserProfileEntityState instance,

@@ -6,12 +6,12 @@ import 'messages.dart';
 
 part 'state.g.dart';
 
-/// State of [CommentEntity].
+/// State of [UserProfileEntity].
 ///
 /// {@category Entity State}
-@JsonSerializable(constructor: '_json')
+@JsonSerializable()
 class UserProfileEntityState implements EntityState {
-  UserProfileEntityState._json();
+  UserProfileEntityState();
 
   @override
   void project(RemoteEvent event) {

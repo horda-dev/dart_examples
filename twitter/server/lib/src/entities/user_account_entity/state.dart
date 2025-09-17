@@ -11,10 +11,11 @@ part 'state.g.dart';
 /// {@category Entity State}
 @JsonSerializable(constructor: '_json')
 class UserAccountEntityState implements EntityState {
-  // TODO: Implement UserAccountEntityState.fromUserCreated constructor
-  // UserAccountEntityState.fromUserCreated(UserCreated event);
-
   UserAccountEntityState._json(this._following, this._followers);
+
+    UserAccountEntityState.fromUserCreated(UserCreated event)
+      : _following = [],
+        _followers = [];
 
   /// List of user IDs this user is following
   List<String> get following => _following;
@@ -30,15 +31,29 @@ class UserAccountEntityState implements EntityState {
   @JsonKey(name: 'followers', includeToJson: true, includeFromJson: true)
   List<String> _followers;
 
-  void userCreated(UserCreated event) {
-    // TODO: implement UserCreated state projector
+  void followerAdded(FollowerAdded event) {
+    _followers.add(event.userId);
+  }
+
+  void followerRemoved(FollowerRemoved event) {
+    _followers.remove(event.userId);
+  }
+
+  void followingAdded(FollowingAdded event) {
+    _following.add(event.userId);
+  }
+
+  void followingRemoved(FollowingRemoved event) {
+    _following.remove(event.userId);
   }
 
   @override
   void project(RemoteEvent event) {
     return switch (event) {
-      UserCreated() => userCreated(event),
-
+      FollowerAdded() => followerAdded(event),
+      FollowerRemoved() => followerRemoved(event),
+      FollowingAdded() => followingAdded(event),
+      FollowingRemoved() => followingRemoved(event),
       _ => null,
     };
   }

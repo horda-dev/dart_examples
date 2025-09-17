@@ -7,37 +7,48 @@ import 'messages.dart';
 ///
 /// {@category View Group}
 class UserProfileViewGroup implements EntityViewGroup {
-  UserProfileViewGroup();
+  UserProfileViewGroup()
+      : accountView = RefView<UserAccountEntity>(name: 'accountView', value: null),
+        updatedAtView = ValueView<DateTime>(
+          name: 'updatedAtView',
+          value: DateTime.fromMicrosecondsSinceEpoch(0),
+        ),
+        bioView = ValueView<String>(name: 'bioView', value: ''),
+        displayNameView = ValueView<String>(name: 'displayNameView', value: '');
+
+  UserProfileViewGroup.fromInitEvent(UserProfileCreated event)
+      : accountView = RefView<UserAccountEntity>(name: 'accountView', value: null), // Assuming account ID is user ID
+        updatedAtView = ValueView<DateTime>(
+          name: 'updatedAtView',
+          value: DateTime.now().toUtc(),
+        ),
+        bioView = ValueView<String>(name: 'bioView', value: ''),
+        displayNameView = ValueView<String>(name: 'displayNameView', value: event.displayName);
 
   /// View that references the associated user account entity
-  final RefView<UserAccountEntity> accountView = RefView<UserAccountEntity>(
-    name: 'accountView',
-    value: null,
-  );
+  final RefView<UserAccountEntity> accountView;
 
   /// View for the profile's last updated date and time
-  final ValueView<DateTime> updatedAtView = ValueView<DateTime>(
-    name: 'updatedAtView',
-    value: DateTime.fromMicrosecondsSinceEpoch(0),
-  );
-
-  
+  final ValueView<DateTime> updatedAtView;
 
   /// View for the user's bio
-  final ValueView<String> bioView = ValueView<String>(
-    name: 'bioView',
-    value: '',
-  );
+  final ValueView<String> bioView;
 
   /// View for the user's display name
-  final ValueView<String> displayNameView = ValueView<String>(
-    name: 'displayNameView',
-    value: '',
-  );
+  final ValueView<String> displayNameView;
 
   @override
-  void initViews(ViewGroup views) {}
+  void initViews(ViewGroup views) {
+    views
+      ..add(accountView)
+      ..add(updatedAtView)
+      ..add(bioView)
+      ..add(displayNameView);
+  }
 
   @override
-  void initProjectors(EntityViewGroupProjectors projectors) {}
+  void initProjectors(EntityViewGroupProjectors projectors) {
+    projectors
+      ..addInit<UserProfileCreated>(UserProfileViewGroup.fromInitEvent);
+  }
 }

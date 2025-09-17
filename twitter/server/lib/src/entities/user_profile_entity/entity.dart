@@ -11,18 +11,17 @@ class UserProfileEntity extends Entity<UserProfileEntityState> {
     CreateUserProfile cmd,
     EntityContext context,
   ) async {
-    // TODO: implement CreateUserProfile handler
-    throw UnimplementedError('CreateUserProfile handler is not implemented');
+    return UserProfileCreated(cmd.displayName);
   }
 
   @override
   void initHandlers(EntityHandlers<UserProfileEntityState> handlers) {
-    // TODO: uncomment when UserProfileEntityState.fromUserProfileCreated is implemented
-    // handlers.addInit<CreateUserProfile, UserProfileCreated>(
-    //   createUserProfile,
-    //   CreateUserProfile.fromJson,
-    //   UserProfileEntityState.fromUserProfileCreated,
-    // );
+    handlers.addStateFromJson(UserProfileEntityState.fromJson);
+    handlers.addInit<CreateUserProfile, UserProfileCreated>(
+      createUserProfile,
+      CreateUserProfile.fromJson,
+      (event) => UserProfileEntityState(),
+    );
   }
 
   @override

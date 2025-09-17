@@ -8,8 +8,7 @@ import 'state.dart';
 /// {@category Entity}
 class UserAccountEntity extends Entity<UserAccountEntityState> {
   Future<UserCreated> createUser(CreateUser cmd, EntityContext context) async {
-    // TODO: implement CreateUser handler
-    throw UnimplementedError('CreateUser handler is not implemented');
+    return UserCreated(cmd.handle, cmd.email, cmd.profileId);
   }
 
   /// For command description, see [ToggleFollower].
@@ -18,8 +17,11 @@ class UserAccountEntity extends Entity<UserAccountEntityState> {
     UserAccountEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement ToggleFollower handler
-    throw UnimplementedError('ToggleFollower handler is not implemented');
+    if (state.followers.contains(cmd.userId)) {
+      return FollowerRemoved(cmd.userId);
+    } else {
+      return FollowerAdded(cmd.userId);
+    }
   }
 
   /// For command description, see [ToggleFollowing].
@@ -28,18 +30,21 @@ class UserAccountEntity extends Entity<UserAccountEntityState> {
     UserAccountEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement ToggleFollowing handler
-    throw UnimplementedError('ToggleFollowing handler is not implemented');
+    if (state.following.contains(cmd.userId)) {
+      return FollowingRemoved(cmd.userId);
+    } else {
+      return FollowingAdded(cmd.userId);
+    }
   }
 
   @override
   void initHandlers(EntityHandlers<UserAccountEntityState> handlers) {
-    // TODO: uncomment when UserAccountEntityState.fromUserCreated is implemented
-    // handlers.addInit<CreateUser, UserCreated>(
-    //   createUser,
-    //   CreateUser.fromJson,
-    //   UserAccountEntityState.fromUserCreated,
-    // );
+    handlers.addStateFromJson(UserAccountEntityState.fromJson);
+    handlers.addInit<CreateUser, UserCreated>(
+      createUser,
+      CreateUser.fromJson,
+      UserAccountEntityState.fromUserCreated,
+    );
 
     handlers.add<ToggleFollower>(toggleFollower, ToggleFollower.fromJson);
     handlers.add<ToggleFollowing>(toggleFollowing, ToggleFollowing.fromJson);
