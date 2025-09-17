@@ -10,7 +10,7 @@ import 'processes/toggle_user_block_requested_process.dart';
 import 'processes/toggle_user_follow_requested_process.dart';
 import 'processes/upload_profile_picture_requested_process.dart';
 
-class ClientProcess extends Process {
+class ClientProcesses extends Process {
   Future<FlowResult> registerUserRequested(
     ClientRegisterUserRequested event,
     ProcessContext context,
