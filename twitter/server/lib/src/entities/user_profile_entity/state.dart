@@ -9,13 +9,25 @@ part 'state.g.dart';
 /// State of [UserProfileEntity].
 ///
 /// {@category Entity State}
-@JsonSerializable()
+@JsonSerializable(constructor: '_json')
 class UserProfileEntityState implements EntityState {
-  UserProfileEntityState();
+  UserProfileEntityState._json(
+    this.avatarUrl,
+  );
+
+  UserProfileEntityState.fromUserProfileCreated(UserProfileCreated event)
+    : avatarUrl = event.avatarUrl;
+
+  String avatarUrl;
+
+  void profilePictureUrlUpdated(ProfilePictureUrlUpdated event) {
+    avatarUrl = event.newAvatarUrl;
+  }
 
   @override
   void project(RemoteEvent event) {
     return switch (event) {
+      ProfilePictureUrlUpdated() => profilePictureUrlUpdated(event),
       _ => null,
     };
   }

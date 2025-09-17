@@ -17,7 +17,8 @@ class UserProfileViewGroup implements EntityViewGroup {
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       ),
       bioView = ValueView<String>(name: 'bioView', value: ''),
-      displayNameView = ValueView<String>(name: 'displayNameView', value: '');
+      displayNameView = ValueView<String>(name: 'displayNameView', value: ''),
+      avatarUrlView = ValueView<String>(name: 'avatarUrlView', value: '');
 
   UserProfileViewGroup.fromUserProfileCreated(UserProfileCreated event)
     : accountView = RefView<UserAccountEntity>(
@@ -32,6 +33,10 @@ class UserProfileViewGroup implements EntityViewGroup {
       displayNameView = ValueView<String>(
         name: 'displayNameView',
         value: event.displayName,
+      ),
+      avatarUrlView = ValueView<String>(
+        name: 'avatarUrlView',
+        value: event.avatarUrl,
       );
 
   /// View that references the associated user account entity
@@ -46,19 +51,30 @@ class UserProfileViewGroup implements EntityViewGroup {
   /// View for the user's display name
   final ValueView<String> displayNameView;
 
+  /// View for the user's avatar URL
+  final ValueView<String> avatarUrlView;
+
+  void profilePictureUrlUpdated(ProfilePictureUrlUpdated event) {
+    avatarUrlView.value = event.newAvatarUrl;
+    updatedAtView.value = DateTime.now().toUtc();
+  }
+
   @override
   void initViews(ViewGroup views) {
     views
       ..add(accountView)
       ..add(updatedAtView)
       ..add(bioView)
-      ..add(displayNameView);
+      ..add(displayNameView)
+      ..add(avatarUrlView);
   }
 
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
-    projectors.addInit<UserProfileCreated>(
-      UserProfileViewGroup.fromUserProfileCreated,
-    );
+    projectors
+      ..addInit<UserProfileCreated>(
+        UserProfileViewGroup.fromUserProfileCreated,
+      )
+      ..add<ProfilePictureUrlUpdated>(profilePictureUrlUpdated);
   }
 }

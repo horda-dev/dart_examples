@@ -12,6 +12,7 @@ ClientRegisterUserRequested _$ClientRegisterUserRequestedFromJson(
   json['handle'] as String,
   json['displayName'] as String,
   json['email'] as String,
+  json['avatarBase64'] as String,
 );
 
 Map<String, dynamic> _$ClientRegisterUserRequestedToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ClientRegisterUserRequestedToJson(
   'handle': instance.handle,
   'displayName': instance.displayName,
   'email': instance.email,
+  'avatarBase64': instance.avatarBase64,
 };

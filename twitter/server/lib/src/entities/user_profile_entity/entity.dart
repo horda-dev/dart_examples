@@ -11,7 +11,20 @@ class UserProfileEntity extends Entity<UserProfileEntityState> {
     CreateUserProfile cmd,
     EntityContext context,
   ) async {
-    return UserProfileCreated(cmd.accountId, cmd.displayName);
+    return UserProfileCreated(
+      cmd.accountId,
+      cmd.displayName,
+      cmd.avatarUrl,
+    );
+  }
+
+  /// For command description, see [UpdateProfilePictureUrl].
+  Future<RemoteEvent> updateProfilePictureUrl(
+    UpdateProfilePictureUrl cmd,
+    UserProfileEntityState state,
+    EntityContext context,
+  ) async {
+    return ProfilePictureUrlUpdated(cmd.avatarUrl, state.avatarUrl);
   }
 
   @override
@@ -20,7 +33,12 @@ class UserProfileEntity extends Entity<UserProfileEntityState> {
     handlers.addInit<CreateUserProfile, UserProfileCreated>(
       createUserProfile,
       CreateUserProfile.fromJson,
-      (event) => UserProfileEntityState(),
+      UserProfileEntityState.fromUserProfileCreated,
+    );
+
+    handlers.add<UpdateProfilePictureUrl>(
+      updateProfilePictureUrl,
+      UpdateProfilePictureUrl.fromJson,
     );
   }
 

@@ -10,11 +10,14 @@ part 'register_user_requested_process.g.dart';
 /// Handles the user registration business process.
 ///
 /// Steps:
-/// 1. Sends 'CreateUserAccount' command to the UserAccountEntity.
-/// 2. Waits for 'UserAccountCreated' event. If successful, proceeds; otherwise, ends in error.
-/// 3. Sends 'CreateUserProfile' command to the UserProfileEntity.
-/// 4. Waits for 'UserProfileCreated' event. If successful, proceeds; otherwise, ends in error.
-/// 5. Sends 'SendUserRegistrationEmail' command to the NotificationService.
+/// 1. Sends 'UploadProfilePicture' to UserProfilePictureService.
+/// 2. Waits for 'ProfilePictureUploaded' or 'ProfilePictureFailed'.
+/// 3. If upload failed, returns error with failure reason.
+/// 4. Sends 'CreateUserAccount' command to the UserAccountEntity.
+/// 5. Waits for 'UserAccountCreated' event. If successful, proceeds; otherwise, ends in error.
+/// 6. Sends 'CreateUserProfile' command to the UserProfileEntity.
+/// 7. Waits for 'UserProfileCreated' event. If successful, proceeds; otherwise, ends in error.
+/// 8. Sends 'SendUserRegistrationEmail' command to the NotificationService.
 Future<FlowResult> clientRegisterUserRequested(
   ClientRegisterUserRequested event,
   ProcessContext context,
@@ -22,15 +25,32 @@ Future<FlowResult> clientRegisterUserRequested(
   final userAccountId = context.senderId;
   final userProfileId = Xid().toString();
 
-  // 1-2. Send 'CreateUserProfile' to UserProfileEntity and wait for 'UserProfileCreated'
+  final result = await context.callServiceDynamic(
+    name: 'UserProfilePictureService',
+    cmd: UploadProfilePicture(userAccountId, event.avatarBase64),
+    fac: [
+      ProfilePictureUploaded.fromJson,
+      ProfilePictureUploadFailed.fromJson,
+    ],
+  );
+
+  if (result is ProfilePictureUploadFailed) {
+    return FlowResult.error(result.reason);
+  }
+
+  result as ProfilePictureUploaded;
+
   await context.callEntity<UserProfileCreated>(
     name: 'UserProfileEntity',
     id: userProfileId,
-    cmd: CreateUserProfile(userAccountId, event.displayName),
+    cmd: CreateUserProfile(
+      userAccountId,
+      event.displayName,
+      result.pictureUrl,
+    ),
     fac: UserProfileCreated.fromJson,
   );
 
-  // 3-4. Send 'CreateUserAccount' to UserAccountEntity and wait for 'UserAccountCreated'
   await context.callEntity<UserAccountCreated>(
     name: 'UserAccountEntity',
     id: userAccountId,
@@ -38,7 +58,6 @@ Future<FlowResult> clientRegisterUserRequested(
     fac: UserAccountCreated.fromJson,
   );
 
-  // 5. Send 'SendUserRegistrationEmail' to NotificationService
   context.sendService(
     name: 'NotificationService',
     cmd: SendUserRegistrationEmail(
@@ -54,7 +73,12 @@ Future<FlowResult> clientRegisterUserRequested(
 /// {@category Client Event}
 @JsonSerializable()
 class ClientRegisterUserRequested extends RemoteEvent {
-  ClientRegisterUserRequested(this.handle, this.displayName, this.email);
+  ClientRegisterUserRequested(
+    this.handle,
+    this.displayName,
+    this.email,
+    this.avatarBase64,
+  );
 
   /// User's unique handle
   String handle;
@@ -64,6 +88,9 @@ class ClientRegisterUserRequested extends RemoteEvent {
 
   /// User's email address
   String email;
+
+  /// User's profile picture in base64 encoding.
+  String avatarBase64;
 
   factory ClientRegisterUserRequested.fromJson(Map<String, dynamic> json) {
     return _$ClientRegisterUserRequestedFromJson(json);

@@ -8,6 +8,7 @@ import 'processes/toggle_comment_like_requested_process.dart';
 import 'processes/toggle_tweet_like_requested_process.dart';
 import 'processes/toggle_user_block_requested_process.dart';
 import 'processes/toggle_user_follow_requested_process.dart';
+import 'processes/upload_profile_picture_requested_process.dart';
 
 class ClientProcess extends Process {
   Future<FlowResult> registerUserRequested(
@@ -66,6 +67,13 @@ class ClientProcess extends Process {
     return clientCreateTweetRequested(event, context);
   }
 
+  Future<FlowResult> uploadProfilePictureRequested(
+    ClientUploadProfilePictureRequested event,
+    ProcessContext context,
+  ) async {
+    return clientUploadProfilePictureRequested(event, context);
+  }
+
   @override
   void initHandlers(ProcessHandlers handlers) {
     handlers.add<ClientRegisterUserRequested>(
@@ -99,6 +107,10 @@ class ClientProcess extends Process {
     handlers.add<ClientCreateTweetRequested>(
       createTweetRequested,
       ClientCreateTweetRequested.fromJson,
+    );
+    handlers.add<ClientUploadProfilePictureRequested>(
+      uploadProfilePictureRequested,
+      ClientUploadProfilePictureRequested.fromJson,
     );
   }
 }

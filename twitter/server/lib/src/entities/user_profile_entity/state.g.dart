@@ -8,8 +8,8 @@ part of 'state.dart';
 
 UserProfileEntityState _$UserProfileEntityStateFromJson(
   Map<String, dynamic> json,
-) => UserProfileEntityState();
+) => UserProfileEntityState._json(json['avatarUrl'] as String);
 
 Map<String, dynamic> _$UserProfileEntityStateToJson(
   UserProfileEntityState instance,
-) => <String, dynamic>{};
+) => <String, dynamic>{'avatarUrl': instance.avatarUrl};
