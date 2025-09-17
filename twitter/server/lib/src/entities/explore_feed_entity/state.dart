@@ -6,7 +6,7 @@ import 'messages.dart';
 
 part 'state.g.dart';
 
-/// State of [CommentEntity].
+/// State of [ExploreFeedEntity].
 ///
 /// {@category Entity State}
 @JsonSerializable(constructor: '_json')

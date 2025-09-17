@@ -6,7 +6,7 @@ import 'messages.dart';
 
 part 'state.g.dart';
 
-/// State of [CommentEntity].
+/// State of [TimelineEntity].
 ///
 /// {@category Entity State}
 @JsonSerializable()
