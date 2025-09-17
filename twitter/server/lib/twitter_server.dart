@@ -8,7 +8,7 @@ export 'src/client/processes/toggle_tweet_like_requested_process.dart';
 
 export 'src/client/processes/retweet_requested_process.dart';
 
-export 'src/client/processes/block_user_requested_process.dart';
+export 'src/client/processes/toggle_user_block_requested_process.dart';
 
 export 'src/entities/user_account_entity/entity.dart';
 
