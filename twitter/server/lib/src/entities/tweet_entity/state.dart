@@ -11,14 +11,18 @@ part 'state.g.dart';
 /// {@category Entity State}
 @JsonSerializable(constructor: '_json')
 class TweetEntityState implements EntityState {
-  TweetEntityState._json(this._retweetedByUsers, this._likedByUsers);
+  TweetEntityState._json(
+    this._likedByUsers,
+    this._retweetedByUsers,
+    this.createdAt,
+  );
 
-  /// List of user IDs who retweeted the tweet
-  List<String> get retweetedByUsers => _retweetedByUsers;
+  TweetEntityState.fromTweetCreated(TweetCreated event)
+      : _likedByUsers = [],
+        _retweetedByUsers = [],
+        createdAt = DateTime.now().toUtc();
 
-  /// List of user IDs who retweeted the tweet
-  @JsonKey(name: 'retweetedByUsers', includeToJson: true, includeFromJson: true)
-  List<String> _retweetedByUsers;
+  final DateTime createdAt;
 
   /// List of user IDs who liked the tweet
   List<String> get likedByUsers => _likedByUsers;
@@ -27,9 +31,31 @@ class TweetEntityState implements EntityState {
   @JsonKey(name: 'likedByUsers', includeToJson: true, includeFromJson: true)
   List<String> _likedByUsers;
 
+  /// List of user IDs who retweeted the tweet
+  List<String> get retweetedByUsers => _retweetedByUsers;
+
+  /// List of user IDs who retweeted the tweet
+  @JsonKey(name: 'retweetedByUsers', includeToJson: true, includeFromJson: true)
+  List<String> _retweetedByUsers;
+
+  void tweetLiked(TweetLiked event) {
+    _likedByUsers.add(event.userId);
+  }
+
+  void tweetUnliked(TweetUnliked event) {
+    _likedByUsers.remove(event.userId);
+  }
+
+  void tweetRetweeted(TweetRetweeted event) {
+    _retweetedByUsers.add(event.userId);
+  }
+
   @override
   void project(RemoteEvent event) {
     return switch (event) {
+      TweetLiked() => tweetLiked(event),
+      TweetUnliked() => tweetUnliked(event),
+      TweetRetweeted() => tweetRetweeted(event),
       _ => null,
     };
   }

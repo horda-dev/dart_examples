@@ -11,8 +11,7 @@ class TweetEntity extends Entity<TweetEntityState> {
     CreateTweet cmd,
     EntityContext context,
   ) async {
-    // TODO: implement CreateTweet handler
-    throw UnimplementedError('CreateTweet handler is not implemented');
+    return TweetCreated(cmd.authorUserId, cmd.text);
   }
 
   /// For command description, see [ToggleTweetLike].
@@ -21,8 +20,11 @@ class TweetEntity extends Entity<TweetEntityState> {
     TweetEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement ToggleTweetLike handler
-    throw UnimplementedError('ToggleTweetLike handler is not implemented');
+    if (state.likedByUsers.contains(cmd.userId)) {
+      return TweetUnliked(cmd.userId);
+    } else {
+      return TweetLiked(cmd.userId);
+    }
   }
 
   /// For command description, see [RetweetTweet].
@@ -31,8 +33,10 @@ class TweetEntity extends Entity<TweetEntityState> {
     TweetEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement RetweetTweet handler
-    throw UnimplementedError('RetweetTweet handler is not implemented');
+    if (state.retweetedByUsers.contains(cmd.userId)) {
+      throw TweetEntityException('Tweet already retweeted by this user.');
+    }
+    return TweetRetweeted(cmd.userId);
   }
 
   /// For command description, see [AddTweetComment].
@@ -41,18 +45,17 @@ class TweetEntity extends Entity<TweetEntityState> {
     TweetEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement AddTweetComment handler
-    throw UnimplementedError('AddTweetComment handler is not implemented');
+    return TweetCommentAdded(cmd.commentId);
   }
 
   @override
   void initHandlers(EntityHandlers<TweetEntityState> handlers) {
-    // TODO: uncomment when TweetEntityState.fromTweetCreated is implemented
-    // handlers.addInit<CreateTweet, TweetCreated>(
-    //   createTweet,
-    //   CreateTweet.fromJson,
-    //   TweetEntityState.fromTweetCreated,
-    // );
+    handlers.addStateFromJson(TweetEntityState.fromJson);
+    handlers.addInit<CreateTweet, TweetCreated>(
+      createTweet,
+      CreateTweet.fromJson,
+      TweetEntityState.fromTweetCreated,
+    );
 
     handlers.add<ToggleTweetLike>(toggleTweetLike, ToggleTweetLike.fromJson);
     handlers.add<RetweetTweet>(retweetTweet, RetweetTweet.fromJson);
@@ -61,4 +64,18 @@ class TweetEntity extends Entity<TweetEntityState> {
 
   @override
   void initMigrations(EntityStateMigrations migrations) {}
+}
+
+/// Exception thrown when tweet operations violate business rules.
+class TweetEntityException implements Exception {
+  /// The error message describing what went wrong.
+  final String message;
+
+  /// Creates a new tweet entity exception with the given [message].
+  TweetEntityException(this.message);
+
+  @override
+  String toString() {
+    return 'TweetEntityException: $message';
+  }
 }

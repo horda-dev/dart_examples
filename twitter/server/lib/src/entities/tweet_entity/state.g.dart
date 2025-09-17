@@ -8,14 +8,16 @@ part of 'state.dart';
 
 TweetEntityState _$TweetEntityStateFromJson(Map<String, dynamic> json) =>
     TweetEntityState._json(
+      (json['likedByUsers'] as List<dynamic>).map((e) => e as String).toList(),
       (json['retweetedByUsers'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      (json['likedByUsers'] as List<dynamic>).map((e) => e as String).toList(),
+      DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$TweetEntityStateToJson(TweetEntityState instance) =>
     <String, dynamic>{
-      'retweetedByUsers': instance._retweetedByUsers,
+      'createdAt': instance.createdAt.toIso8601String(),
       'likedByUsers': instance._likedByUsers,
+      'retweetedByUsers': instance._retweetedByUsers,
     };

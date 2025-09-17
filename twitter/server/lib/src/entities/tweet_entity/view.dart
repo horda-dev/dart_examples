@@ -7,48 +7,104 @@ import 'messages.dart';
 ///
 /// {@category View Group}
 class TweetViewGroup implements EntityViewGroup {
-  TweetViewGroup();
+  TweetViewGroup()
+      : retweetedByUsersView = RefListView<UserAccountEntity>(name: 'retweetedByUsersView'),
+        likedByUsersView = RefListView<UserAccountEntity>(name: 'likedByUsersView'),
+        commentsView = RefListView<CommentEntity>(name: 'commentsView'), // Re-added
+        createdAtView = ValueView<DateTime>(
+          name: 'createdAtView',
+          value: DateTime.fromMicrosecondsSinceEpoch(0),
+        ),
+        retweetCountView = CounterView(name: 'retweetCountView'),
+        likeCountView = CounterView(name: 'likeCountView'),
+        textView = ValueView<String>(
+          name: 'textView',
+          value: '',
+        ),
+        authorUserView = RefView<UserProfileEntity>(name: 'authorUserView', value: null);
+
+  TweetViewGroup.fromInitEvent(TweetCreated event)
+      : retweetedByUsersView = RefListView<UserAccountEntity>(name: 'retweetedByUsersView'),
+        likedByUsersView = RefListView<UserAccountEntity>(name: 'likedByUsersView'),
+        commentsView = RefListView<CommentEntity>(name: 'commentsView'), // Re-added
+        createdAtView = ValueView<DateTime>(
+          name: 'createdAtView',
+          value: DateTime.now().toUtc(),
+        ),
+        retweetCountView = CounterView(name: 'retweetCountView'),
+        likeCountView = CounterView(name: 'likeCountView'),
+        textView = ValueView<String>(
+          name: 'textView',
+          value: event.text,
+        ),
+        authorUserView = RefView<UserProfileEntity>(
+          name: 'authorUserView',
+          value: event.authorUserId,
+        );
 
   /// View for the list of users who retweeted the tweet
-  final RefListView<UserAccountEntity> retweetedByUsersView =
-      RefListView<UserAccountEntity>(name: 'retweetedByUsersView');
+  final RefListView<UserAccountEntity> retweetedByUsersView;
 
   /// View for the list of users who liked the tweet
-  final RefListView<UserAccountEntity> likedByUsersView =
-      RefListView<UserAccountEntity>(name: 'likedByUsersView');
+  final RefListView<UserAccountEntity> likedByUsersView;
 
   /// View for the list of comments
-  final RefListView<CommentEntity> commentsView = RefListView<CommentEntity>(
-    name: 'commentsView',
-  );
+  final RefListView<CommentEntity> commentsView; // Re-added
 
   /// View for the creation date and time
-  final ValueView<DateTime> createdAtView = ValueView<DateTime>(
-    name: 'createdAtView',
-    value: DateTime.fromMicrosecondsSinceEpoch(0),
-  );
+  final ValueView<DateTime> createdAtView;
 
   /// View for the number of retweets
-  final CounterView retweetCountView = CounterView(name: 'retweetCountView');
+  final CounterView retweetCountView;
 
   /// View for the number of likes
-  final CounterView likeCountView = CounterView(name: 'likeCountView');
+  final CounterView likeCountView;
 
   /// View for the tweet text
-  final ValueView<String> textView = ValueView<String>(
-    name: 'textView',
-    value: '',
-  );
+  final ValueView<String> textView;
 
   /// View for the author user's profile
-  final RefView<UserProfileEntity> authorUserView = RefView<UserProfileEntity>(
-    name: 'authorUserView',
-    value: null,
-  );
+  final RefView<UserProfileEntity> authorUserView;
+
+  void tweetLiked(TweetLiked event) {
+    likedByUsersView.addItem(event.userId);
+    likeCountView.increment(1);
+  }
+
+  void tweetUnliked(TweetUnliked event) {
+    likedByUsersView.removeItem(event.userId);
+    likeCountView.decrement(1);
+  }
+
+  void tweetRetweeted(TweetRetweeted event) {
+    retweetedByUsersView.addItem(event.userId);
+    retweetCountView.increment(1);
+  }
+
+  void tweetCommentAdded(TweetCommentAdded event) { // Re-added
+    commentsView.addItem(event.commentId);
+  }
 
   @override
-  void initViews(ViewGroup views) {}
+  void initViews(ViewGroup views) {
+    views
+      ..add(retweetedByUsersView)
+      ..add(likedByUsersView)
+      ..add(commentsView) // Re-added
+      ..add(createdAtView)
+      ..add(retweetCountView)
+      ..add(likeCountView)
+      ..add(textView)
+      ..add(authorUserView);
+  }
 
   @override
-  void initProjectors(EntityViewGroupProjectors projectors) {}
+  void initProjectors(EntityViewGroupProjectors projectors) {
+    projectors
+      ..addInit<TweetCreated>(TweetViewGroup.fromInitEvent)
+      ..add<TweetLiked>(tweetLiked)
+      ..add<TweetUnliked>(tweetUnliked)
+      ..add<TweetRetweeted>(tweetRetweeted) // Corrected typo
+      ..add<TweetCommentAdded>(tweetCommentAdded); // Re-added
+  }
 }
