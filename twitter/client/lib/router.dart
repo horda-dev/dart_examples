@@ -17,6 +17,14 @@ final kRouter = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const HomePage();
       },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'explore',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ExplorePage();
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/signin',
@@ -51,12 +59,6 @@ final kRouter = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         final userId = state.pathParameters['userId']!;
         return ProfilePage(userId: userId);
-      },
-    ),
-    GoRoute(
-      path: '/explore',
-      builder: (BuildContext context, GoRouterState state) {
-        return const ExplorePage();
       },
     ),
     GoRoute(
