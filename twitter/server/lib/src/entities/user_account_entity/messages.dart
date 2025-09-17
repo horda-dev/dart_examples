@@ -6,7 +6,7 @@ part 'messages.g.dart';
 /// {@category Entity Command}
 @JsonSerializable()
 class CreateUserAccount extends RemoteCommand {
-  CreateUserAccount(this.handle, this.email, this.profileId);
+  CreateUserAccount(this.handle, this.email, this.profileId, this.timelineId);
 
   /// User's unique handle
   String handle;
@@ -16,6 +16,9 @@ class CreateUserAccount extends RemoteCommand {
 
   /// ID of the related profile entity
   String profileId;
+
+  /// ID of the related timeline entity
+  String timelineId;
 
   factory CreateUserAccount.fromJson(Map<String, dynamic> json) {
     return _$CreateUserAccountFromJson(json);
@@ -30,7 +33,7 @@ class CreateUserAccount extends RemoteCommand {
 /// {@category Entity Event}
 @JsonSerializable()
 class UserAccountCreated extends RemoteEvent {
-  UserAccountCreated(this.handle, this.email, this.profileId);
+  UserAccountCreated(this.handle, this.email, this.profileId, this.timelineId);
 
   /// User's unique handle
   String handle;
@@ -40,6 +43,9 @@ class UserAccountCreated extends RemoteEvent {
 
   /// ID of the related profile entity
   String profileId;
+
+  /// ID of the related timeline entity
+  String timelineId;
 
   factory UserAccountCreated.fromJson(Map<String, dynamic> json) {
     return _$UserAccountCreatedFromJson(json);

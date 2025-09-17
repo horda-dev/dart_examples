@@ -8,7 +8,7 @@ import 'messages.dart';
 /// {@category View Group}
 class CommentViewGroup implements EntityViewGroup {
   CommentViewGroup()
-      : likedByUsersView = RefListView<UserAccountEntity>(name: 'likedByUsersView'),
+      : likedByUsersView = RefListView<UserAccountEntity>(name: 'commentLikedByUsersView'),
         parentCommentView = RefView<CommentEntity>(
           name: 'parentCommentView',
           value: null,
@@ -18,22 +18,22 @@ class CommentViewGroup implements EntityViewGroup {
           value: null,
         ),
         repliesView = RefListView<CommentEntity>(name: 'repliesView'),
-        likeCountView = CounterView(name: 'likeCountView'),
+        likeCountView = CounterView(name: 'commentLikeCountView'),
         createdAtView = ValueView<DateTime>(
-          name: 'createdAtView',
+          name: 'commentCreatedAtView',
           value: DateTime.fromMicrosecondsSinceEpoch(0),
         ),
         textView = ValueView<String>(
-          name: 'textView',
+          name: 'commentTextView',
           value: '',
         ),
         authorUserView = RefView<UserProfileEntity>(
-          name: 'authorUserView',
+          name: 'commentAuthorUserView',
           value: null,
         );
 
   CommentViewGroup.fromInitEvent(CommentCreated event)
-      : likedByUsersView = RefListView<UserAccountEntity>(name: 'likedByUsersView'),
+      : likedByUsersView = RefListView<UserAccountEntity>(name: 'commentLikedByUsersView'),
         parentCommentView = RefView<CommentEntity>(
           name: 'parentCommentView',
           value: event.parentCommentId,
@@ -43,17 +43,17 @@ class CommentViewGroup implements EntityViewGroup {
           value: event.parentTweetId,
         ),
         repliesView = RefListView<CommentEntity>(name: 'repliesView'),
-        likeCountView = CounterView(name: 'likeCountView'),
+        likeCountView = CounterView(name: 'commentLikeCountView'),
         createdAtView = ValueView<DateTime>(
-          name: 'createdAtView',
+          name: 'commentCreatedAtView',
           value: DateTime.now().toUtc(), // Use UTC time
         ),
         textView = ValueView<String>(
-          name: 'textView',
+          name: 'commentTextView',
           value: event.text,
         ),
         authorUserView = RefView<UserProfileEntity>(
-          name: 'authorUserView',
+          name: 'commentAuthorUserView',
           value: event.authorUserId,
         );
 

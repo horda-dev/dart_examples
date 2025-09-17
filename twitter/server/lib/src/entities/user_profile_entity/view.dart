@@ -13,7 +13,7 @@ class UserProfileViewGroup implements EntityViewGroup {
         value: null,
       ),
       updatedAtView = ValueView<DateTime>(
-        name: 'updatedAtView',
+        name: 'userProfileUpdatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       ),
       bioView = ValueView<String>(name: 'bioView', value: ''),
@@ -26,7 +26,7 @@ class UserProfileViewGroup implements EntityViewGroup {
         value: event.accountId,
       ),
       updatedAtView = ValueView<DateTime>(
-        name: 'updatedAtView',
+        name: 'userProfileUpdatedAtView',
         value: DateTime.now().toUtc(),
       ),
       bioView = ValueView<String>(name: 'bioView', value: ''),

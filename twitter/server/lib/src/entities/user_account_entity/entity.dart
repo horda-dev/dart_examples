@@ -11,7 +11,12 @@ class UserAccountEntity extends Entity<UserAccountEntityState> {
     CreateUserAccount cmd,
     EntityContext context,
   ) async {
-    return UserAccountCreated(cmd.handle, cmd.email, cmd.profileId);
+    return UserAccountCreated(
+      cmd.handle,
+      cmd.email,
+      cmd.profileId,
+      cmd.timelineId,
+    );
   }
 
   /// For command description, see [ToggleFollower].

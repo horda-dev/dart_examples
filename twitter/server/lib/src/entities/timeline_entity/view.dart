@@ -8,26 +8,26 @@ import 'messages.dart';
 /// {@category View Group}
 class TimelineViewGroup implements EntityViewGroup {
   TimelineViewGroup()
-      : updatedAtView = ValueView<DateTime>(
-          name: 'updatedAtView',
-          value: DateTime.fromMicrosecondsSinceEpoch(0),
-        ),
-        tweetsView = RefListView<TweetEntity>(name: 'tweetsView'),
-        ownerUserView = RefView<UserProfileEntity>(
-          name: 'ownerUserView',
-          value: null,
-        );
+    : updatedAtView = ValueView<DateTime>(
+        name: 'timelineUpdatedAtView',
+        value: DateTime.fromMicrosecondsSinceEpoch(0),
+      ),
+      tweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
+      ownerUserView = RefView<UserProfileEntity>(
+        name: 'ownerUserView',
+        value: null,
+      );
 
   TimelineViewGroup.fromInitEvent(TimelineCreated event)
-      : updatedAtView = ValueView<DateTime>(
-          name: 'updatedAtView',
-          value: DateTime.now().toUtc(),
-        ),
-        tweetsView = RefListView<TweetEntity>(name: 'tweetsView'),
-        ownerUserView = RefView<UserProfileEntity>(
-          name: 'ownerUserView',
-          value: event.ownerUserId,
-        );
+    : updatedAtView = ValueView<DateTime>(
+        name: 'timelineUpdatedAtView',
+        value: DateTime.now().toUtc(),
+      ),
+      tweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
+      ownerUserView = RefView<UserProfileEntity>(
+        name: 'ownerUserView',
+        value: event.ownerUserId,
+      );
 
   /// View for the last update date and time
   final ValueView<DateTime> updatedAtView;

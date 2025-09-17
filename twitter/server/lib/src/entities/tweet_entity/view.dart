@@ -9,36 +9,36 @@ import 'messages.dart';
 class TweetViewGroup implements EntityViewGroup {
   TweetViewGroup()
       : retweetedByUsersView = RefListView<UserAccountEntity>(name: 'retweetedByUsersView'),
-        likedByUsersView = RefListView<UserAccountEntity>(name: 'likedByUsersView'),
+        likedByUsersView = RefListView<UserAccountEntity>(name: 'tweetLikedByUsersView'),
         commentsView = RefListView<CommentEntity>(name: 'commentsView'), // Re-added
         createdAtView = ValueView<DateTime>(
-          name: 'createdAtView',
+          name: 'tweetCreatedAtView',
           value: DateTime.fromMicrosecondsSinceEpoch(0),
         ),
         retweetCountView = CounterView(name: 'retweetCountView'),
-        likeCountView = CounterView(name: 'likeCountView'),
+        likeCountView = CounterView(name: 'tweetLikeCountView'),
         textView = ValueView<String>(
-          name: 'textView',
+          name: 'tweetTextView',
           value: '',
         ),
-        authorUserView = RefView<UserProfileEntity>(name: 'authorUserView', value: null);
+        authorUserView = RefView<UserProfileEntity>(name: 'tweetAuthorUserView', value: null);
 
   TweetViewGroup.fromInitEvent(TweetCreated event)
       : retweetedByUsersView = RefListView<UserAccountEntity>(name: 'retweetedByUsersView'),
-        likedByUsersView = RefListView<UserAccountEntity>(name: 'likedByUsersView'),
+        likedByUsersView = RefListView<UserAccountEntity>(name: 'tweetLikedByUsersView'),
         commentsView = RefListView<CommentEntity>(name: 'commentsView'), // Re-added
         createdAtView = ValueView<DateTime>(
-          name: 'createdAtView',
+          name: 'tweetCreatedAtView',
           value: DateTime.now().toUtc(),
         ),
         retweetCountView = CounterView(name: 'retweetCountView'),
-        likeCountView = CounterView(name: 'likeCountView'),
+        likeCountView = CounterView(name: 'tweetLikeCountView'),
         textView = ValueView<String>(
-          name: 'textView',
+          name: 'tweetTextView',
           value: event.text,
         ),
         authorUserView = RefView<UserProfileEntity>(
-          name: 'authorUserView',
+          name: 'tweetAuthorUserView',
           value: event.authorUserId,
         );
 

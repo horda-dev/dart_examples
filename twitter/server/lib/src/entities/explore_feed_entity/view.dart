@@ -8,16 +8,16 @@ import 'messages.dart';
 /// {@category View Group}
 class ExploreFeedViewGroup implements EntityViewGroup {
   ExploreFeedViewGroup()
-      : tweetsView = RefListView<TweetEntity>(name: 'tweetsView'),
+      : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
         updatedAtView = ValueView<DateTime>(
-          name: 'updatedAtView',
+          name: 'exploreFeedUpdatedAtView',
           value: DateTime.fromMicrosecondsSinceEpoch(0),
         );
 
   ExploreFeedViewGroup.fromInitEvent(ExploreFeedCreated event)
-      : tweetsView = RefListView<TweetEntity>(name: 'tweetsView'),
+      : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
         updatedAtView = ValueView<DateTime>(
-          name: 'updatedAtView',
+          name: 'exploreFeedUpdatedAtView',
           value: DateTime.now().toUtc(),
         );
 

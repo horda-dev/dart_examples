@@ -25,8 +25,8 @@ class UserAccountViewGroup implements EntityViewGroup {
       timelineView = RefView<TimelineEntity>(name: 'timelineView', value: null),
       blockedUsersView = RefListView<UserAccountEntity>(
         name: 'blockedUsersView',
-      ), // Added
-      blockedCountView = CounterView(name: 'blockedCountView'); // Added
+      ),
+      blockedCountView = CounterView(name: 'blockedCountView');
 
   UserAccountViewGroup.fromUserAccountCreated(UserAccountCreated event)
     : followingView = RefListView<UserAccountEntity>(name: 'followingView'),
@@ -45,12 +45,12 @@ class UserAccountViewGroup implements EntityViewGroup {
       handleView = ValueView<String>(name: 'handleView', value: event.handle),
       timelineView = RefView<TimelineEntity>(
         name: 'timelineView',
-        value: null,
-      ), // Assuming timeline ID is user ID
+        value: event.timelineId,
+      ),
       blockedUsersView = RefListView<UserAccountEntity>(
         name: 'blockedUsersView',
-      ), // Added
-      blockedCountView = CounterView(name: 'blockedCountView'); // Added
+      ),
+      blockedCountView = CounterView(name: 'blockedCountView');
 
   /// View for the list of users followed
   final RefListView<UserAccountEntity> followingView;

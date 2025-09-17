@@ -11,6 +11,7 @@ CreateUserAccount _$CreateUserAccountFromJson(Map<String, dynamic> json) =>
       json['handle'] as String,
       json['email'] as String,
       json['profileId'] as String,
+      json['timelineId'] as String,
     );
 
 Map<String, dynamic> _$CreateUserAccountToJson(CreateUserAccount instance) =>
@@ -18,6 +19,7 @@ Map<String, dynamic> _$CreateUserAccountToJson(CreateUserAccount instance) =>
       'handle': instance.handle,
       'email': instance.email,
       'profileId': instance.profileId,
+      'timelineId': instance.timelineId,
     };
 
 UserAccountCreated _$UserAccountCreatedFromJson(Map<String, dynamic> json) =>
@@ -25,6 +27,7 @@ UserAccountCreated _$UserAccountCreatedFromJson(Map<String, dynamic> json) =>
       json['handle'] as String,
       json['email'] as String,
       json['profileId'] as String,
+      json['timelineId'] as String,
     );
 
 Map<String, dynamic> _$UserAccountCreatedToJson(UserAccountCreated instance) =>
@@ -32,6 +35,7 @@ Map<String, dynamic> _$UserAccountCreatedToJson(UserAccountCreated instance) =>
       'handle': instance.handle,
       'email': instance.email,
       'profileId': instance.profileId,
+      'timelineId': instance.timelineId,
     };
 
 ToggleFollower _$ToggleFollowerFromJson(Map<String, dynamic> json) =>
