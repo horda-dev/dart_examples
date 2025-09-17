@@ -17,7 +17,7 @@ final kRouter = GoRouter(
         return const HomePage();
       },
     ),
-    
+
     GoRoute(
       path: '/signin',
       builder: (BuildContext context, GoRouterState state) {

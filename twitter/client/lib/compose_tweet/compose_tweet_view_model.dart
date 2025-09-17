@@ -13,8 +13,8 @@ class ComposeTweetViewModel {
   Future<void> sendTweet({required String text}) async {
     // This is a placeholder, actual implementation needs current user ID.
     final authorUserId = _hordaSystem.authState.value is AuthStateLoggedIn
-            ? (_hordaSystem.authState.value as AuthStateLoggedIn).userId
-            : 'dummy-user-id';
+        ? (_hordaSystem.authState.value as AuthStateLoggedIn).userId
+        : 'dummy-user-id';
 
     final result = await _hordaSystem.dispatchEvent(
       ClientCreateTweetRequested(

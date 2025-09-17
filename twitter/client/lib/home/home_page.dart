@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
 
 import '../queries.dart';
-import 'home_models.dart';
+import '../shared/tweet_view_model.dart';
 import 'home_view_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,8 +35,8 @@ class _HomePageState extends State<HomePage> {
         error: const Center(child: Text('Failed to load user account')),
         child: Builder(
           builder: (context) {
-            final viewModel = HomeViewModel(context);
-            return _LoadedView(viewModel: viewModel);
+            final model = HomeViewModel(context);
+            return _LoadedView(model: model);
           },
         ),
       ),
@@ -51,13 +51,13 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _LoadedView extends StatelessWidget {
-  final HomeViewModel viewModel;
+  final HomeViewModel model;
 
-  const _LoadedView({required this.viewModel});
+  const _LoadedView({required this.model});
 
   @override
   Widget build(BuildContext context) {
-    final tweetsLength = viewModel.tweetsLength;
+    final tweetsLength = model.tweetsLength;
 
     if (tweetsLength == 0) {
       return const Center(
@@ -70,15 +70,15 @@ class _LoadedView extends StatelessWidget {
     return ListView.builder(
       itemCount: tweetsLength,
       itemBuilder: (context, index) {
-        final tweetItem = viewModel.getTweet(index);
-        return TweetCard(tweet: tweetItem);
+        final tweet = model.getTweet(index);
+        return TweetCard(tweet: tweet);
       },
     );
   }
 }
 
 class TweetCard extends StatelessWidget {
-  final TweetItem tweet;
+  final TweetViewModel tweet;
 
   const TweetCard({super.key, required this.tweet});
 

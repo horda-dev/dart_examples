@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_client/auth.dart';
-import 'package:twitter_client/firebase_options.dart';
-import 'package:twitter_client/logger.dart';
-import 'package:twitter_client/router.dart';
 
+import 'auth.dart';
 import 'config.dart';
+import 'firebase_options.dart';
+import 'logger.dart';
+import 'router.dart';
 
 void main() async {
   AppLogger.init();

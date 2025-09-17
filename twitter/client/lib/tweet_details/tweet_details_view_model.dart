@@ -3,6 +3,7 @@ import 'package:horda_client/horda_client.dart';
 import 'package:twitter_server/twitter_server.dart';
 
 import '../queries.dart';
+import '../shared/author_user_view_model.dart';
 import 'tweet_details_exception.dart';
 
 class TweetDetailsViewModel {
@@ -83,24 +84,6 @@ class TweetDetailsViewModel {
     if (result.isError) {
       throw TweetDetailsException(result.value ?? 'Failed to add comment.');
     }
-  }
-}
-
-class AuthorUserViewModel {
-  final EntityQueryDependencyBuilder<BasicUserInfoQuery> authorQuery;
-
-  AuthorUserViewModel(this.authorQuery);
-
-  String get id {
-    return authorQuery.id();
-  }
-
-  String get handle {
-    return authorQuery.value((q) => q.handle);
-  }
-
-  String get displayName {
-    return authorQuery.ref((q) => q.profile).value((q) => q.displayName);
   }
 }
 

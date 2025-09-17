@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:horda_client/horda_client.dart';
 import 'package:logging/logging.dart';
-import 'package:twitter_client/config.dart';
+
+import 'config.dart';
 
 final kAuthService = FirebaseAuthService();
 
