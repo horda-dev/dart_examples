@@ -7,28 +7,54 @@ import 'messages.dart';
 ///
 /// {@category View Group}
 class TimelineViewGroup implements EntityViewGroup {
-  TimelineViewGroup();
+  TimelineViewGroup()
+      : updatedAtView = ValueView<DateTime>(
+          name: 'updatedAtView',
+          value: DateTime.fromMicrosecondsSinceEpoch(0),
+        ),
+        tweetsView = RefListView<TweetEntity>(name: 'tweetsView'),
+        ownerUserView = RefView<UserProfileEntity>(
+          name: 'ownerUserView',
+          value: null,
+        );
+
+  TimelineViewGroup.fromInitEvent(TimelineCreated event)
+      : updatedAtView = ValueView<DateTime>(
+          name: 'updatedAtView',
+          value: DateTime.now().toUtc(),
+        ),
+        tweetsView = RefListView<TweetEntity>(name: 'tweetsView'),
+        ownerUserView = RefView<UserProfileEntity>(
+          name: 'ownerUserView',
+          value: event.ownerUserId,
+        );
 
   /// View for the last update date and time
-  final ValueView<DateTime> updatedAtView = ValueView<DateTime>(
-    name: 'updatedAtView',
-    value: DateTime.fromMicrosecondsSinceEpoch(0),
-  );
+  final ValueView<DateTime> updatedAtView;
 
   /// View for the list of tweets in the timeline
-  final RefListView<TweetEntity> tweetsView = RefListView<TweetEntity>(
-    name: 'tweetsView',
-  );
+  final RefListView<TweetEntity> tweetsView;
 
   /// View that references the owner user profile entity
-  final RefView<UserProfileEntity> ownerUserView = RefView<UserProfileEntity>(
-    name: 'ownerUserView',
-    value: null,
-  );
+  final RefView<UserProfileEntity> ownerUserView;
+
+  void tweetAddedToTimeline(TweetAddedToTimeline event) {
+    tweetsView.addItem(event.tweetId);
+    updatedAtView.value = DateTime.now().toUtc();
+  }
 
   @override
-  void initViews(ViewGroup views) {}
+  void initViews(ViewGroup views) {
+    views
+      ..add(updatedAtView)
+      ..add(tweetsView)
+      ..add(ownerUserView);
+  }
 
   @override
-  void initProjectors(EntityViewGroupProjectors projectors) {}
+  void initProjectors(EntityViewGroupProjectors projectors) {
+    projectors
+      ..addInit<TimelineCreated>(TimelineViewGroup.fromInitEvent)
+      ..add<TweetAddedToTimeline>(tweetAddedToTimeline);
+  }
 }

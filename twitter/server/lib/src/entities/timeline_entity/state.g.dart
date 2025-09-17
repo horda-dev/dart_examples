@@ -7,7 +7,7 @@ part of 'state.dart';
 // **************************************************************************
 
 TimelineEntityState _$TimelineEntityStateFromJson(Map<String, dynamic> json) =>
-    TimelineEntityState._json();
+    TimelineEntityState();
 
 Map<String, dynamic> _$TimelineEntityStateToJson(
   TimelineEntityState instance,

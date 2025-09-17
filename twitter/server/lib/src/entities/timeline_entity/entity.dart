@@ -11,8 +11,7 @@ class TimelineEntity extends Entity<TimelineEntityState> {
     CreateTimeline cmd,
     EntityContext context,
   ) async {
-    // TODO: implement CreateTimeline handler
-    throw UnimplementedError('CreateTimeline handler is not implemented');
+    return TimelineCreated(cmd.ownerUserId);
   }
 
   /// For command description, see [AddTweetToTimeline].
@@ -21,18 +20,17 @@ class TimelineEntity extends Entity<TimelineEntityState> {
     TimelineEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement AddTweetToTimeline handler
-    throw UnimplementedError('AddTweetToTimeline handler is not implemented');
+    return TweetAddedToTimeline(cmd.tweetId);
   }
 
   @override
   void initHandlers(EntityHandlers<TimelineEntityState> handlers) {
-    // TODO: uncomment when TimelineEntityState.fromTimelineCreated is implemented
-    // handlers.addInit<CreateTimeline, TimelineCreated>(
-    //   createTimeline,
-    //   CreateTimeline.fromJson,
-    //   TimelineEntityState.fromTimelineCreated,
-    // );
+    handlers.addStateFromJson(TimelineEntityState.fromJson);
+    handlers.addInit<CreateTimeline, TimelineCreated>(
+      createTimeline,
+      CreateTimeline.fromJson,
+      (event) => TimelineEntityState(),
+    );
 
     handlers.add<AddTweetToTimeline>(
       addTweetToTimeline,

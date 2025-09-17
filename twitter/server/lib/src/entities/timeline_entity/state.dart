@@ -9,9 +9,9 @@ part 'state.g.dart';
 /// State of [CommentEntity].
 ///
 /// {@category Entity State}
-@JsonSerializable(constructor: '_json')
+@JsonSerializable()
 class TimelineEntityState implements EntityState {
-  TimelineEntityState._json();
+  TimelineEntityState();
 
   @override
   void project(RemoteEvent event) {
