@@ -3,6 +3,12 @@ import 'package:horda_server/horda_server.dart';
 import 'messages.dart';
 import 'state.dart';
 
+/// The global entity ID used for the explore feed which all users can see.
+///
+/// This constant defines the single instance ID for the [ExploreFeedEntity]
+/// that allows users discover new tweets, even when the user doesn't follow anybody yet.
+const kExploreFeedEntityId = 'globalExploreFeedEntityId';
+
 /// Represents an explore feed with trending tweets.
 ///
 /// {@category Entity}
