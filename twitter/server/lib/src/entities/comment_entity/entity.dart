@@ -11,8 +11,12 @@ class CommentEntity extends Entity<CommentEntityState> {
     CreateComment cmd,
     EntityContext context,
   ) async {
-    // TODO: implement CreateComment handler
-    throw UnimplementedError('CreateComment handler is not implemented');
+    return CommentCreated(
+      cmd.authorUserId,
+      cmd.text,
+      cmd.parentTweetId,
+      cmd.parentCommentId,
+    );
   }
 
   /// For command description, see [ToggleCommentLike].
@@ -21,8 +25,11 @@ class CommentEntity extends Entity<CommentEntityState> {
     CommentEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement ToggleCommentLike handler
-    throw UnimplementedError('ToggleCommentLike handler is not implemented');
+    if (state.likedByUsers.contains(cmd.userId)) {
+      return CommentUnliked(cmd.userId);
+    } else {
+      return CommentLiked(cmd.userId);
+    }
   }
 
   /// For command description, see [AddCommentReply].
@@ -31,18 +38,17 @@ class CommentEntity extends Entity<CommentEntityState> {
     CommentEntityState state,
     EntityContext context,
   ) async {
-    // TODO: implement AddCommentReply handler
-    throw UnimplementedError('AddCommentReply handler is not implemented');
+    return CommentReplyAdded(cmd.replyCommentId);
   }
 
   @override
   void initHandlers(EntityHandlers<CommentEntityState> handlers) {
-    // TODO: uncomment when CommentEntityState.fromCommentCreated is implemented
-    // handlers.addInit<CreateComment, CommentCreated>(
-    //   createComment,
-    //   CreateComment.fromJson,
-    //   CommentEntityState.fromCommentCreated,
-    // );
+    handlers.addStateFromJson(CommentEntityState.fromJson);
+    handlers.addInit<CreateComment, CommentCreated>(
+      createComment,
+      CreateComment.fromJson,
+      CommentEntityState.fromCommentCreated,
+    );
 
     handlers.add<ToggleCommentLike>(
       toggleCommentLike,

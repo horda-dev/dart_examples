@@ -11,7 +11,7 @@ CreateComment _$CreateCommentFromJson(Map<String, dynamic> json) =>
       json['authorUserId'] as String,
       json['text'] as String,
       json['parentTweetId'] as String,
-      json['parentCommentId'] as String,
+      json['parentCommentId'] as String?,
     );
 
 Map<String, dynamic> _$CreateCommentToJson(CreateComment instance) =>
@@ -27,7 +27,7 @@ CommentCreated _$CommentCreatedFromJson(Map<String, dynamic> json) =>
       json['authorUserId'] as String,
       json['text'] as String,
       json['parentTweetId'] as String,
-      json['parentCommentId'] as String,
+      json['parentCommentId'] as String?,
     );
 
 Map<String, dynamic> _$CommentCreatedToJson(CommentCreated instance) =>

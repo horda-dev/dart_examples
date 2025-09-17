@@ -25,7 +25,7 @@ class CreateComment extends RemoteCommand {
   String parentTweetId;
 
   /// ID of the parent comment
-  String parentCommentId;
+  String? parentCommentId;
 
   factory CreateComment.fromJson(Map<String, dynamic> json) {
     return _$CreateCommentFromJson(json);
@@ -59,7 +59,7 @@ class CommentCreated extends RemoteEvent {
   String parentTweetId;
 
   /// ID of the parent comment
-  String parentCommentId;
+  String? parentCommentId;
 
   factory CommentCreated.fromJson(Map<String, dynamic> json) {
     return _$CommentCreatedFromJson(json);
