@@ -8,22 +8,31 @@ import 'messages.dart';
 /// {@category View Group}
 class UserProfileViewGroup implements EntityViewGroup {
   UserProfileViewGroup()
-      : accountView = RefView<UserAccountEntity>(name: 'accountView', value: null),
-        updatedAtView = ValueView<DateTime>(
-          name: 'updatedAtView',
-          value: DateTime.fromMicrosecondsSinceEpoch(0),
-        ),
-        bioView = ValueView<String>(name: 'bioView', value: ''),
-        displayNameView = ValueView<String>(name: 'displayNameView', value: '');
+    : accountView = RefView<UserAccountEntity>(
+        name: 'accountView',
+        value: null,
+      ),
+      updatedAtView = ValueView<DateTime>(
+        name: 'updatedAtView',
+        value: DateTime.fromMicrosecondsSinceEpoch(0),
+      ),
+      bioView = ValueView<String>(name: 'bioView', value: ''),
+      displayNameView = ValueView<String>(name: 'displayNameView', value: '');
 
-  UserProfileViewGroup.fromInitEvent(UserProfileCreated event)
-      : accountView = RefView<UserAccountEntity>(name: 'accountView', value: null), // Assuming account ID is user ID
-        updatedAtView = ValueView<DateTime>(
-          name: 'updatedAtView',
-          value: DateTime.now().toUtc(),
-        ),
-        bioView = ValueView<String>(name: 'bioView', value: ''),
-        displayNameView = ValueView<String>(name: 'displayNameView', value: event.displayName);
+  UserProfileViewGroup.fromUserProfileCreated(UserProfileCreated event)
+    : accountView = RefView<UserAccountEntity>(
+        name: 'accountView',
+        value: event.accountId,
+      ),
+      updatedAtView = ValueView<DateTime>(
+        name: 'updatedAtView',
+        value: DateTime.now().toUtc(),
+      ),
+      bioView = ValueView<String>(name: 'bioView', value: ''),
+      displayNameView = ValueView<String>(
+        name: 'displayNameView',
+        value: event.displayName,
+      );
 
   /// View that references the associated user account entity
   final RefView<UserAccountEntity> accountView;
@@ -48,7 +57,8 @@ class UserProfileViewGroup implements EntityViewGroup {
 
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
-    projectors
-      ..addInit<UserProfileCreated>(UserProfileViewGroup.fromInitEvent);
+    projectors.addInit<UserProfileCreated>(
+      UserProfileViewGroup.fromUserProfileCreated,
+    );
   }
 }

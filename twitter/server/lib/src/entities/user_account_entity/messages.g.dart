@@ -6,26 +6,28 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateUser _$CreateUserFromJson(Map<String, dynamic> json) => CreateUser(
-  json['handle'] as String,
-  json['email'] as String,
-  json['profileId'] as String,
-);
+CreateUserAccount _$CreateUserAccountFromJson(Map<String, dynamic> json) =>
+    CreateUserAccount(
+      json['handle'] as String,
+      json['email'] as String,
+      json['profileId'] as String,
+    );
 
-Map<String, dynamic> _$CreateUserToJson(CreateUser instance) =>
+Map<String, dynamic> _$CreateUserAccountToJson(CreateUserAccount instance) =>
     <String, dynamic>{
       'handle': instance.handle,
       'email': instance.email,
       'profileId': instance.profileId,
     };
 
-UserCreated _$UserCreatedFromJson(Map<String, dynamic> json) => UserCreated(
-  json['handle'] as String,
-  json['email'] as String,
-  json['profileId'] as String,
-);
+UserAccountCreated _$UserAccountCreatedFromJson(Map<String, dynamic> json) =>
+    UserAccountCreated(
+      json['handle'] as String,
+      json['email'] as String,
+      json['profileId'] as String,
+    );
 
-Map<String, dynamic> _$UserCreatedToJson(UserCreated instance) =>
+Map<String, dynamic> _$UserAccountCreatedToJson(UserAccountCreated instance) =>
     <String, dynamic>{
       'handle': instance.handle,
       'email': instance.email,
@@ -66,4 +68,22 @@ FollowingRemoved _$FollowingRemovedFromJson(Map<String, dynamic> json) =>
     FollowingRemoved(json['userId'] as String);
 
 Map<String, dynamic> _$FollowingRemovedToJson(FollowingRemoved instance) =>
+    <String, dynamic>{'userId': instance.userId};
+
+ToggleUserBlock _$ToggleUserBlockFromJson(Map<String, dynamic> json) =>
+    ToggleUserBlock(json['userId'] as String);
+
+Map<String, dynamic> _$ToggleUserBlockToJson(ToggleUserBlock instance) =>
+    <String, dynamic>{'userId': instance.userId};
+
+UserBlocked _$UserBlockedFromJson(Map<String, dynamic> json) =>
+    UserBlocked(json['userId'] as String);
+
+Map<String, dynamic> _$UserBlockedToJson(UserBlocked instance) =>
+    <String, dynamic>{'userId': instance.userId};
+
+UserUnblocked _$UserUnblockedFromJson(Map<String, dynamic> json) =>
+    UserUnblocked(json['userId'] as String);
+
+Map<String, dynamic> _$UserUnblockedToJson(UserUnblocked instance) =>
     <String, dynamic>{'userId': instance.userId};

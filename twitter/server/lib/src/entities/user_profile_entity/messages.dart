@@ -8,7 +8,10 @@ part 'messages.g.dart';
 /// {@category Entity Command}
 @JsonSerializable()
 class CreateUserProfile extends RemoteCommand {
-  CreateUserProfile(this.displayName);
+  CreateUserProfile(this.accountId, this.displayName);
+
+  /// Account ID to which the profile is tied to
+  String accountId;
 
   /// User's display name
   String displayName;
@@ -28,7 +31,10 @@ class CreateUserProfile extends RemoteCommand {
 /// {@category Entity Event}
 @JsonSerializable()
 class UserProfileCreated extends RemoteEvent {
-  UserProfileCreated(this.displayName);
+  UserProfileCreated(this.accountId, this.displayName);
+
+  /// Account ID to which the profile is tied to
+  String accountId;
 
   /// User's display name
   String displayName;

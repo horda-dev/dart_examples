@@ -7,13 +7,25 @@ part of 'messages.dart';
 // **************************************************************************
 
 CreateUserProfile _$CreateUserProfileFromJson(Map<String, dynamic> json) =>
-    CreateUserProfile(json['displayName'] as String);
+    CreateUserProfile(
+      json['accountId'] as String,
+      json['displayName'] as String,
+    );
 
 Map<String, dynamic> _$CreateUserProfileToJson(CreateUserProfile instance) =>
-    <String, dynamic>{'displayName': instance.displayName};
+    <String, dynamic>{
+      'accountId': instance.accountId,
+      'displayName': instance.displayName,
+    };
 
 UserProfileCreated _$UserProfileCreatedFromJson(Map<String, dynamic> json) =>
-    UserProfileCreated(json['displayName'] as String);
+    UserProfileCreated(
+      json['accountId'] as String,
+      json['displayName'] as String,
+    );
 
 Map<String, dynamic> _$UserProfileCreatedToJson(UserProfileCreated instance) =>
-    <String, dynamic>{'displayName': instance.displayName};
+    <String, dynamic>{
+      'accountId': instance.accountId,
+      'displayName': instance.displayName,
+    };

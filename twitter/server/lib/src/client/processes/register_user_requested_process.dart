@@ -1,5 +1,7 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:twitter_server/twitter_server.dart';
+import 'package:xid/xid.dart'; // Import twitter_server.dart
 
 part 'register_user_requested_process.g.dart';
 
@@ -8,47 +10,45 @@ part 'register_user_requested_process.g.dart';
 /// Handles the user registration business process.
 ///
 /// Steps:
-/// 1. Sends 'CreateUser' command to the UserAccountEntity.
-/// 2. Waits for 'UserCreated' event. If successful, proceeds; otherwise, ends in error.
+/// 1. Sends 'CreateUserAccount' command to the UserAccountEntity.
+/// 2. Waits for 'UserAccountCreated' event. If successful, proceeds; otherwise, ends in error.
 /// 3. Sends 'CreateUserProfile' command to the UserProfileEntity.
 /// 4. Waits for 'UserProfileCreated' event. If successful, proceeds; otherwise, ends in error.
 /// 5. Sends 'SendUserRegistrationEmail' command to the NotificationService.
-/// 6. Waits for 'UserRegistrationEmailSent' event. If successful, process completes.
 Future<FlowResult> clientRegisterUserRequested(
   ClientRegisterUserRequested event,
   ProcessContext context,
 ) async {
-  /*
-  // 1. Send 'CreateUser' to UserAccountEntity and wait for 'UserCreated'
-  final userCreated = await context.callActor(
-    name: 'UserAccountEntity',
-    id: event.userAccountId,
-    cmd: CreateUser(),
-    fac: UserCreated.fromJson,
-  );
-  // 2. (If failure, return error - only success events are handled)
+  final userAccountId = context.senderId;
+  final userProfileId = Xid().toString();
 
-  // 3. Send 'CreateUserProfile' to UserProfileEntity and wait for 'UserProfileCreated'
-  final userProfileCreated = await context.callActor(
+  // 1-2. Send 'CreateUserProfile' to UserProfileEntity and wait for 'UserProfileCreated'
+  await context.callEntity<UserProfileCreated>(
     name: 'UserProfileEntity',
-    id: event.userProfileId,
-    cmd: CreateUserProfile(),
+    id: userProfileId,
+    cmd: CreateUserProfile(userAccountId, event.displayName),
     fac: UserProfileCreated.fromJson,
   );
-  // 4. (If failure, return error - only success events are handled)
 
-  // 5. Send 'SendUserRegistrationEmail' to NotificationService and wait for 'UserRegistrationEmailSent'
-  final registrationEmailSent = await context.callService(
-    name: 'NotificationService',
-    cmd: SendUserRegistrationEmail(),
-    fac: UserRegistrationEmailSent.fromJson,
+  // 3-4. Send 'CreateUserAccount' to UserAccountEntity and wait for 'UserAccountCreated'
+  await context.callEntity<UserAccountCreated>(
+    name: 'UserAccountEntity',
+    id: userAccountId,
+    cmd: CreateUserAccount(event.handle, event.email, userProfileId),
+    fac: UserAccountCreated.fromJson,
   );
-  // 6. (If failure, return error - only success events are handled)
+
+  // 5. Send 'SendUserRegistrationEmail' to NotificationService
+  context.sendService(
+    name: 'NotificationService',
+    cmd: SendUserRegistrationEmail(
+      userAccountId,
+      event.email,
+      event.displayName,
+    ),
+  );
 
   return FlowResult.ok();
-  */
-  // TODO: Implement RegisterUserRequested
-  return FlowResult.error("Unimplemented");
 }
 
 /// {@category Client Event}

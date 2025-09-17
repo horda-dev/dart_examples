@@ -5,8 +5,8 @@ part 'messages.g.dart';
 
 /// {@category Entity Command}
 @JsonSerializable()
-class CreateUser extends RemoteCommand {
-  CreateUser(this.handle, this.email, this.profileId);
+class CreateUserAccount extends RemoteCommand {
+  CreateUserAccount(this.handle, this.email, this.profileId);
 
   /// User's unique handle
   String handle;
@@ -17,20 +17,20 @@ class CreateUser extends RemoteCommand {
   /// ID of the related profile entity
   String profileId;
 
-  factory CreateUser.fromJson(Map<String, dynamic> json) {
-    return _$CreateUserFromJson(json);
+  factory CreateUserAccount.fromJson(Map<String, dynamic> json) {
+    return _$CreateUserAccountFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$CreateUserToJson(this);
+    return _$CreateUserAccountToJson(this);
   }
 }
 
 /// {@category Entity Event}
 @JsonSerializable()
-class UserCreated extends RemoteEvent {
-  UserCreated(this.handle, this.email, this.profileId);
+class UserAccountCreated extends RemoteEvent {
+  UserAccountCreated(this.handle, this.email, this.profileId);
 
   /// User's unique handle
   String handle;
@@ -41,13 +41,13 @@ class UserCreated extends RemoteEvent {
   /// ID of the related profile entity
   String profileId;
 
-  factory UserCreated.fromJson(Map<String, dynamic> json) {
-    return _$UserCreatedFromJson(json);
+  factory UserAccountCreated.fromJson(Map<String, dynamic> json) {
+    return _$UserAccountCreatedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$UserCreatedToJson(this);
+    return _$UserAccountCreatedToJson(this);
   }
 }
 
@@ -168,5 +168,59 @@ class FollowingRemoved extends RemoteEvent {
   @override
   Map<String, dynamic> toJson() {
     return _$FollowingRemovedToJson(this);
+  }
+}
+
+/// {@category Entity Command}
+@JsonSerializable()
+class ToggleUserBlock extends RemoteCommand {
+  ToggleUserBlock(this.userId);
+
+  /// ID of the user to toggle block status
+  String userId;
+
+  factory ToggleUserBlock.fromJson(Map<String, dynamic> json) {
+    return _$ToggleUserBlockFromJson(json);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ToggleUserBlockToJson(this);
+  }
+}
+
+/// {@category Entity Event}
+@JsonSerializable()
+class UserBlocked extends RemoteEvent {
+  UserBlocked(this.userId);
+
+  /// ID of the user who was blocked
+  String userId;
+
+  factory UserBlocked.fromJson(Map<String, dynamic> json) {
+    return _$UserBlockedFromJson(json);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$UserBlockedToJson(this);
+  }
+}
+
+/// {@category Entity Event}
+@JsonSerializable()
+class UserUnblocked extends RemoteEvent {
+  UserUnblocked(this.userId);
+
+  /// ID of the user who was unblocked
+  String userId;
+
+  factory UserUnblocked.fromJson(Map<String, dynamic> json) {
+    return _$UserUnblockedFromJson(json);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$UserUnblockedToJson(this);
   }
 }

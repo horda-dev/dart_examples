@@ -7,8 +7,11 @@ import 'state.dart';
 ///
 /// {@category Entity}
 class UserAccountEntity extends Entity<UserAccountEntityState> {
-  Future<UserCreated> createUser(CreateUser cmd, EntityContext context) async {
-    return UserCreated(cmd.handle, cmd.email, cmd.profileId);
+  Future<UserAccountCreated> createUser(
+    CreateUserAccount cmd,
+    EntityContext context,
+  ) async {
+    return UserAccountCreated(cmd.handle, cmd.email, cmd.profileId);
   }
 
   /// For command description, see [ToggleFollower].
@@ -37,17 +40,31 @@ class UserAccountEntity extends Entity<UserAccountEntityState> {
     }
   }
 
+  /// For command description, see [ToggleUserBlock].
+  Future<RemoteEvent> toggleUserBlock(
+    ToggleUserBlock cmd,
+    UserAccountEntityState state,
+    EntityContext context,
+  ) async {
+    if (state.blockedUsers.contains(cmd.userId)) {
+      return UserUnblocked(cmd.userId);
+    } else {
+      return UserBlocked(cmd.userId);
+    }
+  }
+
   @override
   void initHandlers(EntityHandlers<UserAccountEntityState> handlers) {
     handlers.addStateFromJson(UserAccountEntityState.fromJson);
-    handlers.addInit<CreateUser, UserCreated>(
+    handlers.addInit<CreateUserAccount, UserAccountCreated>(
       createUser,
-      CreateUser.fromJson,
-      UserAccountEntityState.fromUserCreated,
+      CreateUserAccount.fromJson,
+      UserAccountEntityState.fromUserAccountCreated,
     );
 
     handlers.add<ToggleFollower>(toggleFollower, ToggleFollower.fromJson);
     handlers.add<ToggleFollowing>(toggleFollowing, ToggleFollowing.fromJson);
+    handlers.add<ToggleUserBlock>(toggleUserBlock, ToggleUserBlock.fromJson);
   }
 
   @override

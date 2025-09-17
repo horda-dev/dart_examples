@@ -11,7 +11,7 @@ class UserProfileEntity extends Entity<UserProfileEntityState> {
     CreateUserProfile cmd,
     EntityContext context,
   ) async {
-    return UserProfileCreated(cmd.displayName);
+    return UserProfileCreated(cmd.accountId, cmd.displayName);
   }
 
   @override

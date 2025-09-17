@@ -11,6 +11,7 @@ UserAccountEntityState _$UserAccountEntityStateFromJson(
 ) => UserAccountEntityState._json(
   (json['following'] as List<dynamic>).map((e) => e as String).toList(),
   (json['followers'] as List<dynamic>).map((e) => e as String).toList(),
+  (json['blockedUsers'] as List<dynamic>).map((e) => e as String).toList(),
 );
 
 Map<String, dynamic> _$UserAccountEntityStateToJson(
@@ -18,4 +19,5 @@ Map<String, dynamic> _$UserAccountEntityStateToJson(
 ) => <String, dynamic>{
   'following': instance._following,
   'followers': instance._followers,
+  'blockedUsers': instance._blockedUsers,
 };

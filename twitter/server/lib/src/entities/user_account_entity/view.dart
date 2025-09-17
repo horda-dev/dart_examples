@@ -8,32 +8,49 @@ import 'messages.dart';
 /// {@category View Group}
 class UserAccountViewGroup implements EntityViewGroup {
   UserAccountViewGroup()
-      : followingView = RefListView<UserAccountEntity>(name: 'followingView'),
-        followersView = RefListView<UserAccountEntity>(name: 'followersView'),
-        followingCountView = CounterView(name: 'followingCountView'),
-        followerCountView = CounterView(name: 'followerCountView'),
-        registeredAtView = ValueView<DateTime>(
-          name: 'registeredAtView',
-          value: DateTime.fromMicrosecondsSinceEpoch(0),
-        ),
-        profileView = RefView<UserProfileEntity>(name: 'profileView', value: null),
-        emailView = ValueView<String>(name: 'emailView', value: ''),
-        handleView = ValueView<String>(name: 'handleView', value: ''),
-        timelineView = RefView<TimelineEntity>(name: 'timelineView', value: null);
+    : followingView = RefListView<UserAccountEntity>(name: 'followingView'),
+      followersView = RefListView<UserAccountEntity>(name: 'followersView'),
+      followingCountView = CounterView(name: 'followingCountView'),
+      followerCountView = CounterView(name: 'followerCountView'),
+      registeredAtView = ValueView<DateTime>(
+        name: 'registeredAtView',
+        value: DateTime.fromMicrosecondsSinceEpoch(0),
+      ),
+      profileView = RefView<UserProfileEntity>(
+        name: 'profileView',
+        value: null,
+      ),
+      emailView = ValueView<String>(name: 'emailView', value: ''),
+      handleView = ValueView<String>(name: 'handleView', value: ''),
+      timelineView = RefView<TimelineEntity>(name: 'timelineView', value: null),
+      blockedUsersView = RefListView<UserAccountEntity>(
+        name: 'blockedUsersView',
+      ), // Added
+      blockedCountView = CounterView(name: 'blockedCountView'); // Added
 
-  UserAccountViewGroup.fromInitEvent(UserCreated event)
-      : followingView = RefListView<UserAccountEntity>(name: 'followingView'),
-        followersView = RefListView<UserAccountEntity>(name: 'followersView'),
-        followingCountView = CounterView(name: 'followingCountView'),
-        followerCountView = CounterView(name: 'followerCountView'),
-        registeredAtView = ValueView<DateTime>(
-          name: 'registeredAtView',
-          value: DateTime.now().toUtc(),
-        ),
-        profileView = RefView<UserProfileEntity>(name: 'profileView', value: event.profileId),
-        emailView = ValueView<String>(name: 'emailView', value: event.email),
-        handleView = ValueView<String>(name: 'handleView', value: event.handle),
-        timelineView = RefView<TimelineEntity>(name: 'timelineView', value: null); // Assuming timeline ID is user ID
+  UserAccountViewGroup.fromUserAccountCreated(UserAccountCreated event)
+    : followingView = RefListView<UserAccountEntity>(name: 'followingView'),
+      followersView = RefListView<UserAccountEntity>(name: 'followersView'),
+      followingCountView = CounterView(name: 'followingCountView'),
+      followerCountView = CounterView(name: 'followerCountView'),
+      registeredAtView = ValueView<DateTime>(
+        name: 'registeredAtView',
+        value: DateTime.now().toUtc(),
+      ),
+      profileView = RefView<UserProfileEntity>(
+        name: 'profileView',
+        value: event.profileId,
+      ),
+      emailView = ValueView<String>(name: 'emailView', value: event.email),
+      handleView = ValueView<String>(name: 'handleView', value: event.handle),
+      timelineView = RefView<TimelineEntity>(
+        name: 'timelineView',
+        value: null,
+      ), // Assuming timeline ID is user ID
+      blockedUsersView = RefListView<UserAccountEntity>(
+        name: 'blockedUsersView',
+      ), // Added
+      blockedCountView = CounterView(name: 'blockedCountView'); // Added
 
   /// View for the list of users followed
   final RefListView<UserAccountEntity> followingView;
@@ -62,6 +79,12 @@ class UserAccountViewGroup implements EntityViewGroup {
   /// View that references the user's timeline entity
   final RefView<TimelineEntity> timelineView;
 
+  /// View for the list of blocked users
+  final RefListView<UserAccountEntity> blockedUsersView;
+
+  /// View for the count of blocked users
+  final CounterView blockedCountView;
+
   void followerAdded(FollowerAdded event) {
     followersView.addItem(event.userId);
     followerCountView.increment(1);
@@ -82,6 +105,16 @@ class UserAccountViewGroup implements EntityViewGroup {
     followingCountView.decrement(1);
   }
 
+  void userBlocked(UserBlocked event) {
+    blockedUsersView.addItem(event.userId);
+    blockedCountView.increment(1);
+  }
+
+  void userUnblocked(UserUnblocked event) {
+    blockedUsersView.removeItem(event.userId);
+    blockedCountView.decrement(1);
+  }
+
   @override
   void initViews(ViewGroup views) {
     views
@@ -93,16 +126,20 @@ class UserAccountViewGroup implements EntityViewGroup {
       ..add(profileView)
       ..add(emailView)
       ..add(handleView)
-      ..add(timelineView);
+      ..add(timelineView)
+      ..add(blockedUsersView)
+      ..add(blockedCountView);
   }
 
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
     projectors
-      ..addInit<UserCreated>(UserAccountViewGroup.fromInitEvent)
+      ..addInit<UserAccountCreated>(UserAccountViewGroup.fromUserAccountCreated)
       ..add<FollowerAdded>(followerAdded)
       ..add<FollowerRemoved>(followerRemoved)
       ..add<FollowingAdded>(followingAdded)
-      ..add<FollowingRemoved>(followingRemoved);
+      ..add<FollowingRemoved>(followingRemoved)
+      ..add<UserBlocked>(userBlocked)
+      ..add<UserUnblocked>(userUnblocked);
   }
 }
