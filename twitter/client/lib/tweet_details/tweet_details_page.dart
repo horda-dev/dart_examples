@@ -13,7 +13,15 @@ class TweetDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tweet')),
+      appBar: AppBar(
+        title: const Text('Tweet'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
+      ),
       body: context.entityQuery(
         entityId: tweetId,
         query: TweetQuery(),

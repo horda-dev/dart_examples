@@ -63,7 +63,7 @@ class _LoadedView extends StatelessWidget {
       itemCount: tweetsLength,
       itemBuilder: (context, index) {
         final tweet = model.getTweet(index);
-        return TweetCard(tweet: tweet);
+        return TweetCard(tweet: tweet, isExploreContext: true);
       },
     );
   }

@@ -66,7 +66,7 @@ class TweetDetailsViewModel {
 
   Future<void> retweet() async {
     final result = await system.dispatchEvent(
-      ClientRetweetRequested(id),
+      ClientRetweetRequested(id, []),
     );
     if (result.isError) {
       throw TweetDetailsException(result.value ?? 'Failed to retweet.');

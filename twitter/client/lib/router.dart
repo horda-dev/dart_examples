@@ -23,11 +23,27 @@ final kRouter = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return const ExplorePage();
           },
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'tweet/:tweetId',
+              builder: (BuildContext context, GoRouterState state) {
+                final tweetId = state.pathParameters['tweetId']!;
+                return TweetDetailsPage(tweetId: tweetId);
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: 'compose_tweet',
           builder: (BuildContext context, GoRouterState state) {
             return const ComposeTweetPage();
+          },
+        ),
+        GoRoute(
+          path: 'tweet/:tweetId',
+          builder: (BuildContext context, GoRouterState state) {
+            final tweetId = state.pathParameters['tweetId']!;
+            return TweetDetailsPage(tweetId: tweetId);
           },
         ),
       ],
@@ -51,13 +67,6 @@ final kRouter = GoRouter(
         }
 
         return null;
-      },
-    ),
-    GoRoute(
-      path: '/tweet/:tweetId',
-      builder: (BuildContext context, GoRouterState state) {
-        final tweetId = state.pathParameters['tweetId']!;
-        return TweetDetailsPage(tweetId: tweetId);
       },
     ),
     GoRoute(
