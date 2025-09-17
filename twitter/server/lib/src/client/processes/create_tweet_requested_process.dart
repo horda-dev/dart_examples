@@ -1,29 +1,26 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart'; // For CreateTweet, TweetCommentAdded
+import 'package:twitter_server/twitter_server.dart';
+import 'package:xid/xid.dart';
 
 part 'create_tweet_requested_process.g.dart';
 
 /// {@category Process}
 ///
 /// Handles the business process for creating a new tweet.
-///
-/// Flow:
-/// 1. Sends 'CreateTweet' command to the TweetEntity.
+/// 1. Sends 'CreateTweet' to TweetEntity.
 /// 2. Waits for 'TweetCreated' event.
-/// 3. Sends 'AddTweetToTimeline' command to the TimelineEntity.
-/// 4. Waits for 'TweetAddedToTimeline' event.
-/// 5. Completes the process.
+/// 3. Sends 'AddTweetToExploreFeed'.
+/// 4. Sends 'AddTweetToTimeline' for each timeline id in the client event.
 Future<FlowResult> clientCreateTweetRequested(
   ClientCreateTweetRequested event,
   ProcessContext context,
 ) async {
-  // TODO: Implement clientCreateTweetRequested
-  /*
-  // 1. Send 'CreateTweet' to TweetEntity
-  final tweetCreated = await context.callActor(
+  final tweetId = Xid().toString();
+
+  await context.callEntity<TweetCreated>(
     name: 'TweetEntity',
-    id: context.newId(), // Generate a new ID for the tweet
+    id: tweetId,
     cmd: CreateTweet(
       event.authorUserId,
       event.text,
@@ -31,17 +28,21 @@ Future<FlowResult> clientCreateTweetRequested(
     fac: TweetCreated.fromJson,
   );
 
-  // 2. Send 'AddTweetToTimeline' to TimelineEntity
-  await context.callActor(
-    name: 'TimelineEntity',
-    id: event.authorUserId, // Assuming timeline ID is user ID
-    cmd: AddTweetToTimeline(tweetCreated.tweetId), // Assuming TweetCreated returns tweetId
-    fac: TweetAddedToTimeline.fromJson,
+  context.sendEntity(
+    name: 'ExploreFeedEntity',
+    id: kExploreFeedEntityId,
+    cmd: AddTweetToExploreFeed(tweetId),
   );
 
+  for (final timelineId in event.timelineIds) {
+    context.sendEntity(
+      name: 'TimelineEntity',
+      id: timelineId,
+      cmd: AddTweetToTimeline(tweetId),
+    );
+  }
+
   return FlowResult.ok();
-  */
-  return FlowResult.error("Unimplemented");
 }
 
 /// {@category Client Event}
@@ -50,6 +51,7 @@ class ClientCreateTweetRequested extends RemoteEvent {
   ClientCreateTweetRequested({
     required this.authorUserId,
     required this.text,
+    required this.timelineIds,
   });
 
   /// ID of the user who authored the tweet
@@ -57,6 +59,9 @@ class ClientCreateTweetRequested extends RemoteEvent {
 
   /// Text content of the tweet
   final String text;
+
+  /// IDs of timelines in which this tweet will show up
+  final List<String> timelineIds;
 
   factory ClientCreateTweetRequested.fromJson(Map<String, dynamic> json) {
     return _$ClientCreateTweetRequestedFromJson(json);
