@@ -1,5 +1,6 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:twitter_server/twitter_server.dart'; // Import twitter_server.dart
 
 part 'toggle_tweet_like_requested_process.g.dart';
 
@@ -13,20 +14,19 @@ Future<FlowResult> clientToggleTweetLikeRequested(
   ClientToggleTweetLikeRequested event,
   ProcessContext context,
 ) async {
-  /*
-  // Send 'ToggleTweetLike' command to the TweetEntity and await the resulting event.
-  // Either 'TweetLiked' or 'TweetUnliked' will be returned (decide based on the event payload if needed).
-  final resultEvent = await context.callActor(
+  await context.callEntityDynamic(
     name: 'TweetEntity',
     id: event.tweetId,
-    cmd: ToggleTweetLike(),
-    fac: TweetLiked.fromJson, // or TweetUnliked.fromJson depending on response
+    cmd: ToggleTweetLike(
+      context.senderId,
+    ),
+    fac: [
+      TweetLiked.fromJson,
+      TweetUnliked.fromJson,
+    ],
   );
-  
-  // The operation completes here regardless of which event was emitted.
-  */
-  // TODO: Implement ToggleTweetLikeRequested
-  return FlowResult.error("Unimplemented");
+
+  return FlowResult.ok();
 }
 
 /// {@category Client Event}
