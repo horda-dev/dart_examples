@@ -23,12 +23,28 @@ final kRouter = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return const ExplorePage();
           },
-          routes: <RouteBase>[
+          routes: [
             GoRoute(
               path: 'tweet/:tweetId',
               builder: (BuildContext context, GoRouterState state) {
                 final tweetId = state.pathParameters['tweetId']!;
                 return TweetDetailsPage(tweetId: tweetId);
+              },
+              routes: [
+                GoRoute(
+                  path: 'profile/:userId',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final userId = state.pathParameters['userId']!;
+                    return ProfilePage(userId: userId);
+                  },
+                ),
+              ],
+            ),
+            GoRoute(
+              path: 'profile/:userId',
+              builder: (BuildContext context, GoRouterState state) {
+                final userId = state.pathParameters['userId']!;
+                return ProfilePage(userId: userId);
               },
             ),
           ],
@@ -44,6 +60,22 @@ final kRouter = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             final tweetId = state.pathParameters['tweetId']!;
             return TweetDetailsPage(tweetId: tweetId);
+          },
+          routes: [
+            GoRoute(
+              path: 'profile/:userId',
+              builder: (BuildContext context, GoRouterState state) {
+                final userId = state.pathParameters['userId']!;
+                return ProfilePage(userId: userId);
+              },
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'profile/:userId',
+          builder: (BuildContext context, GoRouterState state) {
+            final userId = state.pathParameters['userId']!;
+            return ProfilePage(userId: userId);
           },
         ),
       ],
@@ -67,13 +99,6 @@ final kRouter = GoRouter(
         }
 
         return null;
-      },
-    ),
-    GoRoute(
-      path: '/profile/:userId',
-      builder: (BuildContext context, GoRouterState state) {
-        final userId = state.pathParameters['userId']!;
-        return ProfilePage(userId: userId);
       },
     ),
   ],

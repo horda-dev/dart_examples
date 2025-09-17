@@ -70,7 +70,7 @@ class _LoadedViewState extends State<_LoadedView> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    context.go('/profile/${model.author.id}');
+                    context.go('./profile/${model.author.id}');
                   },
                   child: Row(
                     children: [
@@ -222,7 +222,7 @@ class CommentCard extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.go('/profile/${model.author.id}');
+                context.go('./profile/${model.author.id}');
               },
               child: Row(
                 children: [

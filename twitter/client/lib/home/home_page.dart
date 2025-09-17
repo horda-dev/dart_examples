@@ -71,7 +71,7 @@ class _LoadedView extends StatelessWidget {
       itemCount: tweetsLength,
       itemBuilder: (context, index) {
         final tweet = model.getTweet(index);
-        return TweetCard(tweet: tweet, isExploreContext: false);
+        return TweetCard(tweet: tweet);
       },
     );
   }
@@ -79,12 +79,10 @@ class _LoadedView extends StatelessWidget {
 
 class TweetCard extends StatelessWidget {
   final TweetViewModel tweet;
-  final bool isExploreContext;
 
   const TweetCard({
     super.key,
     required this.tweet,
-    this.isExploreContext = false,
   });
 
   @override
@@ -98,10 +96,7 @@ class TweetCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        final path = isExploreContext
-            ? '/explore/tweet/${tweet.id}'
-            : '/tweet/${tweet.id}';
-        context.go(path);
+        context.go('./tweet/${tweet.id}');
       },
       child: Card(
         margin: const EdgeInsets.all(8.0),
@@ -112,7 +107,7 @@ class TweetCard extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.go('/profile/${tweet.author.id}');
+                  context.go('./profile/${tweet.author.id}');
                 },
                 child: Row(
                   children: [
