@@ -2,36 +2,161 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
 
-import '../queries.dart'; // For TweetQuery
-import '../home/home_models.dart'; // For TweetItem
-import 'tweet_details_models.dart'; // For CommentItem
+import '../queries.dart';
 import 'tweet_details_view_model.dart';
 
-class TweetDetailsPage extends StatefulWidget {
+class TweetDetailsPage extends StatelessWidget {
   final String tweetId;
 
   const TweetDetailsPage({super.key, required this.tweetId});
 
   @override
-  State<TweetDetailsPage> createState() => _TweetDetailsPageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Tweet')),
+      body: context.entityQuery(
+        entityId: tweetId,
+        query: TweetQuery(),
+        loading: const Center(child: CircularProgressIndicator()),
+        error: const Center(child: Text('Failed to load tweet details')),
+        child: Builder(
+          builder: (context) {
+            return _LoadedView(
+              model: TweetDetailsViewModel(context),
+            );
+          },
+        ),
+      ),
+    );
+  }
 }
 
-class _TweetDetailsPageState extends State<TweetDetailsPage> {
-  late final TweetDetailsViewModel _viewModel;
-  final TextEditingController _commentController = TextEditingController();
-  bool _isCommenting = false;
-  String? _commentError;
+class _LoadedView extends StatefulWidget {
+  const _LoadedView({required this.model});
+
+  final TweetDetailsViewModel model;
 
   @override
-  void initState() {
-    super.initState();
-    _viewModel = TweetDetailsViewModel(context, widget.tweetId);
-  }
+  State<_LoadedView> createState() => _LoadedViewState();
+}
+
+class _LoadedViewState extends State<_LoadedView> {
+  TweetDetailsViewModel get model => widget.model;
 
   @override
   void dispose() {
     _commentController.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Card(
+          margin: const EdgeInsets.all(8.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    context.go('/profile/${model.author.id}');
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        model.author.displayName,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        ' @${model.author.handle}',
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      const Spacer(),
+                      Text(
+                        model.createdAt,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Text(model.text, style: const TextStyle(fontSize: 16.0)),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.favorite_border),
+                      onPressed: () => model.toggleLikeTweet(),
+                    ),
+                    Text('${model.likeCount}'),
+                    const SizedBox(width: 16.0),
+                    IconButton(
+                      icon: const Icon(Icons.repeat),
+                      onPressed: () => model.retweet(),
+                    ),
+                    Text('${model.retweetCount}'),
+                    const SizedBox(width: 16.0),
+                    const Icon(Icons.comment),
+                    Text('${model.commentsLength}'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _commentController,
+                  decoration: InputDecoration(
+                    hintText: 'Add a comment...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8.0),
+              _isCommenting
+                  ? const CircularProgressIndicator()
+                  : IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: _onAddComment,
+                    ),
+            ],
+          ),
+        ),
+        if (_commentError != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              _commentError!,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        const Divider(),
+        Expanded(
+          child: ListView.builder(
+            itemCount: model.commentsLength,
+            itemBuilder: (context, index) {
+              final commentModel = model.getComment(index);
+              return CommentCard(
+                model: commentModel,
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 
   Future<void> _onAddComment() async {
@@ -43,10 +168,11 @@ class _TweetDetailsPageState extends State<TweetDetailsPage> {
     });
 
     try {
-      await _viewModel.addComment(widget.tweetId, _commentController.text);
-      if (mounted) {
-        _commentController.clear();
-      }
+      await model.addComment(
+        _commentController.text,
+      );
+
+      _commentController.clear();
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -62,148 +188,20 @@ class _TweetDetailsPageState extends State<TweetDetailsPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tweet'),
-      ),
-      body: context.entityQuery(
-        entityId: widget.tweetId,
-        query: TweetQuery(),
-        loading: const Center(child: CircularProgressIndicator()),
-        error: const Center(child: Text('Failed to load tweet details')),
-        child: _TweetDetailsLoadedView(viewModel: _viewModel),
-      ),
-    );
-  }
-}
+  final TextEditingController _commentController = TextEditingController();
 
-class _TweetDetailsLoadedView extends StatelessWidget {
-  final TweetDetailsViewModel viewModel;
+  bool _isCommenting = false;
 
-  const _TweetDetailsLoadedView({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    final tweet = viewModel.tweet;
-
-    return Column(
-      children: [
-        // Main Tweet Card
-        Card(
-          margin: const EdgeInsets.all(8.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    context.go('/profile/${tweet.author.id}');
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        tweet.author.profile.displayName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        ' @${tweet.author.profile.bio}', // Using bio as handle
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                      const Spacer(),
-                      Text(
-                        _formatTimestamp(tweet.createdAt),
-                        style: const TextStyle(color: Colors.grey, fontSize: 12.0),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(tweet.text, style: const TextStyle(fontSize: 16.0)),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.favorite_border),
-                      onPressed: () => viewModel.toggleLikeTweet(tweet.id),
-                    ),
-                    Text('${tweet.likeCount}'),
-                    const SizedBox(width: 16.0),
-                    IconButton(
-                      icon: const Icon(Icons.repeat),
-                      onPressed: () => viewModel.retweet(tweet.id),
-                    ),
-                    Text('${tweet.retweetCount}'),
-                    const SizedBox(width: 16.0),
-                    const Icon(Icons.comment),
-                    Text('${viewModel.commentsLength}'), // Total comments
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        // Comment Input
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: (context.findAncestorStateOfType<_TweetDetailsPageState>()!._commentController),
-                  decoration: InputDecoration(
-                    hintText: 'Add a comment...',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8.0),
-              (context.findAncestorStateOfType<_TweetDetailsPageState>()!._isCommenting)
-                  ? const CircularProgressIndicator()
-                  : IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: (context.findAncestorStateOfType<_TweetDetailsPageState>()!._onAddComment),
-                    ),
-            ],
-          ),
-        ),
-        if ((context.findAncestorStateOfType<_TweetDetailsPageState>()!._commentError) != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              (context.findAncestorStateOfType<_TweetDetailsPageState>()!._commentError)!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          ),
-        const Divider(),
-        // Comments List
-        Expanded(
-          child: ListView.builder(
-            itemCount: viewModel.commentsLength,
-            itemBuilder: (context, index) {
-              final comment = viewModel.getComment(index);
-              return CommentCard(comment: comment, viewModel: viewModel);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  String _formatTimestamp(DateTime timestamp) {
-    return '${timestamp.hour}:${timestamp.minute} - ${timestamp.day}/${timestamp.month}/${timestamp.year}';
-  }
+  String? _commentError;
 }
 
 class CommentCard extends StatelessWidget {
-  final CommentItem comment;
-  final TweetDetailsViewModel viewModel;
+  final CommentViewModel model;
 
-  const CommentCard({super.key, required this.comment, required this.viewModel});
+  const CommentCard({
+    super.key,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -216,55 +214,42 @@ class CommentCard extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.go('/profile/${comment.author.id}');
+                context.go('/profile/${model.author.id}');
               },
               child: Row(
                 children: [
                   Text(
-                    comment.author.profile.displayName,
+                    model.author.displayName,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    ' @${comment.author.profile.bio}', // Using bio as handle
+                    ' @${model.author.handle}',
                     style: const TextStyle(color: Colors.grey),
                   ),
                   const Spacer(),
                   Text(
-                    _formatTimestamp(comment.createdAt),
+                    model.createdAt,
                     style: const TextStyle(color: Colors.grey, fontSize: 10.0),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 4.0),
-            Text(comment.text),
+            Text(model.text),
             const SizedBox(height: 8.0),
             Row(
               children: [
                 IconButton(
                   icon: const Icon(Icons.favorite_border, size: 18),
-                  onPressed: () => viewModel.toggleLikeComment(comment.id),
+                  onPressed: () => model.toggleLikeComment(),
                 ),
-                Text('${comment.likeCount}'),
+                Text('${model.likeCount}'),
                 const SizedBox(width: 16.0),
-                // Add reply button if needed
               ],
             ),
-            // Nested replies
-            if (comment.replies.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                child: Column(
-                  children: comment.replies.map((reply) => CommentCard(comment: reply, viewModel: viewModel)).toList(),
-                ),
-              ),
           ],
         ),
       ),
     );
-  }
-
-  String _formatTimestamp(DateTime timestamp) {
-    return '${timestamp.hour}:${timestamp.minute} - ${timestamp.day}/${timestamp.month}/${timestamp.year}';
   }
 }
