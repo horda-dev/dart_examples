@@ -29,8 +29,9 @@ class FollowingPage extends StatelessWidget {
         error: const Center(child: Text('Failed to load following users')),
         child: Builder(
           builder: (context) {
-            final followingLength =
-                context.query<UserFollowingQuery>().listLength((q) => q.following);
+            final followingLength = context
+                .query<UserFollowingQuery>()
+                .listLength((q) => q.following);
 
             if (followingLength == 0) {
               return const Center(

@@ -29,8 +29,9 @@ class BlockedUsersPage extends StatelessWidget {
         error: const Center(child: Text('Failed to load blocked users')),
         child: Builder(
           builder: (context) {
-            final blockedUsersLength =
-                context.query<BlockedUsersQuery>().listLength((q) => q.blockedUsers);
+            final blockedUsersLength = context
+                .query<BlockedUsersQuery>()
+                .listLength((q) => q.blockedUsers);
 
             if (blockedUsersLength == 0) {
               return const Center(

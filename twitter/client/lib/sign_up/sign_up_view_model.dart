@@ -42,7 +42,7 @@ class SignUpViewModel {
         avatarBase64,
       ),
     );
-    
+
     gIsSigningUp = false;
 
     if (result.isError) {
