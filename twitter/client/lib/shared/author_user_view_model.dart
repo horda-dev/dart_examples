@@ -18,4 +18,8 @@ class AuthorUserViewModel {
   String get displayName {
     return authorQuery.ref((q) => q.profile).value((q) => q.displayName);
   }
+
+  String get avatarUrl {
+    return authorQuery.ref((q) => q.profile).value((q) => q.avatarUrl);
+  }
 }

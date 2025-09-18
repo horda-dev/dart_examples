@@ -171,7 +171,10 @@ class UserProfileQuery extends EntityQuery {
 
 class BasicUserInfoQuery extends EntityQuery {
   final handle = EntityValueView<String>('handleView');
-  final profile = EntityRefView('profileView', query: DisplayNameQuery());
+  final profile = EntityRefView(
+    'profileView',
+    query: UserNameAndPictureQuery(),
+  );
 
   @override
   void initViews(EntityQueryGroup views) {
@@ -181,12 +184,15 @@ class BasicUserInfoQuery extends EntityQuery {
   }
 }
 
-class DisplayNameQuery extends EntityQuery {
+class UserNameAndPictureQuery extends EntityQuery {
   final displayName = EntityValueView<String>('displayNameView');
+  final avatarUrl = EntityValueView<String>('avatarUrlView');
 
   @override
   void initViews(EntityQueryGroup views) {
-    views.add(displayName);
+    views
+      ..add(displayName)
+      ..add(avatarUrl);
   }
 }
 

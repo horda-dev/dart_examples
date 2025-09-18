@@ -74,6 +74,11 @@ class _LoadedViewState extends State<_LoadedView> {
                   },
                   child: Row(
                     children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(model.author.avatarUrl),
+                      ),
+                      const SizedBox(width: 8.0),
                       Text(
                         model.author.displayName,
                         style: const TextStyle(fontWeight: FontWeight.bold),
@@ -226,6 +231,11 @@ class CommentCard extends StatelessWidget {
               },
               child: Row(
                 children: [
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundImage: NetworkImage(model.author.avatarUrl),
+                  ),
+                  const SizedBox(width: 8.0),
                   Text(
                     model.author.displayName,
                     style: const TextStyle(fontWeight: FontWeight.bold),

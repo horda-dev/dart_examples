@@ -111,6 +111,11 @@ class TweetCard extends StatelessWidget {
                 },
                 child: Row(
                   children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(tweet.author.avatarUrl),
+                    ),
+                    const SizedBox(width: 8.0),
                     Text(
                       authorDisplayName,
                       style: const TextStyle(fontWeight: FontWeight.bold),
