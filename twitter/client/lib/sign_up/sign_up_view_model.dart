@@ -32,7 +32,7 @@ class SignUpViewModel {
     );
 
     // Has to be done, because we can't wait until the connection is reopened.
-    await Future.delayed(const Duration(seconds: 30));
+    await Future.delayed(const Duration(seconds: 15));
 
     final result = await system.dispatchEvent(
       ClientRegisterUserRequested(
