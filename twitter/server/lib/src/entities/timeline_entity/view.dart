@@ -13,7 +13,7 @@ class TimelineViewGroup implements EntityViewGroup {
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       ),
       tweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
-      ownerUserView = RefView<UserProfileEntity>(
+      ownerUserView = RefView<UserAccountEntity>(
         name: 'ownerUserView',
         value: null,
       );
@@ -24,7 +24,7 @@ class TimelineViewGroup implements EntityViewGroup {
         value: DateTime.now().toUtc(),
       ),
       tweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
-      ownerUserView = RefView<UserProfileEntity>(
+      ownerUserView = RefView<UserAccountEntity>(
         name: 'ownerUserView',
         value: event.ownerUserId,
       );
@@ -36,7 +36,7 @@ class TimelineViewGroup implements EntityViewGroup {
   final RefListView<TweetEntity> tweetsView;
 
   /// View that references the owner user profile entity
-  final RefView<UserProfileEntity> ownerUserView;
+  final RefView<UserAccountEntity> ownerUserView;
 
   void tweetAddedToTimeline(TweetAddedToTimeline event) {
     tweetsView.addItem(event.tweetId);

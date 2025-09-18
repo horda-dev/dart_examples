@@ -29,7 +29,7 @@ class CommentViewGroup implements EntityViewGroup {
         name: 'commentTextView',
         value: '',
       ),
-      authorUserView = RefView<UserProfileEntity>(
+      authorUserView = RefView<UserAccountEntity>(
         name: 'commentAuthorUserView',
         value: null,
       );
@@ -56,7 +56,7 @@ class CommentViewGroup implements EntityViewGroup {
         name: 'commentTextView',
         value: event.text,
       ),
-      authorUserView = RefView<UserProfileEntity>(
+      authorUserView = RefView<UserAccountEntity>(
         name: 'commentAuthorUserView',
         value: event.authorUserId,
       );
@@ -83,7 +83,7 @@ class CommentViewGroup implements EntityViewGroup {
   final ValueView<String> textView;
 
   /// View for the comment author user's profile
-  final RefView<UserProfileEntity> authorUserView;
+  final RefView<UserAccountEntity> authorUserView;
 
   void commentLiked(CommentLiked event) {
     likedByUsersView.addItem(event.userId);

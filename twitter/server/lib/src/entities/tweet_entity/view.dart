@@ -16,7 +16,7 @@ class TweetViewGroup implements EntityViewGroup {
       ),
       commentsView = RefListView<CommentEntity>(
         name: 'commentsView',
-      ), // Re-added
+      ),
       createdAtView = ValueView<DateTime>(
         name: 'tweetCreatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
@@ -27,7 +27,7 @@ class TweetViewGroup implements EntityViewGroup {
         name: 'tweetTextView',
         value: '',
       ),
-      authorUserView = RefView<UserProfileEntity>(
+      authorUserView = RefView<UserAccountEntity>(
         name: 'tweetAuthorUserView',
         value: null,
       ),
@@ -45,7 +45,7 @@ class TweetViewGroup implements EntityViewGroup {
       ),
       commentsView = RefListView<CommentEntity>(
         name: 'commentsView',
-      ), // Re-added
+      ),
       createdAtView = ValueView<DateTime>(
         name: 'tweetCreatedAtView',
         value: DateTime.now().toUtc(),
@@ -56,7 +56,7 @@ class TweetViewGroup implements EntityViewGroup {
         name: 'tweetTextView',
         value: event.text,
       ),
-      authorUserView = RefView<UserProfileEntity>(
+      authorUserView = RefView<UserAccountEntity>(
         name: 'tweetAuthorUserView',
         value: event.authorUserId,
       ),
@@ -72,7 +72,7 @@ class TweetViewGroup implements EntityViewGroup {
   final RefListView<UserAccountEntity> likedByUsersView;
 
   /// View for the list of comments
-  final RefListView<CommentEntity> commentsView; // Re-added
+  final RefListView<CommentEntity> commentsView;
 
   /// View for the creation date and time
   final ValueView<DateTime> createdAtView;
@@ -89,8 +89,8 @@ class TweetViewGroup implements EntityViewGroup {
   /// View for the tweet attachment
   final ValueView<String> attachmentUrl;
 
-  /// View for the author user's profile
-  final RefView<UserProfileEntity> authorUserView;
+  /// View for the author user's account
+  final RefView<UserAccountEntity> authorUserView;
 
   void tweetLiked(TweetLiked event) {
     likedByUsersView.addItem(event.userId);
@@ -117,12 +117,13 @@ class TweetViewGroup implements EntityViewGroup {
     views
       ..add(retweetedByUsersView)
       ..add(likedByUsersView)
-      ..add(commentsView) // Re-added
+      ..add(commentsView)
       ..add(createdAtView)
       ..add(retweetCountView)
       ..add(likeCountView)
       ..add(textView)
-      ..add(authorUserView);
+      ..add(authorUserView)
+      ..add(attachmentUrl);
   }
 
   @override
