@@ -70,8 +70,11 @@ class _LoadedView extends StatelessWidget {
 
     if (tweetsLength == 0) {
       return const Center(
-        child: Text(
-          'No tweets yet. Start following someone or post your first tweet!',
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            'Post a new tweet, or tap the compass icon to explore tweets from others.',
+          ),
         ),
       );
     }
