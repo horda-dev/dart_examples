@@ -23,7 +23,7 @@ class GoogleCloudService {
     _storage = Storage(client, 'example-twitter');
   }
 
-  Future<String> saveToResizedBucket({
+  Future<String> saveToBucket({
     required String fileName,
     required String contentType,
     required Uint8List imageBytes,
@@ -40,6 +40,27 @@ class GoogleCloudService {
 
     final url = _getImageUrl(_bucketName, fileName);
     return url;
+  }
+
+  Future<void> deleteByUrl(String fileUrl) async {
+    if (_storage == null) {
+      await _init();
+    }
+
+    final storage = _storage!;
+    final bucket = storage.bucket(_bucketName);
+
+    final uri = Uri.parse(fileUrl);
+    final pathSegments = uri.pathSegments;
+
+    // The file name is the part after '/o/' and before '?alt=media'
+    // Example: /v0/b/example-twitter.firebasestorage.app/o/profile_pictures%2Fuser123%2FpictureId.jpeg?alt=media
+    // We need 'profile_pictures/user123/pictureId.jpeg'
+    final fileName = Uri.decodeComponent(
+      pathSegments[pathSegments.indexOf('o') + 1],
+    );
+
+    await bucket.delete(fileName);
   }
 
   String _getImageUrl(String bucketName, String fileName) {

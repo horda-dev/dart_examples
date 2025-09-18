@@ -6,10 +6,10 @@ import 'package:xid/xid.dart';
 
 import 'messages.dart';
 
-/// Manages user profile pictures, including uploading to a Firebase bucket.
+/// Manages uploading and removing media files to a Firebase bucket.
 ///
 /// {@category Service}
-class UserProfilePictureService extends Service {
+class MediaStoreService extends Service {
   /// For command description, see [UploadProfilePicture].
   Future<RemoteEvent> uploadProfilePicture(
     UploadProfilePicture cmd,
@@ -30,7 +30,7 @@ class UserProfilePictureService extends Service {
       final pictureId = Xid().toString();
       final fileName = 'profile_pictures/${cmd.userId}/$pictureId.jpeg';
 
-      final pictureUrl = await kGoogleCloud.saveToResizedBucket(
+      final pictureUrl = await kGoogleCloud.saveToBucket(
         fileName: fileName,
         contentType: 'image/jpeg',
         imageBytes: imageBytes,
@@ -42,11 +42,75 @@ class UserProfilePictureService extends Service {
     }
   }
 
+  /// For command description, see [RemoveProfilePicture].
+  Future<RemoteEvent> removeProfilePicture(
+    RemoveProfilePicture cmd,
+    ServiceContext context,
+  ) async {
+    try {
+      await kGoogleCloud.deleteByUrl(cmd.pictureUrl);
+      return ProfilePictureRemoved(cmd.pictureUrl);
+    } catch (e) {
+      throw MediaStoreServiceException(e.toString());
+    }
+  }
+
+  /// For command description, see [UploadTweetAttachment].
+  Future<RemoteEvent> uploadTweetAttachment(
+    UploadTweetAttachment cmd,
+    ServiceContext context,
+  ) async {
+    try {
+      final imageBytes = base64Decode(cmd.imageDataBase64);
+
+      // Check image size (3 MB limit for tweet attachments)
+      const maxSizeInBytes = 3 * 1024 * 1024;
+      if (imageBytes.lengthInBytes > maxSizeInBytes) {
+        return TweetAttachmentUploadFailed(
+          cmd.tweetId,
+          'Image size exceeds 3 MB limit.',
+        );
+      }
+
+      final attachmentId = Xid().toString();
+      final fileName = 'tweet_attachments/${cmd.tweetId}/$attachmentId.jpeg';
+
+      final attachmentUrl = await kGoogleCloud.saveToBucket(
+        fileName: fileName,
+        contentType: 'image/jpeg',
+        imageBytes: imageBytes,
+      );
+
+      return TweetAttachmentUploaded(cmd.tweetId, attachmentUrl);
+    } catch (e) {
+      return TweetAttachmentUploadFailed(cmd.tweetId, e.toString());
+    }
+  }
+
   @override
   void initHandlers(ServiceHandlers handlers) {
     handlers.add<UploadProfilePicture>(
       uploadProfilePicture,
       UploadProfilePicture.fromJson,
     );
+    handlers.add<RemoveProfilePicture>(
+      removeProfilePicture,
+      RemoveProfilePicture.fromJson,
+    );
+    handlers.add<UploadTweetAttachment>(
+      uploadTweetAttachment,
+      UploadTweetAttachment.fromJson,
+    );
+  }
+}
+
+class MediaStoreServiceException implements Exception {
+  final String message;
+
+  MediaStoreServiceException(this.message);
+
+  @override
+  String toString() {
+    return 'MediaStoreServiceException: $message';
   }
 }

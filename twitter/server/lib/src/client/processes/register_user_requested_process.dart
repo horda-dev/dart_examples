@@ -10,7 +10,7 @@ part 'register_user_requested_process.g.dart';
 /// Handles the user registration business process.
 ///
 /// Steps:
-/// 1. Sends 'UploadProfilePicture' to UserProfilePictureService.
+/// 1. Sends 'UploadProfilePicture' to MediaStoreService.
 /// 2. Waits for 'ProfilePictureUploaded' or 'ProfilePictureFailed'.
 /// 3. If upload failed, returns error with failure reason.
 /// 4. Sends 'CreateUserProfile' command to the UserProfileEntity.
@@ -29,7 +29,7 @@ Future<FlowResult> clientRegisterUserRequested(
   final userTimelineId = Xid().toString();
 
   final result = await context.callServiceDynamic(
-    name: 'UserProfilePictureService',
+    name: 'MediaStoreService',
     cmd: UploadProfilePicture(userAccountId, event.avatarBase64),
     fac: [
       ProfilePictureUploaded.fromJson,

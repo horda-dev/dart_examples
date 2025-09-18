@@ -11,7 +11,7 @@ ClientCreateTweetRequested _$ClientCreateTweetRequestedFromJson(
 ) => ClientCreateTweetRequested(
   authorUserId: json['authorUserId'] as String,
   text: json['text'] as String,
-  attachmentUrl: json['attachmentUrl'] as String,
+  attachmentBase64: json['attachmentBase64'] as String?,
   timelineIds: (json['timelineIds'] as List<dynamic>)
       .map((e) => e as String)
       .toList(),
@@ -22,6 +22,6 @@ Map<String, dynamic> _$ClientCreateTweetRequestedToJson(
 ) => <String, dynamic>{
   'authorUserId': instance.authorUserId,
   'text': instance.text,
-  'attachmentUrl': instance.attachmentUrl,
+  'attachmentBase64': instance.attachmentBase64,
   'timelineIds': instance.timelineIds,
 };

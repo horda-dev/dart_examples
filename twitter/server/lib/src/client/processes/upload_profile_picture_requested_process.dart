@@ -9,7 +9,7 @@ part 'upload_profile_picture_requested_process.g.dart';
 /// Handles the business process for uploading a user's profile picture.
 ///
 /// Flow:
-/// 1. Sends 'UploadProfilePicture' command to the UserProfilePictureService.
+/// 1. Sends 'UploadProfilePicture' command to the MediaStoreService.
 /// 2. Waits for 'ProfilePictureUploaded' or 'ProfilePictureUploadFailed' event.
 /// 3. If upload failed, returns failure reason.
 /// 4. Sends 'UpdateProfilePictureUrl' command to the UserProfileEntity.
@@ -19,8 +19,8 @@ Future<FlowResult> clientUploadProfilePictureRequested(
   ClientUploadProfilePictureRequested event,
   ProcessContext context,
 ) async {
-  final result = await context.callServiceDynamic(
-    name: 'UserProfilePictureService',
+  final uploadResult = await context.callServiceDynamic(
+    name: 'MediaStoreService',
     cmd: UploadProfilePicture(context.senderId, event.imageDataBase64),
     fac: [
       ProfilePictureUploaded.fromJson,
@@ -28,20 +28,27 @@ Future<FlowResult> clientUploadProfilePictureRequested(
     ],
   );
 
-  if (result is ProfilePictureUploadFailed) {
-    return FlowResult.error(result.reason);
+  if (uploadResult is ProfilePictureUploadFailed) {
+    return FlowResult.error(uploadResult.reason);
   }
 
-  result as ProfilePictureUploaded;
+  uploadResult as ProfilePictureUploaded;
 
-  await context.callEntity<ProfilePictureUrlUpdated>(
+  final updateResult = await context.callEntity<ProfilePictureUrlUpdated>(
     name: 'UserProfileEntity',
     id: event.profileId,
-    cmd: UpdateProfilePictureUrl(result.pictureUrl),
+    cmd: UpdateProfilePictureUrl(uploadResult.pictureUrl),
     fac: ProfilePictureUrlUpdated.fromJson,
   );
 
-  return FlowResult.ok(result.pictureUrl);
+  if (updateResult.oldAvatarUrl.isNotEmpty) {
+    context.sendService(
+      name: 'MediaStoreService',
+      cmd: RemoveProfilePicture(updateResult.oldAvatarUrl),
+    );
+  }
+
+  return FlowResult.ok(uploadResult.pictureUrl);
 }
 
 /// {@category Client Event}
