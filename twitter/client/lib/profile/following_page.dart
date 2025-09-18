@@ -53,7 +53,7 @@ class FollowingPage extends StatelessWidget {
                   title: Text(following.displayName),
                   subtitle: Text('@${following.handle}'),
                   onTap: () {
-                    context.push('/profile/${following.id}');
+                    context.go('/profile/${following.id}');
                   },
                 );
               },

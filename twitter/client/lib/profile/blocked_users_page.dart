@@ -53,7 +53,7 @@ class BlockedUsersPage extends StatelessWidget {
                   title: Text(blockedUser.displayName),
                   subtitle: Text('@${blockedUser.handle}'),
                   onTap: () {
-                    context.push('/profile/${blockedUser.id}');
+                    context.go('/profile/${blockedUser.id}');
                   },
                 );
               },
