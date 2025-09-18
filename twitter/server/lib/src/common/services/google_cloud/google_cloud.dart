@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:gcloud/storage.dart';
@@ -8,7 +7,7 @@ final kGoogleCloud = GoogleCloudService();
 
 class GoogleCloudService {
   Future<void> _init() async {
-    final jsonCredentials = File('service-account.json').readAsStringSync();
+    final jsonCredentials = r'''[CREDENTIALS_JSON]''';
 
     final credentials = auth.ServiceAccountCredentials.fromJson(
       jsonCredentials,
