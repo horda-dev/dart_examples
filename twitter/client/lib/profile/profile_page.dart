@@ -32,7 +32,12 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           TextButton(
             onPressed: () async {
-              kAuthService.logout();
+              await kAuthService.logout();
+
+              if (!context.mounted) {
+                return;
+              }
+
               context.logout();
 
               // TODO: remove when Auth API is updated

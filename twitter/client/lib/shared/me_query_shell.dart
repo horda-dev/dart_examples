@@ -10,7 +10,15 @@ class MeQueryShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userId = context.hordaAuthUserId!;
+    final userId = context.hordaAuthUserId;
+
+    if (userId == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return context.entityQuery(
       entityId: userId,
