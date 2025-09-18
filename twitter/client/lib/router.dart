@@ -5,6 +5,9 @@ import 'package:horda_client/horda_client.dart';
 import 'compose_tweet/compose_tweet_page.dart';
 import 'explore/explore_page.dart';
 import 'home/home_page.dart';
+import 'profile/blocked_users_page.dart';
+import 'profile/followers_page.dart';
+import 'profile/following_page.dart';
 import 'profile/profile_page.dart';
 import 'shared/me_query_shell.dart';
 import 'sign_in/sign_in_page.dart';
@@ -43,6 +46,29 @@ final kRouter = GoRouter(
                         final userId = state.pathParameters['userId']!;
                         return ProfilePage(userId: userId);
                       },
+                      routes: [
+                        GoRoute(
+                          path: 'followers',
+                          builder: (BuildContext context, GoRouterState state) {
+                            final userId = state.pathParameters['userId']!;
+                            return FollowersPage(userId: userId);
+                          },
+                        ),
+                        GoRoute(
+                          path: 'following',
+                          builder: (BuildContext context, GoRouterState state) {
+                            final userId = state.pathParameters['userId']!;
+                            return FollowingPage(userId: userId);
+                          },
+                        ),
+                        GoRoute(
+                          path: 'blocked_users',
+                          builder: (BuildContext context, GoRouterState state) {
+                            final userId = state.pathParameters['userId']!;
+                            return BlockedUsersPage(userId: userId);
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -52,6 +78,29 @@ final kRouter = GoRouter(
                     final userId = state.pathParameters['userId']!;
                     return ProfilePage(userId: userId);
                   },
+                  routes: [
+                    GoRoute(
+                      path: 'followers',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return FollowersPage(userId: userId);
+                      },
+                    ),
+                    GoRoute(
+                      path: 'following',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return FollowingPage(userId: userId);
+                      },
+                    ),
+                    GoRoute(
+                      path: 'blocked_users',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return BlockedUsersPage(userId: userId);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -74,6 +123,29 @@ final kRouter = GoRouter(
                     final userId = state.pathParameters['userId']!;
                     return ProfilePage(userId: userId);
                   },
+                  routes: [
+                    GoRoute(
+                      path: 'followers',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return FollowersPage(userId: userId);
+                      },
+                    ),
+                    GoRoute(
+                      path: 'following',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return FollowingPage(userId: userId);
+                      },
+                    ),
+                    GoRoute(
+                      path: 'blocked_users',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return BlockedUsersPage(userId: userId);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -83,6 +155,29 @@ final kRouter = GoRouter(
                 final userId = state.pathParameters['userId']!;
                 return ProfilePage(userId: userId);
               },
+              routes: [
+                GoRoute(
+                  path: 'followers',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final userId = state.pathParameters['userId']!;
+                    return FollowersPage(userId: userId);
+                  },
+                ),
+                GoRoute(
+                  path: 'following',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final userId = state.pathParameters['userId']!;
+                    return FollowingPage(userId: userId);
+                  },
+                ),
+                GoRoute(
+                  path: 'blocked_users',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final userId = state.pathParameters['userId']!;
+                    return BlockedUsersPage(userId: userId);
+                  },
+                ),
+              ],
             ),
           ],
         ),

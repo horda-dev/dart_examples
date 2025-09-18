@@ -101,9 +101,26 @@ class _ProfileLoadedView extends StatelessWidget {
           const SizedBox(height: 8.0),
           Row(
             children: [
-              Text('$followingCount Following'),
+              GestureDetector(
+                onTap: () {
+                  context.push('./following');
+                },
+                child: Text('$followingCount Following'),
+              ),
               const SizedBox(width: 16.0),
-              Text('$followerCount Followers'),
+              GestureDetector(
+                onTap: () {
+                  context.push('./followers');
+                },
+                child: Text('$followerCount Followers'),
+              ),
+              const SizedBox(width: 16.0),
+              GestureDetector(
+                onTap: () {
+                  context.push('./blocked_users');
+                },
+                child: const Text('Blocked Users'),
+              ),
             ],
           ),
           const SizedBox(height: 8.0),

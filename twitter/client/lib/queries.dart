@@ -289,3 +289,27 @@ class UserFollowingQuery extends EntityQuery {
     views.add(following);
   }
 }
+
+class UserFollowersQuery extends EntityQuery {
+  final followers = EntityListView(
+    'followersView',
+    query: BasicUserInfoQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(followers);
+  }
+}
+
+class BlockedUsersQuery extends EntityQuery {
+  final blockedUsers = EntityListView(
+    'blockedUsersView',
+    query: BasicUserInfoQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(blockedUsers);
+  }
+}
