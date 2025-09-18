@@ -89,7 +89,7 @@ class _LoadedViewState extends State<_LoadedView> {
                       ),
                       const Spacer(),
                       Text(
-                        model.createdAt,
+                        model.createdAtString,
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12.0,

@@ -4,55 +4,15 @@ import 'package:twitter_server/twitter_server.dart';
 
 import '../queries.dart';
 import '../shared/author_user_view_model.dart';
+import '../shared/tweet_view_model.dart';
 import 'tweet_details_exception.dart';
 
-class TweetDetailsViewModel {
-  final BuildContext context;
-  final HordaClientSystem system;
+class TweetDetailsViewModel extends TweetViewModel {
+  TweetDetailsViewModel(BuildContext context)
+    : super(context, context.query<TweetQuery>());
 
-  TweetDetailsViewModel(this.context)
-    : system = HordaSystemProvider.of(context);
-
-  EntityQueryDependencyBuilder<TweetQuery> get tweetQuery {
-    return context.query<TweetQuery>();
-  }
-
-  AuthorUserViewModel get author {
-    return AuthorUserViewModel(
-      tweetQuery.ref((q) => q.authorUser),
-    );
-  }
-
-  String get id {
-    return tweetQuery.id();
-  }
-
-  String get text {
-    return tweetQuery.value((q) => q.text);
-  }
-
-  int get likeCount {
-    return tweetQuery.counter((q) => q.likeCount);
-  }
-
-  int get retweetCount {
-    return tweetQuery.counter((q) => q.retweetCount);
-  }
-
-  String get createdAt {
-    return _formatTimestamp(
-      tweetQuery.value((q) => q.createdAt),
-    );
-  }
-
-  bool get isLikedByCurrentUser {
-    final currentUserId = context.hordaAuthUserId;
-    if (currentUserId == null) return false;
-    return tweetQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
-  }
-
-  String get attachmentUrl {
-    return tweetQuery.value((q) => q.attachmentUrl);
+  String get createdAtString {
+    return _formatTimestamp(createdAt);
   }
 
   int get commentsLength => tweetQuery.listLength((q) => q.comments);
@@ -64,24 +24,6 @@ class TweetDetailsViewModel {
       tweetQuery.listItem((q) => q.comments, index),
       index,
     );
-  }
-
-  Future<void> toggleLikeTweet() async {
-    final result = await system.dispatchEvent(
-      ClientToggleTweetLikeRequested(id),
-    );
-    if (result.isError) {
-      throw TweetDetailsException(result.value ?? 'Failed to toggle like.');
-    }
-  }
-
-  Future<void> retweet() async {
-    final result = await system.dispatchEvent(
-      ClientRetweetRequested(id, []),
-    );
-    if (result.isError) {
-      throw TweetDetailsException(result.value ?? 'Failed to retweet.');
-    }
   }
 
   Future<void> addComment(String commentText) async {
