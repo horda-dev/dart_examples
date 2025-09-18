@@ -135,16 +135,6 @@ class UserAccountQuery extends EntityQuery {
     query: UserProfileQuery(),
   );
 
-  final followers = EntityListView(
-    'followersView',
-    query: BasicUserInfoQuery(),
-  );
-
-  final following = EntityListView(
-    'followingView',
-    query: BasicUserInfoQuery(),
-  );
-
   final followerCount = EntityCounterView(
     'followerCountView',
   );
@@ -164,8 +154,6 @@ class UserAccountQuery extends EntityQuery {
       ..add(handle)
       ..add(email)
       ..add(profile)
-      ..add(followers)
-      ..add(following)
       ..add(followerCount)
       ..add(followingCount)
       ..add(registeredAt);
@@ -243,5 +231,37 @@ class ExploreFeedQuery extends EntityQuery {
   @override
   void initViews(EntityQueryGroup views) {
     views.add(tweets);
+  }
+}
+
+/// App-wide query used all over the application, to hide blocked user tweets, etc.
+class MeQuery extends EntityQuery {
+  final blockedUsers = EntityListView(
+    'blockedUsersView',
+    query: BasicUserInfoQuery(),
+  );
+
+  final followers = EntityListView(
+    'followersView',
+    query: BasicUserInfoQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views
+      ..add(blockedUsers)
+      ..add(followers);
+  }
+}
+
+class UserFollowingQuery extends EntityQuery {
+  final following = EntityListView(
+    'followingView',
+    query: BasicUserInfoQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(following);
   }
 }

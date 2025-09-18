@@ -134,7 +134,16 @@ class CommentViewModel {
   bool get isLikedByCurrentUser {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;
-    return commentQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
+    return commentQuery
+        .listItems((q) => q.likedByUsers)
+        .contains(currentUserId);
+  }
+
+  bool get isAuthorBlocked {
+    final blockedUsers = context.query<MeQuery>().listItems(
+      (q) => q.blockedUsers,
+    );
+    return blockedUsers.contains(author.id);
   }
 
   Future<void> toggleLikeComment() async {

@@ -45,6 +45,13 @@ class TweetViewModel {
     return tweetQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
   }
 
+  bool get isAuthorBlocked {
+    final blockedUsers = context.query<MeQuery>().listItems(
+      (q) => q.blockedUsers,
+    );
+    return blockedUsers.contains(author.id);
+  }
+
   String get attachmentUrl {
     return tweetQuery.value((q) => q.attachmentUrl);
   }

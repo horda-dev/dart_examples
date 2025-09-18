@@ -234,6 +234,10 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (model.isAuthorBlocked) {
+      return SizedBox.shrink();
+    }
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Padding(

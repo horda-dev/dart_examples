@@ -6,24 +6,61 @@ import 'compose_tweet/compose_tweet_page.dart';
 import 'explore/explore_page.dart';
 import 'home/home_page.dart';
 import 'profile/profile_page.dart';
+import 'shared/me_query_shell.dart';
 import 'sign_in/sign_in_page.dart';
 import 'sign_up/sign_up_page.dart';
 import 'tweet_details/tweet_details_page.dart';
 
 final kRouter = GoRouter(
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const HomePage();
+    ShellRoute(
+      builder: (BuildContext context, GoRouterState state, Widget child) {
+        return MeQueryShell(child: child);
       },
       routes: <RouteBase>[
         GoRoute(
-          path: 'explore',
+          path: '/',
           builder: (BuildContext context, GoRouterState state) {
-            return const ExplorePage();
+            return const HomePage();
           },
-          routes: [
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'explore',
+              builder: (BuildContext context, GoRouterState state) {
+                return const ExplorePage();
+              },
+              routes: [
+                GoRoute(
+                  path: 'tweet/:tweetId',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final tweetId = state.pathParameters['tweetId']!;
+                    return TweetDetailsPage(tweetId: tweetId);
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'profile/:userId',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return ProfilePage(userId: userId);
+                      },
+                    ),
+                  ],
+                ),
+                GoRoute(
+                  path: 'profile/:userId',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final userId = state.pathParameters['userId']!;
+                    return ProfilePage(userId: userId);
+                  },
+                ),
+              ],
+            ),
+            GoRoute(
+              path: 'compose_tweet',
+              builder: (BuildContext context, GoRouterState state) {
+                return const ComposeTweetPage();
+              },
+            ),
             GoRoute(
               path: 'tweet/:tweetId',
               builder: (BuildContext context, GoRouterState state) {
@@ -48,35 +85,6 @@ final kRouter = GoRouter(
               },
             ),
           ],
-        ),
-        GoRoute(
-          path: 'compose_tweet',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ComposeTweetPage();
-          },
-        ),
-        GoRoute(
-          path: 'tweet/:tweetId',
-          builder: (BuildContext context, GoRouterState state) {
-            final tweetId = state.pathParameters['tweetId']!;
-            return TweetDetailsPage(tweetId: tweetId);
-          },
-          routes: [
-            GoRoute(
-              path: 'profile/:userId',
-              builder: (BuildContext context, GoRouterState state) {
-                final userId = state.pathParameters['userId']!;
-                return ProfilePage(userId: userId);
-              },
-            ),
-          ],
-        ),
-        GoRoute(
-          path: 'profile/:userId',
-          builder: (BuildContext context, GoRouterState state) {
-            final userId = state.pathParameters['userId']!;
-            return ProfilePage(userId: userId);
-          },
         ),
       ],
     ),

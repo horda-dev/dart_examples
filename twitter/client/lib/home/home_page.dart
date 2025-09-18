@@ -95,6 +95,10 @@ class TweetCard extends StatelessWidget {
     final createdAt = tweet.createdAt;
     final attachmentUrl = tweet.attachmentUrl;
 
+    if (tweet.isAuthorBlocked) {
+      return SizedBox.shrink();
+    }
+
     return GestureDetector(
       onTap: () {
         context.go('./tweet/${tweet.id}');
