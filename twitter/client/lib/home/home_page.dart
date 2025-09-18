@@ -93,6 +93,7 @@ class TweetCard extends StatelessWidget {
     final likeCount = tweet.likeCount;
     final retweetCount = tweet.retweetCount;
     final createdAt = tweet.createdAt;
+    final attachmentUrl = tweet.attachmentUrl;
 
     return GestureDetector(
       onTap: () {
@@ -137,6 +138,11 @@ class TweetCard extends StatelessWidget {
               ),
               const SizedBox(height: 8.0),
               Text(tweetText),
+              if (attachmentUrl.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Image.network(attachmentUrl),
+                ),
               const SizedBox(height: 8.0),
               Row(
                 children: [

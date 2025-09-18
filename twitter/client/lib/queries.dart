@@ -33,6 +33,10 @@ class TweetQuery extends EntityQuery {
     query: BasicUserInfoQuery(),
   );
 
+  final attachmentUrl = EntityValueView<String>(
+    'tweetAttachmentUrlView',
+  );
+
   @override
   void initViews(EntityQueryGroup views) {
     views
@@ -42,7 +46,8 @@ class TweetQuery extends EntityQuery {
       ..add(likeCount)
       ..add(retweetCount)
       ..add(comments)
-      ..add(likedByUsers);
+      ..add(likedByUsers)
+      ..add(attachmentUrl);
   }
 }
 

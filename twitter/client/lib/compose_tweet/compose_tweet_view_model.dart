@@ -10,11 +10,12 @@ class ComposeTweetViewModel {
     _hordaSystem = HordaSystemProvider.of(context);
   }
 
-  Future<void> sendTweet({required String text}) async {
+  Future<void> sendTweet({required String text, String? attachmentBase64}) async {
     final result = await _hordaSystem.dispatchEvent(
       ClientCreateTweetRequested(
         authorUserId: context.hordaAuthUserId!,
         text: text,
+        attachmentBase64: attachmentBase64,
         timelineIds: [],
       ),
     );

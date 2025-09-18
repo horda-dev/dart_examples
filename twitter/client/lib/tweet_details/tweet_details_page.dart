@@ -100,6 +100,11 @@ class _LoadedViewState extends State<_LoadedView> {
                 ),
                 const SizedBox(height: 8.0),
                 Text(model.text, style: const TextStyle(fontSize: 16.0)),
+                if (model.attachmentUrl.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Image.network(model.attachmentUrl),
+                  ),
                 const SizedBox(height: 16.0),
                 Row(
                   children: [

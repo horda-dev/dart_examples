@@ -45,6 +45,10 @@ class TweetViewModel {
     return tweetQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
   }
 
+  String get attachmentUrl {
+    return tweetQuery.value((q) => q.attachmentUrl);
+  }
+
   Future<void> toggleLikeTweet() async {
     final result = await system.dispatchEvent(
       ClientToggleCommentLikeRequested(id),

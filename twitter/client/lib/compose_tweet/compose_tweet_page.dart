@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'compose_tweet_view_model.dart';
 
@@ -16,6 +20,9 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
   bool _isLoading = false;
   String? _errorMessage;
 
+  File? _selectedImage;
+  String? _attachmentBase64;
+
   @override
   void initState() {
     super.initState();
@@ -28,10 +35,23 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
     super.dispose();
   }
 
-  Future<void> _onSendTweetPressed() async {
-    if (_tweetTextController.text.isEmpty) {
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final bytes = await pickedFile.readAsBytes();
       setState(() {
-        _errorMessage = 'Tweet cannot be empty.';
+        _selectedImage = File(pickedFile.path);
+        _attachmentBase64 = base64Encode(bytes);
+      });
+    }
+  }
+
+  Future<void> _onSendTweetPressed() async {
+    if (_tweetTextController.text.isEmpty && _selectedImage == null) {
+      setState(() {
+        _errorMessage = 'Tweet cannot be empty without an attachment.';
       });
       return;
     }
@@ -42,9 +62,14 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
     });
 
     try {
-      await _viewModel.sendTweet(text: _tweetTextController.text);
+      await _viewModel.sendTweet(
+        text: _tweetTextController.text,
+        attachmentBase64: _attachmentBase64,
+      );
       if (mounted) {
         _tweetTextController.clear();
+        _selectedImage = null;
+        _attachmentBase64 = null;
         context.pop(); // Go back to the previous page (e.g., home)
       }
     } catch (e) {
@@ -75,6 +100,10 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.image),
+            onPressed: _pickImage,
+          ),
+          IconButton(
             icon: _isLoading
                 ? const CircularProgressIndicator(color: Colors.black)
                 : const Icon(Icons.send, color: Colors.black),
@@ -95,6 +124,11 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
                 border: InputBorder.none, // No border
               ),
             ),
+            if (_selectedImage != null)
+              Image.file(
+                _selectedImage!,
+                height: 200,
+              ),
             if (_errorMessage != null)
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),

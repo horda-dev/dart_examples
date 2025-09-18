@@ -51,6 +51,10 @@ class TweetDetailsViewModel {
     return tweetQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
   }
 
+  String get attachmentUrl {
+    return tweetQuery.value((q) => q.attachmentUrl);
+  }
+
   int get commentsLength => tweetQuery.listLength((q) => q.comments);
 
   CommentViewModel getComment(int index) {
