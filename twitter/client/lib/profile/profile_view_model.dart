@@ -27,5 +27,7 @@ class ProfileViewModel {
 
   String get displayName => userProfileQuery.value((q) => q.displayName);
 
+  String get avatarUrl => userProfileQuery.value((q) => q.avatarUrl);
+
   String get bio => userProfileQuery.value((q) => q.bio);
 }

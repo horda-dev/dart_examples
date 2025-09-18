@@ -62,6 +62,13 @@ class _ProfileLoadedView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(viewModel.avatarUrl),
+            ),
+          ),
+          const SizedBox(height: 16.0),
           Text(
             displayName,
             style: const TextStyle(

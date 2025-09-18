@@ -157,12 +157,14 @@ class UserAccountQuery extends EntityQuery {
 
 class UserProfileQuery extends EntityQuery {
   final displayName = EntityValueView<String>('displayNameView');
+  final avatarUrl = EntityValueView<String>('avatarUrlView');
   final bio = EntityValueView<String>('bioView');
 
   @override
   void initViews(EntityQueryGroup views) {
     views
       ..add(displayName)
+      ..add(avatarUrl)
       ..add(bio);
   }
 }
