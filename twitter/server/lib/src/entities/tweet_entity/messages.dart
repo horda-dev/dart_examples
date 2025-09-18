@@ -8,13 +8,16 @@ part 'messages.g.dart';
 /// {@category Entity Command}
 @JsonSerializable()
 class CreateTweet extends RemoteCommand {
-  CreateTweet(this.authorUserId, this.text);
+  CreateTweet(this.authorUserId, this.text, this.attachmentUrl);
 
   /// ID of the user who authored the tweet
   String authorUserId;
 
   /// Text content of the tweet
   String text;
+
+  /// URL of an image attached to the tweet
+  String attachmentUrl;
 
   factory CreateTweet.fromJson(Map<String, dynamic> json) {
     return _$CreateTweetFromJson(json);
@@ -31,13 +34,16 @@ class CreateTweet extends RemoteCommand {
 /// {@category Entity Event}
 @JsonSerializable()
 class TweetCreated extends RemoteEvent {
-  TweetCreated(this.authorUserId, this.text);
+  TweetCreated(this.authorUserId, this.text, this.attachmentUrl);
 
   /// ID of the user who authored the tweet
   String authorUserId;
 
   /// Text content of the tweet
   String text;
+
+  /// URL of an image attached to the tweet
+  String attachmentUrl;
 
   factory TweetCreated.fromJson(Map<String, dynamic> json) {
     return _$TweetCreatedFromJson(json);

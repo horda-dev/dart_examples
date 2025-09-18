@@ -6,22 +6,30 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateTweet _$CreateTweetFromJson(Map<String, dynamic> json) =>
-    CreateTweet(json['authorUserId'] as String, json['text'] as String);
+CreateTweet _$CreateTweetFromJson(Map<String, dynamic> json) => CreateTweet(
+  json['authorUserId'] as String,
+  json['text'] as String,
+  json['attachmentUrl'] as String,
+);
 
 Map<String, dynamic> _$CreateTweetToJson(CreateTweet instance) =>
     <String, dynamic>{
       'authorUserId': instance.authorUserId,
       'text': instance.text,
+      'attachmentUrl': instance.attachmentUrl,
     };
 
-TweetCreated _$TweetCreatedFromJson(Map<String, dynamic> json) =>
-    TweetCreated(json['authorUserId'] as String, json['text'] as String);
+TweetCreated _$TweetCreatedFromJson(Map<String, dynamic> json) => TweetCreated(
+  json['authorUserId'] as String,
+  json['text'] as String,
+  json['attachmentUrl'] as String,
+);
 
 Map<String, dynamic> _$TweetCreatedToJson(TweetCreated instance) =>
     <String, dynamic>{
       'authorUserId': instance.authorUserId,
       'text': instance.text,
+      'attachmentUrl': instance.attachmentUrl,
     };
 
 ToggleTweetLike _$ToggleTweetLikeFromJson(Map<String, dynamic> json) =>

@@ -37,6 +37,7 @@ Future<FlowResult> clientCreateTweetRequested(
     cmd: CreateTweet(
       event.authorUserId,
       event.text,
+      event.attachmentUrl,
     ),
     fac: TweetCreated.fromJson,
   );
@@ -64,6 +65,7 @@ class ClientCreateTweetRequested extends RemoteEvent {
   ClientCreateTweetRequested({
     required this.authorUserId,
     required this.text,
+    required this.attachmentUrl,
     required this.timelineIds,
   });
 
@@ -72,6 +74,9 @@ class ClientCreateTweetRequested extends RemoteEvent {
 
   /// Text content of the tweet
   final String text;
+
+  /// URL of an image attached to the tweet
+  final String attachmentUrl;
 
   /// IDs of timelines in which this tweet will show up
   final List<String> timelineIds;

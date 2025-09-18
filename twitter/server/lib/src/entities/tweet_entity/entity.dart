@@ -11,7 +11,7 @@ class TweetEntity extends Entity<TweetEntityState> {
     CreateTweet cmd,
     EntityContext context,
   ) async {
-    return TweetCreated(cmd.authorUserId, cmd.text);
+    return TweetCreated(cmd.authorUserId, cmd.text, cmd.attachmentUrl);
   }
 
   /// For command description, see [ToggleTweetLike].
