@@ -31,7 +31,13 @@ class EditProfilePage extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
-          return _EditProfileLoadedView(userId: userId);
+          final model = EditProfileViewModel(context);
+
+          return _EditProfileLoadedView(
+            model: model,
+            initialDisplayName: model.displayName,
+            initialBio: model.bio,
+          );
         },
       ),
     );
@@ -39,16 +45,23 @@ class EditProfilePage extends StatelessWidget {
 }
 
 class _EditProfileLoadedView extends StatefulWidget {
-  final String userId;
+  const _EditProfileLoadedView({
+    required this.model,
+    required this.initialDisplayName,
+    required this.initialBio,
+  });
 
-  const _EditProfileLoadedView({required this.userId});
+  final EditProfileViewModel model;
+  final String initialDisplayName;
+  final String initialBio;
 
   @override
   State<_EditProfileLoadedView> createState() => _EditProfileLoadedViewState();
 }
 
 class _EditProfileLoadedViewState extends State<_EditProfileLoadedView> {
-  late final EditProfileViewModel _viewModel;
+  EditProfileViewModel get model => widget.model;
+
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   File? _selectedImage;
@@ -59,9 +72,9 @@ class _EditProfileLoadedViewState extends State<_EditProfileLoadedView> {
   @override
   void initState() {
     super.initState();
-    _viewModel = EditProfileViewModel(context);
-    _displayNameController.text = _viewModel.displayName;
-    _bioController.text = _viewModel.bio;
+
+    _displayNameController.text = widget.initialDisplayName;
+    _bioController.text = widget.initialBio;
   }
 
   @override
@@ -91,7 +104,7 @@ class _EditProfileLoadedViewState extends State<_EditProfileLoadedView> {
     });
 
     try {
-      await _viewModel.updateProfile(
+      await model.updateProfile(
         displayName: _displayNameController.text,
         bio: _bioController.text,
         avatarBase64: _avatarBase64,
@@ -144,8 +157,8 @@ class _EditProfileLoadedViewState extends State<_EditProfileLoadedView> {
                 radius: 60,
                 backgroundImage: _selectedImage != null
                     ? FileImage(_selectedImage!)
-                    : NetworkImage(_viewModel.avatarUrl) as ImageProvider,
-                child: _selectedImage == null && _viewModel.avatarUrl.isEmpty
+                    : NetworkImage(model.avatarUrl) as ImageProvider,
+                child: _selectedImage == null && model.avatarUrl.isEmpty
                     ? Icon(
                         Icons.camera_alt,
                         size: 40,
