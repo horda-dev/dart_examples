@@ -43,7 +43,8 @@ class GoogleCloudService {
   }
 
   String _getImageUrl(String bucketName, String fileName) {
-    return 'https://firebasestorage.googleapis.com/v0/b/$bucketName/o/$fileName?alt=media';
+    final uriEncodedFileName = Uri.encodeComponent(fileName);
+    return 'https://firebasestorage.googleapis.com/v0/b/$bucketName/o/$uriEncodedFileName?alt=media';
   }
 
   Storage? _storage;
