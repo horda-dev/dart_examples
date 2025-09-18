@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
 
+import '../auth.dart';
+import '../config.dart';
+import '../main.dart';
 import '../queries.dart';
 import 'profile_view_model.dart';
 
@@ -26,6 +29,21 @@ class _ProfilePageState extends State<ProfilePage> {
             context.pop();
           },
         ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              kAuthService.logout();
+              context.logout();
+
+              // TODO: remove when Auth API is updated
+              final system = HordaSystemProvider.of(context);
+              system.reopen(NoAuthConfig(url: kUrl, apiKey: kApiKey));
+
+              context.go('/signin');
+            },
+            child: const Text('Logout'),
+          ),
+        ],
       ),
       body: context.entityQuery(
         entityId: widget.userId,
