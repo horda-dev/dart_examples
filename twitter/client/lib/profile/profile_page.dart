@@ -104,8 +104,15 @@ class _ProfileLoadedView extends StatelessWidget {
             '@$userHandle',
             style: const TextStyle(fontSize: 16, color: Colors.grey),
           ),
+          const SizedBox(height: 8.0),
+          Text(
+            bio.isNotEmpty ? bio : 'No bio available.',
+            style: bio.isNotEmpty
+                ? null
+                : const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+          ),
+          const SizedBox(height: 8.0),
           if (viewModel.isNotCurrentUser) ...[
-            const SizedBox(height: 8.0),
             Row(
               children: [
                 TextButton(
@@ -119,10 +126,8 @@ class _ProfileLoadedView extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 8.0),
           ],
-          const SizedBox(height: 8.0),
-          Text(bio),
-          const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
