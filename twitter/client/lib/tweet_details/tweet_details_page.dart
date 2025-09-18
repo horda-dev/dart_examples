@@ -185,7 +185,9 @@ class _LoadedViewState extends State<_LoadedView> {
           child: ListView.builder(
             itemCount: model.commentsLength,
             itemBuilder: (context, index) {
-              final commentModel = model.getComment(index);
+              final commentModel = model.getComment(
+                model.commentsLength - index - 1,
+              );
               return CommentCard(
                 model: commentModel,
               );

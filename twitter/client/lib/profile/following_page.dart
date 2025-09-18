@@ -44,7 +44,7 @@ class FollowingPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final followingQuery = context
                     .query<UserFollowingQuery>()
-                    .listItem((q) => q.following, index);
+                    .listItem((q) => q.following, followingLength - index - 1);
                 final following = AuthorUserViewModel(followingQuery);
                 return ListTile(
                   leading: CircleAvatar(

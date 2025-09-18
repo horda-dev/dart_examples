@@ -44,7 +44,10 @@ class BlockedUsersPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final blockedUserQuery = context
                     .query<BlockedUsersQuery>()
-                    .listItem((q) => q.blockedUsers, index);
+                    .listItem(
+                      (q) => q.blockedUsers,
+                      blockedUsersLength - index - 1,
+                    );
                 final blockedUser = AuthorUserViewModel(blockedUserQuery);
                 return ListTile(
                   leading: CircleAvatar(
