@@ -8,18 +8,18 @@ import 'messages.dart';
 /// {@category View Group}
 class ExploreFeedViewGroup implements EntityViewGroup {
   ExploreFeedViewGroup()
-      : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
-        updatedAtView = ValueView<DateTime>(
-          name: 'exploreFeedUpdatedAtView',
-          value: DateTime.fromMicrosecondsSinceEpoch(0),
-        );
+    : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
+      updatedAtView = ValueView<DateTime>(
+        name: 'exploreFeedUpdatedAtView',
+        value: DateTime.fromMicrosecondsSinceEpoch(0),
+      );
 
   ExploreFeedViewGroup.fromInitEvent(ExploreFeedCreated event)
-      : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
-        updatedAtView = ValueView<DateTime>(
-          name: 'exploreFeedUpdatedAtView',
-          value: DateTime.now().toUtc(),
-        );
+    : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
+      updatedAtView = ValueView<DateTime>(
+        name: 'exploreFeedUpdatedAtView',
+        value: DateTime.now().toUtc(),
+      );
 
   /// View for the list of tweets in the explore feed
   final RefListView<TweetEntity> tweetsView;

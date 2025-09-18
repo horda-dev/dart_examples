@@ -18,9 +18,9 @@ class TweetEntityState implements EntityState {
   );
 
   TweetEntityState.fromTweetCreated(TweetCreated event)
-      : _likedByUsers = [],
-        _retweetedByUsers = [],
-        createdAt = DateTime.now().toUtc();
+    : _likedByUsers = [],
+      _retweetedByUsers = [],
+      createdAt = DateTime.now().toUtc();
 
   final DateTime createdAt;
 

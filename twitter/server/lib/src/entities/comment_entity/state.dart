@@ -23,13 +23,13 @@ class CommentEntityState implements EntityState {
 
   // Named constructor instead of factory
   CommentEntityState.fromCommentCreated(CommentCreated event)
-      : authorUserId = event.authorUserId,
-        text = event.text,
-        parentTweetId = event.parentTweetId,
-        parentCommentId = event.parentCommentId,
-        _likedByUsers = [], // Initial empty list for likedByUsers
-        _replyCommentIds = [], // Initial empty list for replyCommentIds
-        createdAt = DateTime.now().toUtc(); // Set creation time in UTC
+    : authorUserId = event.authorUserId,
+      text = event.text,
+      parentTweetId = event.parentTweetId,
+      parentCommentId = event.parentCommentId,
+      _likedByUsers = [], // Initial empty list for likedByUsers
+      _replyCommentIds = [], // Initial empty list for replyCommentIds
+      createdAt = DateTime.now().toUtc(); // Set creation time in UTC
 
   final String authorUserId;
   final String text;
@@ -69,7 +69,9 @@ class CommentEntityState implements EntityState {
     return switch (event) {
       CommentLiked() => commentLiked(event), // Using EventType() syntax
       CommentUnliked() => commentUnliked(event), // Using EventType() syntax
-      CommentReplyAdded() => commentReplyAdded(event), // Using EventType() syntax
+      CommentReplyAdded() => commentReplyAdded(
+        event,
+      ), // Using EventType() syntax
       _ => null,
     };
   }
