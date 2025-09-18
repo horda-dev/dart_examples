@@ -154,7 +154,10 @@ class TweetCard extends StatelessWidget {
               if (attachmentUrl.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Image.network(attachmentUrl),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 300.0),
+                    child: Image.network(attachmentUrl, fit: BoxFit.cover),
+                  ),
                 ),
               const SizedBox(height: 8.0),
               Row(
