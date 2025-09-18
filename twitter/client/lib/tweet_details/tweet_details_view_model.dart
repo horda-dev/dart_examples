@@ -15,17 +15,6 @@ class TweetDetailsViewModel extends TweetViewModel {
     return _formatTimestamp(createdAt);
   }
 
-  int get commentsLength => tweetQuery.listLength((q) => q.comments);
-
-  CommentViewModel getComment(int index) {
-    return CommentViewModel(
-      context,
-      system,
-      tweetQuery.listItem((q) => q.comments, index),
-      index,
-    );
-  }
-
   Future<void> addComment(String commentText) async {
     final result = await system.dispatchEvent(
       ClientCreateCommentRequested(
@@ -37,6 +26,32 @@ class TweetDetailsViewModel extends TweetViewModel {
     if (result.isError) {
       throw TweetDetailsException(result.value ?? 'Failed to add comment.');
     }
+  }
+}
+
+class CommentListViewModel {
+  final BuildContext context;
+  final HordaClientSystem system;
+
+  CommentListViewModel(this.context) : system = HordaSystemProvider.of(context);
+
+  EntityQueryDependencyBuilder<TweetCommentsQuery> get commentsQuery {
+    return context.query<TweetCommentsQuery>();
+  }
+
+  String get tweetId {
+    return commentsQuery.id();
+  }
+
+  int get commentsLength => commentsQuery.listLength((q) => q.comments);
+
+  CommentViewModel getComment(int index) {
+    return CommentViewModel(
+      context,
+      system,
+      commentsQuery.listItem((q) => q.comments, index),
+      index,
+    );
   }
 }
 

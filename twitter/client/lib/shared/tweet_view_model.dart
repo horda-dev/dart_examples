@@ -39,6 +39,10 @@ class TweetViewModel {
     return tweetQuery.counter((q) => q.retweetCount);
   }
 
+  int get commentCount {
+    return tweetQuery.counter((q) => q.commentCount);
+  }
+
   bool get isLikedByCurrentUser {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;

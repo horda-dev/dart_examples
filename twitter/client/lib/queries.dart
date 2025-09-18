@@ -23,9 +23,8 @@ class TweetQuery extends EntityQuery {
     'retweetCountView',
   );
 
-  final comments = EntityListView(
-    'commentsView',
-    query: CommentQuery(),
+  final commentCount = EntityCounterView(
+    'commentCountView',
   );
 
   final likedByUsers = EntityListView(
@@ -45,9 +44,21 @@ class TweetQuery extends EntityQuery {
       ..add(createdAt)
       ..add(likeCount)
       ..add(retweetCount)
-      ..add(comments)
+      ..add(commentCount)
       ..add(likedByUsers)
       ..add(attachmentUrl);
+  }
+}
+
+class TweetCommentsQuery extends EntityQuery {
+  final comments = EntityListView(
+    'commentsView',
+    query: CommentQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(comments);
   }
 }
 

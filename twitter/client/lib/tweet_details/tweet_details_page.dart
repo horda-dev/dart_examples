@@ -140,7 +140,7 @@ class _LoadedViewState extends State<_LoadedView> {
                       color: Colors.black,
                       disabledColor: Colors.black,
                     ),
-                    Text('${model.commentsLength}'),
+                    Text('${model.commentCount}'),
                   ],
                 ),
               ],
@@ -181,17 +181,19 @@ class _LoadedViewState extends State<_LoadedView> {
             ),
           ),
         const Divider(),
+        // Another query which fetches full comment data.
         Expanded(
-          child: ListView.builder(
-            itemCount: model.commentsLength,
-            itemBuilder: (context, index) {
-              final commentModel = model.getComment(
-                model.commentsLength - index - 1,
-              );
-              return CommentCard(
-                model: commentModel,
-              );
-            },
+          child: context.entityQuery(
+            entityId: model.id,
+            query: TweetCommentsQuery(),
+            loading: const Center(child: CircularProgressIndicator()),
+            error: const Center(child: Text('Failed to load tweet comments')),
+            child: Builder(
+              builder: (context) {
+                final model = CommentListViewModel(context);
+                return _CommentListLoaded(model: model);
+              },
+            ),
           ),
         ),
       ],
@@ -232,6 +234,27 @@ class _LoadedViewState extends State<_LoadedView> {
   bool _isCommenting = false;
 
   String? _commentError;
+}
+
+class _CommentListLoaded extends StatelessWidget {
+  const _CommentListLoaded({required this.model});
+
+  final CommentListViewModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: model.commentsLength,
+      itemBuilder: (context, index) {
+        final commentModel = model.getComment(
+          model.commentsLength - index - 1,
+        );
+        return CommentCard(
+          model: commentModel,
+        );
+      },
+    );
+  }
 }
 
 class CommentCard extends StatelessWidget {
