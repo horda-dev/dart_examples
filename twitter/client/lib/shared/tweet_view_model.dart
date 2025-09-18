@@ -58,7 +58,7 @@ class TweetViewModel {
 
   Future<void> toggleLikeTweet() async {
     final result = await system.dispatchEvent(
-      ClientToggleCommentLikeRequested(id),
+      ClientToggleTweetLikeRequested(id),
     );
     if (result.isError) {
       throw TweetException(
