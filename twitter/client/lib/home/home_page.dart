@@ -26,6 +26,15 @@ class _HomePageState extends State<HomePage> {
               context.go('/explore');
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              final userId = context.hordaAuthUserId;
+              if (userId != null) {
+                context.go('/profile/$userId');
+              }
+            },
+          ),
         ],
       ),
       body: context.entityQuery(

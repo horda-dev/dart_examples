@@ -79,6 +79,7 @@ class _ProfileLoadedView extends StatelessWidget {
     final followerCount = viewModel.followerCount;
     final followingCount = viewModel.followingCount;
     final registeredAt = viewModel.registeredAt;
+    final blockedUsersCount = viewModel.blockedUsersCount;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -123,27 +124,27 @@ class _ProfileLoadedView extends StatelessWidget {
           Text(bio),
           const SizedBox(height: 8.0),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              GestureDetector(
-                onTap: () {
+              TextButton(
+                onPressed: () {
                   context.push('./following');
                 },
                 child: Text('$followingCount Following'),
               ),
-              const SizedBox(width: 16.0),
-              GestureDetector(
-                onTap: () {
+              TextButton(
+                onPressed: () {
                   context.push('./followers');
                 },
                 child: Text('$followerCount Followers'),
               ),
-              const SizedBox(width: 16.0),
-              GestureDetector(
-                onTap: () {
-                  context.push('./blocked_users');
-                },
-                child: const Text('Blocked Users'),
-              ),
+              if (!viewModel.isNotCurrentUser) // Only show if it's the current user's profile
+                TextButton(
+                  onPressed: () {
+                    context.push('./blocked_users');
+                  },
+                  child: Text('$blockedUsersCount Blocked Users'),
+                ),
             ],
           ),
           const SizedBox(height: 8.0),

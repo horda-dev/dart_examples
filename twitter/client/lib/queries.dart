@@ -143,6 +143,10 @@ class UserAccountQuery extends EntityQuery {
     'followingCountView',
   );
 
+  final blockedCount = EntityCounterView(
+    'blockedCountView',
+  );
+
   final registeredAt = EntityDateTimeView(
     'registeredAtView',
     isUtc: true,
@@ -156,6 +160,7 @@ class UserAccountQuery extends EntityQuery {
       ..add(profile)
       ..add(followerCount)
       ..add(followingCount)
+      ..add(blockedCount)
       ..add(registeredAt);
   }
 }

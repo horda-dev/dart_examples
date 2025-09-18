@@ -24,6 +24,8 @@ class ProfileViewModel {
 
   int get followingCount => userAccountQuery.counter((q) => q.followingCount);
 
+  int get blockedUsersCount => userAccountQuery.counter((q) => q.blockedCount);
+
   DateTime get registeredAt => userAccountQuery.value((q) => q.registeredAt);
 
   String get displayName => userProfileQuery.value((q) => q.displayName);
