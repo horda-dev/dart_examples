@@ -48,6 +48,17 @@ class ProfileViewModel {
     return followingUsers.contains(userAccountQuery.id());
   }
 
+  bool get isBlocked {
+    final currentUserId = context.hordaAuthUserId;
+    if (currentUserId == null) return false;
+
+    final blockedUsers = context.query<MeQuery>().listItems(
+      (q) => q.blockedUsers,
+    );
+
+    return blockedUsers.contains(userAccountQuery.id());
+  }
+
   Future<void> toggleFollow() async {
     final result = await system.dispatchEvent(
       ClientToggleUserFollowRequested(userAccountQuery.id()),
@@ -55,6 +66,16 @@ class ProfileViewModel {
 
     if (result.isError) {
       throw Exception(result.value ?? 'Failed to toggle follow status.');
+    }
+  }
+
+  Future<void> toggleBlock() async {
+    final result = await system.dispatchEvent(
+      ClientToggleUserBlockRequested(userAccountQuery.id()),
+    );
+
+    if (result.isError) {
+      throw Exception(result.value ?? 'Failed to toggle block status.');
     }
   }
 }

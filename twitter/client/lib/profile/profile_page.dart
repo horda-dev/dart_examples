@@ -82,9 +82,18 @@ class _ProfileLoadedView extends StatelessWidget {
           ),
           if (viewModel.isNotCurrentUser) ...[
             const SizedBox(height: 8.0),
-            TextButton(
-              onPressed: viewModel.toggleFollow,
-              child: Text(viewModel.isFollowing ? 'Unfollow' : 'Follow'),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: viewModel.toggleFollow,
+                  child: Text(viewModel.isFollowing ? 'Unfollow' : 'Follow'),
+                ),
+                const SizedBox(width: 8.0),
+                TextButton(
+                  onPressed: viewModel.toggleBlock,
+                  child: Text(viewModel.isBlocked ? 'Unblock' : 'Block'),
+                ),
+              ],
             ),
           ],
           const SizedBox(height: 8.0),
