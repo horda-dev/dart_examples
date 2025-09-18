@@ -127,6 +127,15 @@ class _ProfileLoadedView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8.0),
+          ] else ...[
+            // Only show if it's the current user's profile
+            TextButton(
+              onPressed: () {
+                context.push('./edit');
+              },
+              child: const Text('Edit Profile'),
+            ),
+            const SizedBox(height: 8.0),
           ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

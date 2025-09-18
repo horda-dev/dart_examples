@@ -6,6 +6,7 @@ import 'compose_tweet/compose_tweet_page.dart';
 import 'explore/explore_page.dart';
 import 'home/home_page.dart';
 import 'profile/blocked_users_page.dart';
+import 'profile/edit_profile_page.dart';
 import 'profile/followers_page.dart';
 import 'profile/following_page.dart';
 import 'profile/profile_page.dart';
@@ -70,6 +71,13 @@ final kRouter = GoRouter(
                             return BlockedUsersPage(userId: userId);
                           },
                         ),
+                        GoRoute(
+                          path: 'edit',
+                          builder: (BuildContext context, GoRouterState state) {
+                            final userId = state.pathParameters['userId']!;
+                            return EditProfilePage(userId: userId);
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -100,6 +108,13 @@ final kRouter = GoRouter(
                       builder: (BuildContext context, GoRouterState state) {
                         final userId = state.pathParameters['userId']!;
                         return BlockedUsersPage(userId: userId);
+                      },
+                    ),
+                    GoRoute(
+                      path: 'edit',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return EditProfilePage(userId: userId);
                       },
                     ),
                   ],
@@ -147,6 +162,13 @@ final kRouter = GoRouter(
                         return BlockedUsersPage(userId: userId);
                       },
                     ),
+                    GoRoute(
+                      path: 'edit',
+                      builder: (BuildContext context, GoRouterState state) {
+                        final userId = state.pathParameters['userId']!;
+                        return EditProfilePage(userId: userId);
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -177,6 +199,13 @@ final kRouter = GoRouter(
                   builder: (BuildContext context, GoRouterState state) {
                     final userId = state.pathParameters['userId']!;
                     return BlockedUsersPage(userId: userId);
+                  },
+                ),
+                GoRoute(
+                  path: 'edit',
+                  builder: (BuildContext context, GoRouterState state) {
+                    final userId = state.pathParameters['userId']!;
+                    return EditProfilePage(userId: userId);
                   },
                 ),
               ],
