@@ -59,6 +59,12 @@ class UserProfileViewGroup implements EntityViewGroup {
     updatedAtView.value = DateTime.now().toUtc();
   }
 
+  void userProfileUpdated(UserProfileUpdated event) {
+    displayNameView.value = event.displayName;
+    bioView.value = event.bio;
+    updatedAtView.value = DateTime.now().toUtc();
+  }
+
   @override
   void initViews(ViewGroup views) {
     views
@@ -72,9 +78,8 @@ class UserProfileViewGroup implements EntityViewGroup {
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
     projectors
-      ..addInit<UserProfileCreated>(
-        UserProfileViewGroup.fromUserProfileCreated,
-      )
-      ..add<ProfilePictureUrlUpdated>(profilePictureUrlUpdated);
+      ..addInit<UserProfileCreated>(UserProfileViewGroup.fromUserProfileCreated)
+      ..add<ProfilePictureUrlUpdated>(profilePictureUrlUpdated)
+      ..add<UserProfileUpdated>(userProfileUpdated);
   }
 }

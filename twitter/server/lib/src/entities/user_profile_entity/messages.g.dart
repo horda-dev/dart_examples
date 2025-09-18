@@ -55,3 +55,15 @@ Map<String, dynamic> _$ProfilePictureUrlUpdatedToJson(
   'newAvatarUrl': instance.newAvatarUrl,
   'oldAvatarUrl': instance.oldAvatarUrl,
 };
+
+UpdateUserProfile _$UpdateUserProfileFromJson(Map<String, dynamic> json) =>
+    UpdateUserProfile(json['displayName'] as String, json['bio'] as String);
+
+Map<String, dynamic> _$UpdateUserProfileToJson(UpdateUserProfile instance) =>
+    <String, dynamic>{'displayName': instance.displayName, 'bio': instance.bio};
+
+UserProfileUpdated _$UserProfileUpdatedFromJson(Map<String, dynamic> json) =>
+    UserProfileUpdated(json['displayName'] as String, json['bio'] as String);
+
+Map<String, dynamic> _$UserProfileUpdatedToJson(UserProfileUpdated instance) =>
+    <String, dynamic>{'displayName': instance.displayName, 'bio': instance.bio};

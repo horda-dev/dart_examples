@@ -109,7 +109,10 @@ class _ProfileLoadedView extends StatelessWidget {
             bio.isNotEmpty ? bio : 'No bio available.',
             style: bio.isNotEmpty
                 ? null
-                : const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+                : const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
           ),
           const SizedBox(height: 8.0),
           if (viewModel.isNotCurrentUser) ...[
@@ -152,7 +155,8 @@ class _ProfileLoadedView extends StatelessWidget {
                 },
                 child: Text('$followerCount Followers'),
               ),
-              if (!viewModel.isNotCurrentUser) // Only show if it's the current user's profile
+              if (!viewModel
+                  .isNotCurrentUser) // Only show if it's the current user's profile
                 TextButton(
                   onPressed: () {
                     context.push('./blocked_users');

@@ -7,6 +7,7 @@ export 'src/client/processes/toggle_comment_like_requested_process.dart';
 export 'src/client/processes/toggle_tweet_like_requested_process.dart';
 export 'src/client/processes/toggle_user_block_requested_process.dart';
 export 'src/client/processes/toggle_user_follow_requested_process.dart';
+export 'src/client/processes/update_user_profile_requested_process.dart';
 export 'src/client/processes/upload_profile_picture_requested_process.dart';
 export 'src/entities/comment_entity/entity.dart';
 export 'src/entities/comment_entity/messages.dart';

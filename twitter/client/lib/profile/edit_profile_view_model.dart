@@ -6,10 +6,9 @@ import '../queries.dart';
 
 class EditProfileViewModel {
   final BuildContext context;
-  final HordaClientSystem _hordaSystem;
+  final HordaClientSystem system;
 
-  EditProfileViewModel(this.context)
-      : _hordaSystem = HordaSystemProvider.of(context);
+  EditProfileViewModel(this.context) : system = HordaSystemProvider.of(context);
 
   EntityQueryDependencyBuilder<UserAccountQuery> get userAccountQuery {
     return context.query<UserAccountQuery>();
@@ -19,6 +18,7 @@ class EditProfileViewModel {
     return userAccountQuery.ref((q) => q.profile);
   }
 
+  String get profileId => userProfileQuery.id();
   String get displayName => userProfileQuery.value((q) => q.displayName);
   String get bio => userProfileQuery.value((q) => q.bio);
   String get avatarUrl => userProfileQuery.value((q) => q.avatarUrl);
@@ -28,9 +28,9 @@ class EditProfileViewModel {
     required String bio,
     String? avatarBase64,
   }) async {
-    final result = await _hordaSystem.dispatchEvent(
+    final result = await system.dispatchEvent(
       ClientUpdateUserProfileRequested(
-        userId: userAccountQuery.id(),
+        profileId: profileId,
         displayName: displayName,
         bio: bio,
         avatarBase64: avatarBase64,

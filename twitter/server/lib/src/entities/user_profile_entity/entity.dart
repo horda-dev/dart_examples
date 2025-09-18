@@ -27,6 +27,15 @@ class UserProfileEntity extends Entity<UserProfileEntityState> {
     return ProfilePictureUrlUpdated(cmd.avatarUrl, state.avatarUrl);
   }
 
+  /// For command description, see [UpdateUserProfile].
+  Future<RemoteEvent> updateUserProfile(
+    UpdateUserProfile cmd,
+    UserProfileEntityState state,
+    EntityContext context,
+  ) async {
+    return UserProfileUpdated(cmd.displayName, cmd.bio);
+  }
+
   @override
   void initHandlers(EntityHandlers<UserProfileEntityState> handlers) {
     handlers.addStateFromJson(UserProfileEntityState.fromJson);
@@ -39,6 +48,10 @@ class UserProfileEntity extends Entity<UserProfileEntityState> {
     handlers.add<UpdateProfilePictureUrl>(
       updateProfilePictureUrl,
       UpdateProfilePictureUrl.fromJson,
+    );
+    handlers.add<UpdateUserProfile>(
+      updateUserProfile,
+      UpdateUserProfile.fromJson,
     );
   }
 

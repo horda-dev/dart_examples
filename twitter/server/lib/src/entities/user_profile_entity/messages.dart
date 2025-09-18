@@ -91,3 +91,43 @@ class ProfilePictureUrlUpdated extends RemoteEvent {
   @override
   Map<String, dynamic> toJson() => _$ProfilePictureUrlUpdatedToJson(this);
 }
+
+/// Updates the user's profile information.
+///
+/// {@category Entity Command}
+@JsonSerializable()
+class UpdateUserProfile extends RemoteCommand {
+  UpdateUserProfile(this.displayName, this.bio);
+
+  /// User's display name
+  final String displayName;
+
+  /// User's bio
+  final String bio;
+
+  factory UpdateUserProfile.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserProfileFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$UpdateUserProfileToJson(this);
+}
+
+/// Event indicating the user's profile information was updated.
+///
+/// {@category Entity Event}
+@JsonSerializable()
+class UserProfileUpdated extends RemoteEvent {
+  UserProfileUpdated(this.displayName, this.bio);
+
+  /// User's display name
+  final String displayName;
+
+  /// User's bio
+  final String bio;
+
+  factory UserProfileUpdated.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileUpdatedFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$UserProfileUpdatedToJson(this);
+}

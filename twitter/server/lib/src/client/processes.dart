@@ -8,7 +8,7 @@ import 'processes/toggle_comment_like_requested_process.dart';
 import 'processes/toggle_tweet_like_requested_process.dart';
 import 'processes/toggle_user_block_requested_process.dart';
 import 'processes/toggle_user_follow_requested_process.dart';
-import 'processes/upload_profile_picture_requested_process.dart';
+import 'processes/update_user_profile_requested_process.dart';
 
 class ClientProcesses extends Process {
   Future<FlowResult> registerUserRequested(
@@ -67,11 +67,11 @@ class ClientProcesses extends Process {
     return clientCreateTweetRequested(event, context);
   }
 
-  Future<FlowResult> uploadProfilePictureRequested(
-    ClientUploadProfilePictureRequested event,
+  Future<FlowResult> updateUserProfileRequested(
+    ClientUpdateUserProfileRequested event,
     ProcessContext context,
   ) async {
-    return clientUploadProfilePictureRequested(event, context);
+    return clientUpdateUserProfileRequested(event, context);
   }
 
   @override
@@ -108,9 +108,9 @@ class ClientProcesses extends Process {
       createTweetRequested,
       ClientCreateTweetRequested.fromJson,
     );
-    handlers.add<ClientUploadProfilePictureRequested>(
-      uploadProfilePictureRequested,
-      ClientUploadProfilePictureRequested.fromJson,
+    handlers.add<ClientUpdateUserProfileRequested>(
+      updateUserProfileRequested,
+      ClientUpdateUserProfileRequested.fromJson,
     );
   }
 }
