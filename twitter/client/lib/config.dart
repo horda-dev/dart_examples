@@ -1,5 +1,5 @@
-const kProjectId = 'd3629tsgc98s738ue7c0';
+const kProjectId = 'd368c1sgc98s738ue7cg';
 const kApiKey =
-    'sk-client-abdc722cabc01423XXZcy3VgHrwO5XHXlGj54T0yc-w68j3oFSJaNUdaln41Ft9YEgu6Dt1CSNJp06_7coyxxA136d5nXVQijpoptQ==';
+    'sk-client-a7e1df6be79bb12dn8gWLaJt0T9HhkLrCf48tpoD65atXIJyYDegp4DxJcikSbzXi5GaztaI7RoN2eLvxzJ6gRfLFuwkqkJtV_0D3Q==';
 
 final kUrl = 'wss://api.horda.ai/$kProjectId/client';
