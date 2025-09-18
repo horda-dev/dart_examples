@@ -241,6 +241,11 @@ class MeQuery extends EntityQuery {
     query: EmptyQuery(),
   );
 
+  final following = EntityListView(
+    'followingView',
+    query: EmptyQuery(),
+  );
+
   final followers = EntityListView(
     'followersView',
     query: MyFollowerQuery(),
@@ -255,6 +260,7 @@ class MeQuery extends EntityQuery {
   void initViews(EntityQueryGroup views) {
     views
       ..add(blockedUsers)
+      ..add(following)
       ..add(followers)
       ..add(timeline);
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
+import 'package:twitter_server/twitter_server.dart';
 
 import '../queries.dart';
 
@@ -30,4 +31,30 @@ class ProfileViewModel {
   String get avatarUrl => userProfileQuery.value((q) => q.avatarUrl);
 
   String get bio => userProfileQuery.value((q) => q.bio);
+
+  bool get isNotCurrentUser {
+    final currentUserId = context.hordaAuthUserId;
+    return currentUserId != userAccountQuery.id();
+  }
+
+  bool get isFollowing {
+    final currentUserId = context.hordaAuthUserId;
+    if (currentUserId == null) return false;
+
+    final followingUsers = context.query<MeQuery>().listItems(
+      (q) => q.following,
+    );
+
+    return followingUsers.contains(userAccountQuery.id());
+  }
+
+  Future<void> toggleFollow() async {
+    final result = await system.dispatchEvent(
+      ClientToggleUserFollowRequested(userAccountQuery.id()),
+    );
+
+    if (result.isError) {
+      throw Exception(result.value ?? 'Failed to toggle follow status.');
+    }
+  }
 }

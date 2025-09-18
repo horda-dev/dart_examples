@@ -80,6 +80,13 @@ class _ProfileLoadedView extends StatelessWidget {
             '@$userHandle',
             style: const TextStyle(fontSize: 16, color: Colors.grey),
           ),
+          if (viewModel.isNotCurrentUser) ...[
+            const SizedBox(height: 8.0),
+            TextButton(
+              onPressed: viewModel.toggleFollow,
+              child: Text(viewModel.isFollowing ? 'Unfollow' : 'Follow'),
+            ),
+          ],
           const SizedBox(height: 8.0),
           Text(bio),
           const SizedBox(height: 8.0),
