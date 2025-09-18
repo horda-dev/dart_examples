@@ -140,10 +140,21 @@ class TweetCard extends StatelessWidget {
               const SizedBox(height: 8.0),
               Row(
                 children: [
-                  Icon(Icons.favorite_border),
+                  IconButton(
+                    icon: Icon(
+                      tweet.isLikedByCurrentUser
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: tweet.isLikedByCurrentUser ? Colors.red : null,
+                    ),
+                    onPressed: () => tweet.toggleLikeTweet(),
+                  ),
                   Text('$likeCount'),
                   const SizedBox(width: 16.0),
-                  Icon(Icons.repeat),
+                  IconButton(
+                    icon: const Icon(Icons.repeat),
+                    onPressed: () => tweet.retweet(),
+                  ),
                   Text('$retweetCount'),
                 ],
               ),

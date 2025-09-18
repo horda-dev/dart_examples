@@ -20,6 +20,6 @@ class ExploreViewModel {
       index,
     );
 
-    return TweetViewModel(tweetQuery);
+    return TweetViewModel(context, tweetQuery);
   }
 }

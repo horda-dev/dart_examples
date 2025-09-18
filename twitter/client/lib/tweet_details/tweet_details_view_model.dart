@@ -45,10 +45,17 @@ class TweetDetailsViewModel {
     );
   }
 
+  bool get isLikedByCurrentUser {
+    final currentUserId = context.hordaAuthUserId;
+    if (currentUserId == null) return false;
+    return tweetQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
+  }
+
   int get commentsLength => tweetQuery.listLength((q) => q.comments);
 
   CommentViewModel getComment(int index) {
     return CommentViewModel(
+      context,
       system,
       tweetQuery.listItem((q) => q.comments, index),
       index,
@@ -88,12 +95,13 @@ class TweetDetailsViewModel {
 }
 
 class CommentViewModel {
+  final BuildContext context;
   final HordaClientSystem system;
 
   final EntityQueryDependencyBuilder<CommentQuery> commentQuery;
   final int index;
 
-  CommentViewModel(this.system, this.commentQuery, this.index);
+  CommentViewModel(this.context, this.system, this.commentQuery, this.index);
 
   AuthorUserViewModel get author {
     return AuthorUserViewModel(
@@ -117,6 +125,12 @@ class CommentViewModel {
     return _formatTimestamp(
       commentQuery.value((q) => q.createdAt),
     );
+  }
+
+  bool get isLikedByCurrentUser {
+    final currentUserId = context.hordaAuthUserId;
+    if (currentUserId == null) return false;
+    return commentQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
   }
 
   Future<void> toggleLikeComment() async {

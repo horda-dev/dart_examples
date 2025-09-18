@@ -28,6 +28,11 @@ class TweetQuery extends EntityQuery {
     query: CommentQuery(),
   );
 
+  final likedByUsers = EntityListView(
+    'tweetLikedByUsersView',
+    query: BasicUserInfoQuery(),
+  );
+
   @override
   void initViews(EntityQueryGroup views) {
     views
@@ -36,7 +41,8 @@ class TweetQuery extends EntityQuery {
       ..add(createdAt)
       ..add(likeCount)
       ..add(retweetCount)
-      ..add(comments);
+      ..add(comments)
+      ..add(likedByUsers);
   }
 }
 
@@ -64,6 +70,11 @@ class CommentQuery extends EntityQuery {
     query: CommentReplyQuery(),
   );
 
+  final likedByUsers = EntityListView(
+    'commentLikedByUsersView',
+    query: BasicUserInfoQuery(),
+  );
+
   @override
   void initViews(EntityQueryGroup views) {
     views
@@ -71,7 +82,8 @@ class CommentQuery extends EntityQuery {
       ..add(text)
       ..add(createdAt)
       ..add(likeCount)
-      ..add(replies);
+      ..add(replies)
+      ..add(likedByUsers);
   }
 }
 

@@ -104,7 +104,12 @@ class _LoadedViewState extends State<_LoadedView> {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.favorite_border),
+                      icon: Icon(
+                        model.isLikedByCurrentUser
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: model.isLikedByCurrentUser ? Colors.red : null,
+                      ),
                       onPressed: () => model.toggleLikeTweet(),
                     ),
                     Text('${model.likeCount}'),
@@ -115,7 +120,13 @@ class _LoadedViewState extends State<_LoadedView> {
                     ),
                     Text('${model.retweetCount}'),
                     const SizedBox(width: 16.0),
-                    const Icon(Icons.comment),
+                    // Use icon button to match layout of other icons.
+                    IconButton(
+                      icon: const Icon(Icons.comment),
+                      onPressed: null,
+                      color: Colors.black,
+                      disabledColor: Colors.black,
+                    ),
                     Text('${model.commentsLength}'),
                   ],
                 ),
@@ -258,7 +269,13 @@ class CommentCard extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.favorite_border, size: 18),
+                  icon: Icon(
+                    model.isLikedByCurrentUser
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    size: 18,
+                    color: model.isLikedByCurrentUser ? Colors.red : null,
+                  ),
                   onPressed: () => model.toggleLikeComment(),
                 ),
                 Text('${model.likeCount}'),
