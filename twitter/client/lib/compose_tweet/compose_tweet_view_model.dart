@@ -12,7 +12,7 @@ class ComposeTweetViewModel {
     _hordaSystem = HordaSystemProvider.of(context);
   }
 
-  Future<void> sendTweet({
+  Future<String> sendTweet({
     required String text,
     String? attachmentBase64,
   }) async {
@@ -45,5 +45,7 @@ class ComposeTweetViewModel {
     if (result.isError) {
       throw Exception(result.value ?? 'Failed to send tweet.');
     }
+
+    return result.value!;
   }
 }

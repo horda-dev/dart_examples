@@ -79,7 +79,7 @@ Future<FlowResult> clientCreateTweetRequested(
     );
   }
 
-  return FlowResult.ok();
+  return FlowResult.ok(tweetId);
 }
 
 /// {@category Client Event}

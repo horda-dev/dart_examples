@@ -62,7 +62,7 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
     });
 
     try {
-      await _viewModel.sendTweet(
+      final tweetId = await _viewModel.sendTweet(
         text: _tweetTextController.text,
         attachmentBase64: _attachmentBase64,
       );
@@ -70,7 +70,7 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
         _tweetTextController.clear();
         _selectedImage = null;
         _attachmentBase64 = null;
-        context.pop(); // Go back to the previous page (e.g., home)
+        context.go('/tweet/$tweetId');
       }
     } catch (e) {
       if (mounted) {
