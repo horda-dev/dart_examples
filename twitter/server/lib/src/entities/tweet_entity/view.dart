@@ -17,6 +17,9 @@ class TweetViewGroup implements EntityViewGroup {
       commentsView = RefListView<CommentEntity>(
         name: 'commentsView',
       ),
+      commentCountView = CounterView(
+        name: 'commentCountView',
+      ),
       createdAtView = ValueView<DateTime>(
         name: 'tweetCreatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
@@ -46,6 +49,9 @@ class TweetViewGroup implements EntityViewGroup {
       commentsView = RefListView<CommentEntity>(
         name: 'commentsView',
       ),
+      commentCountView = CounterView(
+        name: 'commentCountView',
+      ),
       createdAtView = ValueView<DateTime>(
         name: 'tweetCreatedAtView',
         value: DateTime.now().toUtc(),
@@ -73,6 +79,9 @@ class TweetViewGroup implements EntityViewGroup {
 
   /// View for the list of comments
   final RefListView<CommentEntity> commentsView;
+
+  /// View for the count of comments
+  final CounterView commentCountView;
 
   /// View for the creation date and time
   final ValueView<DateTime> createdAtView;
@@ -108,8 +117,8 @@ class TweetViewGroup implements EntityViewGroup {
   }
 
   void tweetCommentAdded(TweetCommentAdded event) {
-    // Re-added
     commentsView.addItem(event.commentId);
+    commentCountView.increment(1);
   }
 
   @override
@@ -118,6 +127,7 @@ class TweetViewGroup implements EntityViewGroup {
       ..add(retweetedByUsersView)
       ..add(likedByUsersView)
       ..add(commentsView)
+      ..add(commentCountView)
       ..add(createdAtView)
       ..add(retweetCountView)
       ..add(likeCountView)
@@ -132,7 +142,7 @@ class TweetViewGroup implements EntityViewGroup {
       ..addInit<TweetCreated>(TweetViewGroup.fromInitEvent)
       ..add<TweetLiked>(tweetLiked)
       ..add<TweetUnliked>(tweetUnliked)
-      ..add<TweetRetweeted>(tweetRetweeted) // Corrected typo
-      ..add<TweetCommentAdded>(tweetCommentAdded); // Re-added
+      ..add<TweetRetweeted>(tweetRetweeted)
+      ..add<TweetCommentAdded>(tweetCommentAdded);
   }
 }
