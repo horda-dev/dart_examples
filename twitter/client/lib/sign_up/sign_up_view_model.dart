@@ -5,6 +5,7 @@ import 'package:twitter_server/twitter_server.dart';
 import '../auth.dart';
 import '../config.dart';
 import '../main.dart';
+import '../router.dart';
 
 class SignUpViewModel {
   final BuildContext context;
@@ -24,12 +25,14 @@ class SignUpViewModel {
       password: password,
     );
 
+    gIsSigningUp = true;
+
     system.reopen(
       NoAuthConfig(url: kUrl, apiKey: kApiKey),
     );
 
     // Has to be done, because we can't wait until the connection is reopened.
-    await Future.delayed(const Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 30));
 
     final result = await system.dispatchEvent(
       ClientRegisterUserRequested(
@@ -39,6 +42,8 @@ class SignUpViewModel {
         avatarBase64,
       ),
     );
+    
+    gIsSigningUp = false;
 
     if (result.isError) {
       throw Exception(result.value ?? 'Failed to register user profile.');

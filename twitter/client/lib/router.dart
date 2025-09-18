@@ -14,6 +14,8 @@ import 'sign_in/sign_in_page.dart';
 import 'sign_up/sign_up_page.dart';
 import 'tweet_details/tweet_details_page.dart';
 
+var gIsSigningUp = false;
+
 final kRouter = GoRouter(
   routes: [
     ShellRoute(
@@ -197,7 +199,7 @@ final kRouter = GoRouter(
         ),
       ],
       redirect: (BuildContext context, GoRouterState state) {
-        if (context.hordaAuthState is AuthStateLoggedIn) {
+        if (context.hordaAuthState is AuthStateLoggedIn && !gIsSigningUp) {
           return '/';
         }
 
