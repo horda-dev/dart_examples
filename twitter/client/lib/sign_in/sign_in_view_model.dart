@@ -16,7 +16,10 @@ class SignInViewModel {
     );
 
     system.reopen(
-      LoggedInConfig(url: system.connectionConfig.url, apiKey: system.connectionConfig.apiKey),
+      LoggedInConfig(
+        url: system.connectionConfig.url,
+        apiKey: system.connectionConfig.apiKey,
+      ),
     );
   }
 }

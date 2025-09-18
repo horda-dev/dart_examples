@@ -68,9 +68,30 @@ class TweetViewModel {
   }
 
   Future<void> retweet() async {
-    final result = await system.dispatchEvent(
-      ClientRetweetRequested(id, []),
+    final myTimelineId = context.query<MeQuery>().refId((q) => q.timeline);
+
+    final followerCount = context.query<MeQuery>().listLength(
+      (q) => q.followers,
     );
+
+    final followerTimelineIds = <String>[
+      for (var i = 0; i < followerCount; i++)
+        context
+            .query<MeQuery>()
+            .listItem((q) => q.followers, i)
+            .refId((q) => q.timeline),
+    ];
+
+    final result = await system.dispatchEvent(
+      ClientRetweetRequested(
+        id,
+        [
+          myTimelineId,
+          ...followerTimelineIds,
+        ],
+      ),
+    );
+
     if (result.isError) {
       throw TweetException(result.value ?? 'Failed to retweet.');
     }

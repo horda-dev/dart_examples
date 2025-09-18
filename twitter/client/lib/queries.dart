@@ -238,19 +238,37 @@ class ExploreFeedQuery extends EntityQuery {
 class MeQuery extends EntityQuery {
   final blockedUsers = EntityListView(
     'blockedUsersView',
-    query: BasicUserInfoQuery(),
+    query: EmptyQuery(),
   );
 
   final followers = EntityListView(
     'followersView',
-    query: BasicUserInfoQuery(),
+    query: MyFollowerQuery(),
+  );
+
+  final timeline = EntityRefView(
+    'timelineView',
+    query: EmptyQuery(),
   );
 
   @override
   void initViews(EntityQueryGroup views) {
     views
       ..add(blockedUsers)
-      ..add(followers);
+      ..add(followers)
+      ..add(timeline);
+  }
+}
+
+class MyFollowerQuery extends EntityQuery {
+  final timeline = EntityRefView(
+    'timelineView',
+    query: EmptyQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(timeline);
   }
 }
 

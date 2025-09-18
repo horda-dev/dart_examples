@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart'; // For ClientCreateTweetRequested
+import 'package:twitter_server/twitter_server.dart';
+
+import '../queries.dart';
 
 class ComposeTweetViewModel {
   final BuildContext context;
@@ -10,13 +12,33 @@ class ComposeTweetViewModel {
     _hordaSystem = HordaSystemProvider.of(context);
   }
 
-  Future<void> sendTweet({required String text, String? attachmentBase64}) async {
+  Future<void> sendTweet({
+    required String text,
+    String? attachmentBase64,
+  }) async {
+    final myTimelineId = context.query<MeQuery>().refId((q) => q.timeline);
+
+    final followerCount = context.query<MeQuery>().listLength(
+      (q) => q.followers,
+    );
+
+    final followerTimelineIds = <String>[
+      for (var i = 0; i < followerCount; i++)
+        context
+            .query<MeQuery>()
+            .listItem((q) => q.followers, i)
+            .refId((q) => q.timeline),
+    ];
+
     final result = await _hordaSystem.dispatchEvent(
       ClientCreateTweetRequested(
         authorUserId: context.hordaAuthUserId!,
         text: text,
         attachmentBase64: attachmentBase64,
-        timelineIds: [],
+        timelineIds: [
+          myTimelineId,
+          ...followerTimelineIds,
+        ],
       ),
     );
 
