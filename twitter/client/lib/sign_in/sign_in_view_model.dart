@@ -15,7 +15,8 @@ class SignInViewModel {
       password: password,
     );
 
-    // No need to check FlowResult.isError here, as signInWithEmailAndPassword
-    // will throw AuthException on failure.
+    system.reopen(
+      LoggedInConfig(url: system.connectionConfig.url, apiKey: system.connectionConfig.apiKey),
+    );
   }
 }

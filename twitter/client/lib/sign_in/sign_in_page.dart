@@ -44,19 +44,10 @@ class _SignInPageState extends State<SignInPage> {
           email: _emailController.text,
           password: _passwordController.text,
         );
-
-        if (mounted) {
-          context.go('/'); // Navigate to home page on success
-        }
       } catch (e) {
         if (mounted) {
           setState(() {
             _errorMessage = e.toString();
-          });
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
             _isLoading = false;
           });
         }
