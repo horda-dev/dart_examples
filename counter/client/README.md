@@ -4,6 +4,8 @@
 
 Counter Flutter app showcasing how to use Horda Client SDK to connect to Horda Counter backend, request business processes, query entity views, and display results.
 
+You can view the Counter example in the [Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big).
+
 ## Demo:
 
 <div align="center">
