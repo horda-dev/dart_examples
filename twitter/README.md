@@ -8,6 +8,10 @@ This project consists of two main parts:
 
 *   **Server (`twitter/server`):** See the [server README](server/README.md) for more details.
 
+## Horda Console:
+
+You can view the Twitter example in the [Horda Console](https://console.horda.ai/?project=d368c1sgc98s738ue7cg).
+
 ## Demo:
 
 <div align="center">

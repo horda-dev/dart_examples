@@ -8,6 +8,10 @@ This project consists of two main parts:
 
 *   **Server (`counter/server`):** See the [server README](server/README.md) for more details.
 
+## Horda Console:
+
+You can view the Counter example in the [Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big).
+
 ## Demo:
 
 <div align="center">

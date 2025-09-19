@@ -6,10 +6,12 @@ All projects come with a Horda client API key provided, so you can run and test 
 
 Projects are ordered by increasing complexity:
 
-- **Counter**
-- **Twitter**
+- **Counter** 
+- **Twitter** 
 
 ## Counter Example
+
+[View in Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big)
 
 [View Code](counter/)
 
@@ -22,6 +24,8 @@ A "Hello World" project showcasing basic Horda Server SDK concepts including Ent
 Use the Counter Flutter app to understand how the Horda Client SDK is used to connect to Horda backends, request business processes, query entity views, and display results.
 
 ## Twitter Example
+
+[View in Horda Console](https://console.horda.ai/?project=d368c1sgc98s738ue7cg)
 
 [View Code](twitter/)
 

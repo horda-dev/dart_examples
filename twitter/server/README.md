@@ -4,6 +4,8 @@
 
 A Horda server application that powers a Twitter-like social media platform. This project demonstrates the use of Horda Server SDK concepts including Entities, Processes, and Services to manage user accounts, tweets, social interactions, and media content in a stateful, serverless backend environment.
 
+You can view the Twitter example in the [Horda Console](https://console.horda.ai/?project=d368c1sgc98s738ue7cg).
+
 ## Key Concepts
 
 ### Processes
