@@ -2,7 +2,11 @@
 
 A "Hello World" project showcasing basic Horda Server SDK concepts including Entity, State, and View Group, and how to use them to create a stateful serverless backend.
 
-Look at the Counter Flutter app to understand how the Horda Client SDK is used to connect to Horda backends, request business processes, query entity views, and display results.
+This project consists of two main parts:
+
+*   **Client (`counter/client`):** See the [client README](client/README.md) for more details.
+
+*   **Server (`counter/server`):** See the [server README](server/README.md) for more details.
 
 ## Demo:
 
