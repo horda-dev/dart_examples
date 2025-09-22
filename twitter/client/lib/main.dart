@@ -14,19 +14,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // final idToken = await kAuthService.getIdToken();
-  // await kAuthService.logout();
-
-  // ConnectionConfig conn;
-  // if (idToken == null) {
-  //   conn = IncognitoConfig(url: kUrl, apiKey: kApiKey);
-  // } else {
-  //   conn = LoggedInConfig(url: kUrl, apiKey: kApiKey);
-  // }
-
-  final conn = NoAuthConfig(url: kUrl, apiKey: kApiKey);
-
-  final system = HordaClientSystem(conn, NoAuth());
+  final system = HordaClientSystem(
+    url: kUrl,
+    apiKey: kApiKey,
+    authProvider: kAuthService,
+  );
 
   system.start();
 
@@ -48,26 +40,4 @@ class TwitterClient extends StatelessWidget {
       debugShowCheckedModeBanner: false,
     );
   }
-}
-
-class NoAuth implements AuthProvider {
-  @override
-  Future<String?> getIdToken() async {
-    final userId = await kAuthService.getUserId();
-    if (userId == null) {
-      return '';
-    }
-
-    return userId;
-  }
-}
-
-class NoAuthConfig extends IncognitoConfig {
-  NoAuthConfig({required super.url, required super.apiKey});
-
-  @override
-  Map<String, dynamic> get httpHeaders => {
-    ...super.httpHeaders,
-    'isScriptConnection': true,
-  };
 }

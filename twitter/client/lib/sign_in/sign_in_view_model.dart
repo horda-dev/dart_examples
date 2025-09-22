@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
 
 import '../auth.dart';
-import '../main.dart';
 
 class SignInViewModel {
   final BuildContext context;
@@ -16,11 +15,8 @@ class SignInViewModel {
       password: password,
     );
 
-    system.reopen(
-      NoAuthConfig(
-        url: system.connectionConfig.url,
-        apiKey: system.connectionConfig.apiKey,
-      ),
-    );
+    if (context.mounted) {
+      await context.reopenConnection();
+    }
   }
 }

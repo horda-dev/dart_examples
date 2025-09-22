@@ -3,8 +3,6 @@ import 'package:horda_client/horda_client.dart';
 import 'package:twitter_server/twitter_server.dart';
 
 import '../auth.dart';
-import '../config.dart';
-import '../main.dart';
 import '../router.dart';
 
 class SignUpViewModel {
@@ -25,14 +23,13 @@ class SignUpViewModel {
       password: password,
     );
 
+    if (!context.mounted) {
+      return;
+    }
+
     gIsSigningUp = true;
 
-    system.reopen(
-      NoAuthConfig(url: kUrl, apiKey: kApiKey),
-    );
-
-    // Has to be done, because we can't wait until the connection is reopened.
-    await Future.delayed(const Duration(seconds: 15));
+    await context.reopenConnection();
 
     final result = await system.dispatchEvent(
       ClientRegisterUserRequested(
