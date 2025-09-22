@@ -32,28 +32,27 @@ The application is built using Flutter and leverages the Horda Client SDK for it
 The connection to the Horda backend is established in the `main.dart` file. The process involves these steps:
 
 1.  Firebase is initialized for authentication.
-2.  A `projectId` and `apiKey` are defined to identify the backend project.
-3.  A WebSocket URL is constructed in the format `wss://api.horda.ai/[PROJECT_ID]/client`.
-4.  A configuration object (`NoAuthConfig`) is created using the URL and API key.
-5.  This configuration is used to initialize the `HordaClientSystem`.
-6.  The `system.start()` method is called to initiate the connection.
-7.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.
+2.  A `kUrl` and `kApiKey` are defined in `config.dart` to identify the backend project.
+3.  An `authProvider` from `auth.dart` is provided for authentication.
+4.  The `HordaClientSystem` is initialized directly with the `kUrl`, `kApiKey`, and `authProvider`.
+5.  The `system.start()` method is called to initiate the connection.
+6.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.
 
 ```dart
 // In main.dart
 
 // 1. Configuration
-final projectId = '[PROJECT_ID]'; // Replace with your project ID
-final apiKey = '[API_KEY]'; // Replace with your API key
-final kUrl = 'wss://api.horda.ai/$projectId/client';
-final conn = NoAuthConfig(url: kUrl, apiKey: apiKey);
+final system = HordaClientSystem(
+    url: kUrl,
+    apiKey: kApiKey,
+    authProvider: kAuthService,
+  );
 
 // 2. System Initialization
-final system = HordaClientSystem(conn, NoAuth());
 system.start();
 
 // 3. Provider Setup
-runApp(HordaSystemProvider(system: system, child: const TwitterClient()));
+runApp(HordaSystemProvider(system: system, child: TwitterClient()));
 ```
 
 ### Data Display and Real-time Updates
