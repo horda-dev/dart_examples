@@ -14,9 +14,7 @@ void main() {
 
   final url = 'wss://api.horda.ai/$projectId/client';
 
-  final conn = NoAuthConfig(url: url, apiKey: apiKey);
-
-  final system = HordaClientSystem(conn, NoAuth());
+  final system = HordaClientSystem(url: url, apiKey: apiKey);
 
   system.start();
 
@@ -41,21 +39,4 @@ class CounterClient extends StatelessWidget {
       },
     );
   }
-}
-
-class NoAuth implements AuthProvider {
-  @override
-  Future<String?> getIdToken() async {
-    return 'token';
-  }
-}
-
-class NoAuthConfig extends IncognitoConfig {
-  NoAuthConfig({required super.url, required super.apiKey});
-
-  @override
-  Map<String, dynamic> get httpHeaders => {
-    ...super.httpHeaders,
-    'isScriptConnection': true,
-  };
 }
