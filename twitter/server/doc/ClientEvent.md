@@ -1,0 +1,1 @@
+A client event triggers the execution of a business process. It is dispatched by the client application, usually whenever the user performs a certain action, such as pressing a button.
