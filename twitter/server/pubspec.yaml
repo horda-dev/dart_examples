@@ -11,7 +11,7 @@ environment:
 dependencies:
   gcloud: ^0.8.19
   googleapis_auth: ^1.6.0
-  horda_server: ^0.12.1
+  horda_server: ^0.13.0
   json_annotation: ^4.9.0
   xid: ^1.2.1
 
