@@ -8,35 +8,39 @@ import 'messages.dart';
 /// {@category View Group}
 class ExploreFeedViewGroup implements EntityViewGroup {
   ExploreFeedViewGroup()
-    : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
-      updatedAtView = ValueView<DateTime>(
+    : exploreFeedTweetsView = RefListView<TweetEntity>(
+        name: 'exploreFeedTweetsView',
+      ),
+      exploreFeedUpdatedAtView = ValueView<DateTime>(
         name: 'exploreFeedUpdatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       );
 
   ExploreFeedViewGroup.fromInitEvent(ExploreFeedCreated event)
-    : tweetsView = RefListView<TweetEntity>(name: 'exploreFeedTweetsView'),
-      updatedAtView = ValueView<DateTime>(
+    : exploreFeedTweetsView = RefListView<TweetEntity>(
+        name: 'exploreFeedTweetsView',
+      ),
+      exploreFeedUpdatedAtView = ValueView<DateTime>(
         name: 'exploreFeedUpdatedAtView',
         value: DateTime.now().toUtc(),
       );
 
   /// View for the list of tweets in the explore feed
-  final RefListView<TweetEntity> tweetsView;
+  final RefListView<TweetEntity> exploreFeedTweetsView;
 
   /// View for the last update date and time
-  final ValueView<DateTime> updatedAtView;
+  final ValueView<DateTime> exploreFeedUpdatedAtView;
 
   void tweetAddedToExploreFeed(TweetAddedToExploreFeed event) {
-    tweetsView.addItem(event.tweetId);
-    updatedAtView.value = DateTime.now().toUtc();
+    exploreFeedTweetsView.addItem(event.tweetId);
+    exploreFeedUpdatedAtView.value = DateTime.now().toUtc();
   }
 
   @override
   void initViews(ViewGroup views) {
     views
-      ..add(tweetsView)
-      ..add(updatedAtView);
+      ..add(exploreFeedTweetsView)
+      ..add(exploreFeedUpdatedAtView);
   }
 
   @override
