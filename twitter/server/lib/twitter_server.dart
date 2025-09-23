@@ -1,3 +1,4 @@
+export 'src/client/messages.dart';
 export 'src/client/processes.dart';
 export 'src/client/processes/create_comment_requested_process.dart';
 export 'src/client/processes/create_tweet_requested_process.dart';
