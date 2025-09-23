@@ -1,7 +1,6 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:twitter_server/twitter_server.dart';
 
-import 'messages.dart';
+import '../../../twitter_server.dart';
 
 /// View group of [UserProfileEntity].
 ///

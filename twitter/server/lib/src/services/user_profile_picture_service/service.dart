@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:horda_server/horda_server.dart';
-import 'package:twitter_server/src/common/services/google_cloud/google_cloud.dart';
 import 'package:xid/xid.dart';
 
+import '../../common/services/google_cloud/google_cloud.dart';
 import 'messages.dart';
 
 /// Manages uploading and removing media files to a Firebase bucket.
