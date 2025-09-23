@@ -8,6 +8,8 @@ import 'state.dart';
 /// This entity demonstrates basic CRUD operations and state management within the Horda
 /// serverless platform. It maintains a counter value that can be incremented, decremented,
 /// and toggled between frozen and unfrozen states.
+///
+/// {@category Entity}
 class CounterEntity extends Entity<CounterState> {
   /// Creates a new counter with the specified name and initial value.
   ///

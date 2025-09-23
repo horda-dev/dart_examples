@@ -6,6 +6,8 @@ import 'messages.dart';
 ///
 /// This class handles how counter data is presented to clients, including
 /// the counter name, current value, and freeze status.
+///
+/// {@category View Group}
 class CounterViewGroup extends EntityViewGroup {
   /// View displaying the counter's name.
   final ValueView<String> name;

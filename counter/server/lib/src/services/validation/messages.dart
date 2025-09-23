@@ -7,6 +7,8 @@ part 'messages.g.dart';
 ///
 /// This command is sent to the ValidationService to check if a proposed
 /// counter name meets the system's validation criteria.
+///
+/// {@category Service Command}
 @JsonSerializable()
 class ValidateCounterName extends RemoteCommand {
   /// The counter name to validate.
@@ -28,6 +30,8 @@ class ValidateCounterName extends RemoteCommand {
 ///
 /// This event is returned by the ValidationService to indicate whether
 /// a proposed counter name is valid according to business rules.
+///
+/// {@category Service Event}
 @JsonSerializable()
 class CounterNameValidated extends RemoteEvent {
   /// Whether the counter name passed validation.

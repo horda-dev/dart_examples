@@ -6,6 +6,8 @@ part 'messages.g.dart';
 /// Command to create a new counter with a given name and initial value.
 ///
 /// This is the initialization command for a counter entity in the Horda platform.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class CreateCounter extends RemoteCommand {
   /// The display name for the counter.
@@ -30,6 +32,8 @@ class CreateCounter extends RemoteCommand {
 /// Command to delete an existing counter.
 ///
 /// This command will stop the counter entity and remove it from the system.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class DeleteCounter extends RemoteCommand {
   /// Creates a new delete counter command.
@@ -45,6 +49,8 @@ class DeleteCounter extends RemoteCommand {
 /// Command to increment a counter by a specified amount.
 ///
 /// The counter must not be frozen for this operation to succeed.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class IncrementCounter extends RemoteCommand {
   /// The amount to increment the counter by (defaults to 1).
@@ -65,6 +71,8 @@ class IncrementCounter extends RemoteCommand {
 /// Command to decrement a counter by a specified amount.
 ///
 /// The counter must not be frozen for this operation to succeed.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class DecrementCounter extends RemoteCommand {
   /// The amount to decrement the counter by (defaults to 1).
@@ -85,6 +93,8 @@ class DecrementCounter extends RemoteCommand {
 /// Command to freeze a counter, preventing increment and decrement operations.
 ///
 /// A frozen counter cannot be modified until it is unfrozen.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class FreezeCounter extends RemoteCommand {
   /// Creates a new freeze counter command.
@@ -100,6 +110,8 @@ class FreezeCounter extends RemoteCommand {
 /// Command to unfreeze a counter, allowing increment and decrement operations.
 ///
 /// This restores the counter to its normal operational state.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class UnfreezeCounter extends RemoteCommand {
   /// Creates a new unfreeze counter command.
@@ -115,6 +127,8 @@ class UnfreezeCounter extends RemoteCommand {
 /// Event indicating a counter has been successfully created.
 ///
 /// This event is emitted when a new counter entity is initialized.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterCreated extends RemoteEvent {
   /// The name of the newly created counter.
@@ -138,6 +152,8 @@ class CounterCreated extends RemoteEvent {
 /// Event indicating a counter has been successfully deleted.
 ///
 /// This event is emitted when a counter entity is removed from the system.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterDeleted extends RemoteEvent {
   /// Creates a new counter deleted event.
@@ -153,6 +169,8 @@ class CounterDeleted extends RemoteEvent {
 /// Event indicating a counter has been incremented.
 ///
 /// This event is emitted when a counter's value is successfully increased.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterIncremented extends RemoteEvent {
   /// The amount by which the counter was incremented.
@@ -173,6 +191,8 @@ class CounterIncremented extends RemoteEvent {
 /// Event indicating a counter has been decremented.
 ///
 /// This event is emitted when a counter's value is successfully decreased.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterDecremented extends RemoteEvent {
   /// The amount by which the counter was decremented.
@@ -193,6 +213,8 @@ class CounterDecremented extends RemoteEvent {
 /// Event indicating a counter's freeze status has changed.
 ///
 /// This event is emitted when a counter is frozen or unfrozen.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterFreezeChanged extends RemoteEvent {
   /// The new freeze status (true for frozen, false for unfrozen).

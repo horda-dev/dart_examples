@@ -8,6 +8,8 @@ part 'state.g.dart';
 /// This class maintains the state for a list of counter references.
 /// Currently, it serves as a minimal state implementation without
 /// additional data beyond the base EntityState.
+///
+/// {@category Entity State}
 @JsonSerializable()
 class CounterListState extends EntityState {
   /// Creates a new counter list state.
