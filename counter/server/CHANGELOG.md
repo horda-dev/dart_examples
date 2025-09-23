@@ -1,3 +1,8 @@
+## 0.1.3
+
+- Rename fields in view groups.
+- Use horda_server 0.13.0.
+
 ## 0.1.2
 
 - Use horda_client 0.19.0 with renamed API.
