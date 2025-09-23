@@ -10,7 +10,7 @@ class FirebaseAuthService implements AuthProvider {
   final logger = Logger('Auth');
 
   @override
-  Future<String?> getIdToken() async {
+  Future<String?> getFirebaseIdToken() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
       return await user?.getIdToken(true);
