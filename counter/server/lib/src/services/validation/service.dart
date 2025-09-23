@@ -7,6 +7,8 @@ import 'messages.dart';
 /// This service provides validation logic for counter operations,
 /// ensuring data integrity and business rule compliance before
 /// entity operations are performed.
+///
+/// {@category Service}
 class ValidationService extends Service {
   /// Validates a counter name according to business rules.
   ///

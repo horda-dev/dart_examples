@@ -17,7 +17,7 @@ dependencies:
   horda_client: ^0.20.0
   counter_server:
     hosted: https://pub.horda.ai/d2sqf8kgc98s73838big
-    version: ^0.1.2
+    version: ^0.1.3
   logging: ^1.3.0
 
 dev_dependencies:

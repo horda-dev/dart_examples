@@ -9,6 +9,8 @@ part 'state.g.dart';
 ///
 /// This class maintains the counter's freeze status and handles state projections
 /// from counter-related events.
+///
+/// {@category Entity State}
 @JsonSerializable()
 class CounterState extends EntityState {
   /// Whether the counter is currently frozen and cannot be modified.

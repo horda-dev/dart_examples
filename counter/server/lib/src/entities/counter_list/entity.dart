@@ -8,6 +8,8 @@ import 'messages.dart';
 /// This entity demonstrates how to manage collections of entity references
 /// within the Horda serverless platform. It maintains a list of counter IDs
 /// that can be added to or removed from.
+///
+/// {@category Entity}
 class CounterListEntity extends Entity<CounterListState> {
   /// Creates a new empty counter list.
   ///

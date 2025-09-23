@@ -1,0 +1,1 @@
+Views of an entity which represent the public data associated with that entity, which is displayed to the client. The value of a view is updated  whenever a relevant EntityEvent is projected, ensuring that any changes to the underlying entity are accurately reflected in the view. Clients have the ability to query these views and use their values in client application logic.

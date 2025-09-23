@@ -1,8 +1,6 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart'; // Import twitter_server.dart
 
-part 'toggle_tweet_like_requested_process.g.dart';
+import '../../../twitter_server.dart';
 
 /// {@category Process}
 ///
@@ -27,22 +25,4 @@ Future<FlowResult> clientToggleTweetLikeRequested(
   );
 
   return FlowResult.ok();
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientToggleTweetLikeRequested extends RemoteEvent {
-  ClientToggleTweetLikeRequested(this.tweetId);
-
-  /// ID of the tweet to like or unlike
-  String tweetId;
-
-  factory ClientToggleTweetLikeRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientToggleTweetLikeRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientToggleTweetLikeRequestedToJson(this);
-  }
 }

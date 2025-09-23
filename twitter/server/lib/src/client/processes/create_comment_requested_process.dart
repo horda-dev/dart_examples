@@ -1,9 +1,7 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart';
 import 'package:xid/xid.dart';
 
-part 'create_comment_requested_process.g.dart';
+import '../../../twitter_server.dart';
 
 /// {@category Process}
 ///
@@ -67,32 +65,4 @@ Future<FlowResult> clientCreateCommentRequested(
   }
 
   return FlowResult.ok(commentId);
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientCreateCommentRequested extends RemoteEvent {
-  ClientCreateCommentRequested({
-    required this.text,
-    required this.parentTweetId,
-    this.parentCommentId,
-  });
-
-  /// Text content of the comment
-  final String text;
-
-  /// ID of the parent tweet (required)
-  final String parentTweetId;
-
-  /// ID of the parent comment (optional, for replies to comments)
-  final String? parentCommentId;
-
-  factory ClientCreateCommentRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientCreateCommentRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientCreateCommentRequestedToJson(this);
-  }
 }

@@ -6,6 +6,8 @@ part 'messages.g.dart';
 /// Command to create a new counter list.
 ///
 /// This initializes an empty list that can hold references to counter entities.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class CreateCounterList extends RemoteCommand {
   /// Creates a new counter list creation command.
@@ -21,6 +23,8 @@ class CreateCounterList extends RemoteCommand {
 /// Event indicating a counter list has been successfully created.
 ///
 /// This event is emitted when a new counter list entity is initialized.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterListCreated extends RemoteEvent {
   /// Creates a new counter list created event.
@@ -36,6 +40,8 @@ class CounterListCreated extends RemoteEvent {
 /// Command to add a counter reference to the list.
 ///
 /// This adds a reference to an existing counter entity to the managed list.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class AddCounterToList extends RemoteCommand {
   /// The unique identifier of the counter to add to the list.
@@ -56,6 +62,8 @@ class AddCounterToList extends RemoteCommand {
 /// Command to remove a counter reference from the list.
 ///
 /// This removes a reference to a counter entity from the managed list.
+///
+/// {@category Entity Command}
 @JsonSerializable()
 class RemoveCounterFromList extends RemoteCommand {
   /// The unique identifier of the counter to remove from the list.
@@ -76,6 +84,8 @@ class RemoveCounterFromList extends RemoteCommand {
 /// Event indicating a counter reference has been added to the list.
 ///
 /// This event is emitted when a counter reference is successfully added.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterAddedToList extends RemoteEvent {
   /// The unique identifier of the counter that was added.
@@ -96,6 +106,8 @@ class CounterAddedToList extends RemoteEvent {
 /// Event indicating a counter reference has been removed from the list.
 ///
 /// This event is emitted when a counter reference is successfully removed.
+///
+/// {@category Entity Event}
 @JsonSerializable()
 class CounterRemovedFromList extends RemoteEvent {
   /// The unique identifier of the counter that was removed.

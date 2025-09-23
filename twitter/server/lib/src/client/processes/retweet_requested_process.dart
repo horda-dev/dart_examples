@@ -1,8 +1,6 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart'; // Import twitter_server.dart
 
-part 'retweet_requested_process.g.dart';
+import '../../../twitter_server.dart';
 
 /// {@category Process}
 ///
@@ -33,25 +31,4 @@ Future<FlowResult> clientRetweetRequested(
   }
 
   return FlowResult.ok();
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientRetweetRequested extends RemoteEvent {
-  ClientRetweetRequested(this.tweetId, this.timelineIds);
-
-  /// ID of the tweet to retweet
-  String tweetId;
-
-  /// IDs of timelines in which this tweet will show up
-  List<String> timelineIds;
-
-  factory ClientRetweetRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientRetweetRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientRetweetRequestedToJson(this);
-  }
 }

@@ -1,8 +1,6 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart';
 
-part 'upload_profile_picture_requested_process.g.dart';
+import '../../../twitter_server.dart';
 
 /// {@category Process}
 ///
@@ -49,27 +47,4 @@ Future<FlowResult> clientUploadProfilePictureRequested(
   }
 
   return FlowResult.ok(uploadResult.pictureUrl);
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientUploadProfilePictureRequested extends RemoteEvent {
-  ClientUploadProfilePictureRequested(this.profileId, this.imageDataBase64);
-
-  /// User's profile ID
-  final String profileId;
-
-  /// Base64 encoded image data for the profile picture
-  final String imageDataBase64;
-
-  factory ClientUploadProfilePictureRequested.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    return _$ClientUploadProfilePictureRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientUploadProfilePictureRequestedToJson(this);
-  }
 }

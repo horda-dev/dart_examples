@@ -1,8 +1,6 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart'; // Import twitter_server.dart
 
-part 'toggle_user_follow_requested_process.g.dart';
+import '../../../twitter_server.dart';
 
 /// {@category Process}
 ///
@@ -44,22 +42,4 @@ Future<FlowResult> clientToggleUserFollowRequested(
   ]);
 
   return FlowResult.ok();
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientToggleUserFollowRequested extends RemoteEvent {
-  ClientToggleUserFollowRequested(this.followedUserId);
-
-  /// ID of the user to follow or unfollow
-  String followedUserId;
-
-  factory ClientToggleUserFollowRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientToggleUserFollowRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientToggleUserFollowRequestedToJson(this);
-  }
 }

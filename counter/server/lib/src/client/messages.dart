@@ -9,6 +9,7 @@ part 'messages.g.dart';
 /// counter-related workflows. Each request triggers a coordinated
 /// sequence of entity and service interactions.
 
+/// {@category Client Event}
 /// Request to create the global counter list entity.
 ///
 /// This request should typically be sent once during system initialization
@@ -25,6 +26,7 @@ class CreateCounterListRequested extends RemoteEvent {
   Map<String, dynamic> toJson() => _$CreateCounterListRequestedToJson(this);
 }
 
+/// {@category Client Event}
 /// Request to create a new counter with validation and list registration.
 ///
 /// This request triggers a multi-step process involving name validation,
@@ -50,6 +52,7 @@ class CreateCounterRequested extends RemoteEvent {
   Map<String, dynamic> toJson() => _$CreateCounterRequestedToJson(this);
 }
 
+/// {@category Client Event}
 /// Request to delete a counter and remove it from the global list.
 ///
 /// This request triggers the deletion of the counter entity and its
@@ -71,6 +74,7 @@ class DeleteCounterRequested extends RemoteEvent {
   Map<String, dynamic> toJson() => _$DeleteCounterRequestedToJson(this);
 }
 
+/// {@category Client Event}
 /// Request to increment a counter by a specified amount.
 ///
 /// This request sends an increment command to the target counter entity.
@@ -96,6 +100,7 @@ class IncrementCounterRequested extends RemoteEvent {
   Map<String, dynamic> toJson() => _$IncrementCounterRequestedToJson(this);
 }
 
+/// {@category Client Event}
 /// Request to decrement a counter by a specified amount.
 ///
 /// This request sends a decrement command to the target counter entity.
@@ -121,6 +126,7 @@ class DecrementCounterRequested extends RemoteEvent {
   Map<String, dynamic> toJson() => _$DecrementCounterRequestedToJson(this);
 }
 
+/// {@category Client Event}
 /// Request to freeze a counter to prevent modifications.
 ///
 /// This request sends a freeze command to the target counter entity.
@@ -142,6 +148,7 @@ class FreezeCounterRequested extends RemoteEvent {
   Map<String, dynamic> toJson() => _$FreezeCounterRequestedToJson(this);
 }
 
+/// {@category Client Event}
 /// Request to unfreeze a counter to allow modifications.
 ///
 /// This request sends an unfreeze command to the target counter entity.

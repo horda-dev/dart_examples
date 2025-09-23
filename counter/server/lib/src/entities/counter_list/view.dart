@@ -7,6 +7,8 @@ import 'messages.dart';
 ///
 /// This class handles how a list of counter references is presented to clients,
 /// managing the addition and removal of counter references from the view.
+///
+/// {@category View Group}
 class CounterListViewGroup extends EntityViewGroup {
   /// View displaying the list of counter references.
   final RefListView<CounterEntity> counters = RefListView(name: 'counters');

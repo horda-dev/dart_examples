@@ -1,8 +1,6 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:twitter_server/twitter_server.dart';
 
-part 'update_user_profile_requested_process.g.dart';
+import '../../../twitter_server.dart';
 
 /// {@category Process}
 ///
@@ -63,29 +61,4 @@ Future<FlowResult> clientUpdateUserProfileRequested(
   );
 
   return FlowResult.ok();
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientUpdateUserProfileRequested extends RemoteEvent {
-  ClientUpdateUserProfileRequested({
-    required this.profileId,
-    required this.displayName,
-    required this.bio,
-    this.avatarBase64,
-  });
-
-  final String profileId;
-  final String displayName;
-  final String bio;
-  final String? avatarBase64;
-
-  factory ClientUpdateUserProfileRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientUpdateUserProfileRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientUpdateUserProfileRequestedToJson(this);
-  }
 }

@@ -43,8 +43,8 @@ android/app/outputs/
 *.aab
 
 # Documentation
-doc/
-doc/api/
+# doc/   - don't ignore doc completely, because it contains category descriptions
+**/doc/api/
 
 # Keystore files
 # Uncomment this line if you do not want to check in your keystore files.
