@@ -21,7 +21,7 @@ dependencies:
   image_picker: ^1.1.2
   twitter_server:
     hosted: https://pub.horda.ai/d368c1sgc98s738ue7cg
-    version: ^0.1.0
+    version: ^0.1.1
 
 dev_dependencies:
   flutter_test:
