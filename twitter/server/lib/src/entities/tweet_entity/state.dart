@@ -14,15 +14,11 @@ class TweetEntityState implements EntityState {
   TweetEntityState._json(
     this._likedByUsers,
     this._retweetedByUsers,
-    this.createdAt,
   );
 
   TweetEntityState.fromTweetCreated(TweetCreated event)
     : _likedByUsers = [],
-      _retweetedByUsers = [],
-      createdAt = DateTime.now().toUtc();
-
-  final DateTime createdAt;
+      _retweetedByUsers = [];
 
   /// List of user IDs who liked the tweet
   List<String> get likedByUsers => _likedByUsers;

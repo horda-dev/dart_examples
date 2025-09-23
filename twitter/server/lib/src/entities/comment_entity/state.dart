@@ -12,30 +12,14 @@ part 'state.g.dart';
 @JsonSerializable(constructor: '_json')
 class CommentEntityState implements EntityState {
   CommentEntityState._json(
-    this.authorUserId,
-    this.text,
-    this.parentTweetId,
-    this.parentCommentId,
     this._likedByUsers,
     this._replyCommentIds,
-    this.createdAt,
   );
 
   // Named constructor instead of factory
   CommentEntityState.fromCommentCreated(CommentCreated event)
-    : authorUserId = event.authorUserId,
-      text = event.text,
-      parentTweetId = event.parentTweetId,
-      parentCommentId = event.parentCommentId,
-      _likedByUsers = [], // Initial empty list for likedByUsers
-      _replyCommentIds = [], // Initial empty list for replyCommentIds
-      createdAt = DateTime.now().toUtc(); // Set creation time in UTC
-
-  final String authorUserId;
-  final String text;
-  final String parentTweetId;
-  final String? parentCommentId; // Make nullable
-  final DateTime createdAt;
+    : _likedByUsers = [],
+      _replyCommentIds = [];
 
   /// List of user IDs who liked the comment
   List<String> get likedByUsers => _likedByUsers;

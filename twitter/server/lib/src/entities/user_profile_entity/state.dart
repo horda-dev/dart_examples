@@ -18,6 +18,7 @@ class UserProfileEntityState implements EntityState {
   UserProfileEntityState.fromUserProfileCreated(UserProfileCreated event)
     : avatarUrl = event.avatarUrl;
 
+  /// The URL of the user's avatar image.
   String avatarUrl;
 
   void profilePictureUrlUpdated(ProfilePictureUrlUpdated event) {
