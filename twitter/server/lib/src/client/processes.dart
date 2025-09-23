@@ -12,105 +12,42 @@ import 'processes/update_user_profile_requested_process.dart';
 import 'messages.dart';
 
 class ClientProcesses extends Process {
-  Future<FlowResult> registerUserRequested(
-    ClientRegisterUserRequested event,
-    ProcessContext context,
-  ) async {
-    return clientRegisterUserRequested(event, context);
-  }
-
-  Future<FlowResult> toggleUserFollowRequested(
-    ClientToggleUserFollowRequested event,
-    ProcessContext context,
-  ) async {
-    return clientToggleUserFollowRequested(event, context);
-  }
-
-  Future<FlowResult> toggleTweetLikeRequested(
-    ClientToggleTweetLikeRequested event,
-    ProcessContext context,
-  ) async {
-    return clientToggleTweetLikeRequested(event, context);
-  }
-
-  Future<FlowResult> retweetRequested(
-    ClientRetweetRequested event,
-    ProcessContext context,
-  ) async {
-    return clientRetweetRequested(event, context);
-  }
-
-  Future<FlowResult> toggleUserBlockRequested(
-    ClientToggleUserBlockRequested event,
-    ProcessContext context,
-  ) async {
-    return clientToggleUserBlockRequested(event, context);
-  }
-
-  Future<FlowResult> toggleCommentLikeRequested(
-    ClientToggleCommentLikeRequested event,
-    ProcessContext context,
-  ) async {
-    return clientToggleCommentLikeRequested(event, context);
-  }
-
-  Future<FlowResult> createCommentRequested(
-    ClientCreateCommentRequested event,
-    ProcessContext context,
-  ) async {
-    return clientCreateCommentRequested(event, context);
-  }
-
-  Future<FlowResult> createTweetRequested(
-    ClientCreateTweetRequested event,
-    ProcessContext context,
-  ) async {
-    return clientCreateTweetRequested(event, context);
-  }
-
-  Future<FlowResult> updateUserProfileRequested(
-    ClientUpdateUserProfileRequested event,
-    ProcessContext context,
-  ) async {
-    return clientUpdateUserProfileRequested(event, context);
-  }
-
   @override
   void initHandlers(ProcessHandlers handlers) {
     handlers.add<ClientRegisterUserRequested>(
-      registerUserRequested,
+      clientRegisterUserRequested,
       ClientRegisterUserRequested.fromJson,
     );
     handlers.add<ClientToggleUserFollowRequested>(
-      toggleUserFollowRequested,
+      clientToggleUserFollowRequested,
       ClientToggleUserFollowRequested.fromJson,
     );
     handlers.add<ClientToggleTweetLikeRequested>(
-      toggleTweetLikeRequested,
+      clientToggleTweetLikeRequested,
       ClientToggleTweetLikeRequested.fromJson,
     );
     handlers.add<ClientRetweetRequested>(
-      retweetRequested,
+      clientRetweetRequested,
       ClientRetweetRequested.fromJson,
     );
     handlers.add<ClientToggleUserBlockRequested>(
-      toggleUserBlockRequested,
+      clientToggleUserBlockRequested,
       ClientToggleUserBlockRequested.fromJson,
     );
     handlers.add<ClientToggleCommentLikeRequested>(
-      toggleCommentLikeRequested,
+      clientToggleCommentLikeRequested,
       ClientToggleCommentLikeRequested.fromJson,
     );
     handlers.add<ClientCreateCommentRequested>(
-      createCommentRequested,
+      clientCreateCommentRequested,
       ClientCreateCommentRequested.fromJson,
     );
     handlers.add<ClientCreateTweetRequested>(
-      createTweetRequested,
+      clientCreateTweetRequested,
       ClientCreateTweetRequested.fromJson,
     );
     handlers.add<ClientUpdateUserProfileRequested>(
-      updateUserProfileRequested,
+      clientUpdateUserProfileRequested,
       ClientUpdateUserProfileRequested.fromJson,
     );
   }
