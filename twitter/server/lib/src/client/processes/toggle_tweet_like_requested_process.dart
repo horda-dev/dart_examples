@@ -18,7 +18,7 @@ Future<FlowResult> clientToggleTweetLikeRequested(
     name: 'TweetEntity',
     id: event.tweetId,
     cmd: ToggleTweetLike(
-      context.senderId,
+      context.senderId!,
     ),
     fac: [
       TweetLiked.fromJson,

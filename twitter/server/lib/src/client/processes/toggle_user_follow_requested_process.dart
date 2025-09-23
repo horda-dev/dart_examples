@@ -22,7 +22,9 @@ Future<FlowResult> clientToggleUserFollowRequested(
     context.callEntityDynamic(
       name: 'UserAccountEntity',
       id: event.followedUserId, // The user being followed/unfollowed
-      cmd: ToggleFollower(context.senderId), // The current user is the follower
+      cmd: ToggleFollower(
+        context.senderId!, // The current user is the follower
+      ),
       fac: [
         FollowerAdded.fromJson,
         FollowerRemoved.fromJson,
@@ -30,7 +32,7 @@ Future<FlowResult> clientToggleUserFollowRequested(
     ),
     context.callEntityDynamic(
       name: 'UserAccountEntity',
-      id: context.senderId, // The current user
+      id: context.senderId!, // The current user
       cmd: ToggleFollowing(
         event.followedUserId, // The user being followed/unfollowed
       ),
