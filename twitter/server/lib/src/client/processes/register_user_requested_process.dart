@@ -1,9 +1,8 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:twitter_server/twitter_server.dart';
-import 'package:xid/xid.dart'; // Import twitter_server.dart
+import 'package:xid/xid.dart';
 
-part 'register_user_requested_process.g.dart';
+import '../messages.dart';
 
 /// {@category Process}
 ///
@@ -83,36 +82,4 @@ Future<FlowResult> clientRegisterUserRequested(
   );
 
   return FlowResult.ok();
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientRegisterUserRequested extends RemoteEvent {
-  ClientRegisterUserRequested(
-    this.handle,
-    this.displayName,
-    this.email,
-    this.avatarBase64,
-  );
-
-  /// User's unique handle
-  String handle;
-
-  /// User's display name
-  String displayName;
-
-  /// User's email address
-  String email;
-
-  /// User's profile picture in base64 encoding.
-  String avatarBase64;
-
-  factory ClientRegisterUserRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientRegisterUserRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientRegisterUserRequestedToJson(this);
-  }
 }

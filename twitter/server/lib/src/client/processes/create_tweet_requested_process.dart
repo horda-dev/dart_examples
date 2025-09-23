@@ -1,9 +1,8 @@
 import 'package:horda_server/horda_server.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:twitter_server/twitter_server.dart';
 import 'package:xid/xid.dart';
 
-part 'create_tweet_requested_process.g.dart';
+import '../messages.dart';
 
 /// {@category Process}
 ///
@@ -80,36 +79,4 @@ Future<FlowResult> clientCreateTweetRequested(
   }
 
   return FlowResult.ok(tweetId);
-}
-
-/// {@category Client Event}
-@JsonSerializable()
-class ClientCreateTweetRequested extends RemoteEvent {
-  ClientCreateTweetRequested({
-    required this.authorUserId,
-    required this.text,
-    required this.attachmentBase64,
-    required this.timelineIds,
-  });
-
-  /// ID of the user who authored the tweet
-  final String authorUserId;
-
-  /// Text content of the tweet
-  final String text;
-
-  /// An image attached to the tweet, in base64 encoding
-  final String? attachmentBase64;
-
-  /// IDs of timelines in which this tweet will show up
-  final List<String> timelineIds;
-
-  factory ClientCreateTweetRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientCreateTweetRequestedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientCreateTweetRequestedToJson(this);
-  }
 }

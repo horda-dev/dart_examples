@@ -9,6 +9,7 @@ import 'processes/toggle_tweet_like_requested_process.dart';
 import 'processes/toggle_user_block_requested_process.dart';
 import 'processes/toggle_user_follow_requested_process.dart';
 import 'processes/update_user_profile_requested_process.dart';
+import 'messages.dart';
 
 class ClientProcesses extends Process {
   Future<FlowResult> registerUserRequested(
