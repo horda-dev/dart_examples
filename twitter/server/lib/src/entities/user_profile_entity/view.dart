@@ -12,7 +12,7 @@ class UserProfileViewGroup implements EntityViewGroup {
         name: 'accountView',
         value: null,
       ),
-      updatedAtView = ValueView<DateTime>(
+      userProfileUpdatedAtView = ValueView<DateTime>(
         name: 'userProfileUpdatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       ),
@@ -25,7 +25,7 @@ class UserProfileViewGroup implements EntityViewGroup {
         name: 'accountView',
         value: event.accountId,
       ),
-      updatedAtView = ValueView<DateTime>(
+      userProfileUpdatedAtView = ValueView<DateTime>(
         name: 'userProfileUpdatedAtView',
         value: DateTime.now().toUtc(),
       ),
@@ -43,7 +43,7 @@ class UserProfileViewGroup implements EntityViewGroup {
   final RefView<UserAccountEntity> accountView;
 
   /// View for the profile's last updated date and time
-  final ValueView<DateTime> updatedAtView;
+  final ValueView<DateTime> userProfileUpdatedAtView;
 
   /// View for the user's bio
   final ValueView<String> bioView;
@@ -56,20 +56,20 @@ class UserProfileViewGroup implements EntityViewGroup {
 
   void profilePictureUrlUpdated(ProfilePictureUrlUpdated event) {
     avatarUrlView.value = event.newAvatarUrl;
-    updatedAtView.value = DateTime.now().toUtc();
+    userProfileUpdatedAtView.value = DateTime.now().toUtc();
   }
 
   void userProfileUpdated(UserProfileUpdated event) {
     displayNameView.value = event.displayName;
     bioView.value = event.bio;
-    updatedAtView.value = DateTime.now().toUtc();
+    userProfileUpdatedAtView.value = DateTime.now().toUtc();
   }
 
   @override
   void initViews(ViewGroup views) {
     views
       ..add(accountView)
-      ..add(updatedAtView)
+      ..add(userProfileUpdatedAtView)
       ..add(bioView)
       ..add(displayNameView)
       ..add(avatarUrlView);

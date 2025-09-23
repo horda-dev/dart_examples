@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:horda_client/horda_client.dart';
 import 'package:logging/logging.dart';
 
-import 'config.dart';
-
 final kAuthService = FirebaseAuthService();
 
 class FirebaseAuthService implements AuthProvider {
@@ -11,13 +9,8 @@ class FirebaseAuthService implements AuthProvider {
 
   final logger = Logger('Auth');
 
-  Future<void> reopenWebSocket({required HordaProcessContext context}) async {
-    final conn = LoggedInConfig(url: kUrl, apiKey: kApiKey);
-    context.changeConnection(conn);
-  }
-
   @override
-  Future<String?> getIdToken() async {
+  Future<String?> getFirebaseIdToken() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
       return await user?.getIdToken(true);

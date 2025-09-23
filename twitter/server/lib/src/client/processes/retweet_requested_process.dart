@@ -19,7 +19,7 @@ Future<FlowResult> clientRetweetRequested(
     name: 'TweetEntity',
     id: event.tweetId,
     cmd: RetweetTweet(
-      context.senderId,
+      context.senderId!,
     ),
     fac: TweetRetweeted.fromJson,
   );

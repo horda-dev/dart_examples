@@ -21,7 +21,7 @@ Future<FlowResult> clientUploadProfilePictureRequested(
 ) async {
   final uploadResult = await context.callServiceDynamic(
     name: 'MediaStoreService',
-    cmd: UploadProfilePicture(context.senderId, event.imageDataBase64),
+    cmd: UploadProfilePicture(context.senderId!, event.imageDataBase64),
     fac: [
       ProfilePictureUploaded.fromJson,
       ProfilePictureUploadFailed.fromJson,

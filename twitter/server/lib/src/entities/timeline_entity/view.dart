@@ -8,46 +8,46 @@ import 'messages.dart';
 /// {@category View Group}
 class TimelineViewGroup implements EntityViewGroup {
   TimelineViewGroup()
-    : updatedAtView = ValueView<DateTime>(
+    : timelineUpdatedAtView = ValueView<DateTime>(
         name: 'timelineUpdatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       ),
-      tweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
+      timelineTweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
       ownerUserView = RefView<UserAccountEntity>(
         name: 'ownerUserView',
         value: null,
       );
 
   TimelineViewGroup.fromInitEvent(TimelineCreated event)
-    : updatedAtView = ValueView<DateTime>(
+    : timelineUpdatedAtView = ValueView<DateTime>(
         name: 'timelineUpdatedAtView',
         value: DateTime.now().toUtc(),
       ),
-      tweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
+      timelineTweetsView = RefListView<TweetEntity>(name: 'timelineTweetsView'),
       ownerUserView = RefView<UserAccountEntity>(
         name: 'ownerUserView',
         value: event.ownerUserId,
       );
 
   /// View for the last update date and time
-  final ValueView<DateTime> updatedAtView;
+  final ValueView<DateTime> timelineUpdatedAtView;
 
   /// View for the list of tweets in the timeline
-  final RefListView<TweetEntity> tweetsView;
+  final RefListView<TweetEntity> timelineTweetsView;
 
   /// View that references the owner user profile entity
   final RefView<UserAccountEntity> ownerUserView;
 
   void tweetAddedToTimeline(TweetAddedToTimeline event) {
-    tweetsView.addItem(event.tweetId);
-    updatedAtView.value = DateTime.now().toUtc();
+    timelineTweetsView.addItem(event.tweetId);
+    timelineUpdatedAtView.value = DateTime.now().toUtc();
   }
 
   @override
   void initViews(ViewGroup views) {
     views
-      ..add(updatedAtView)
-      ..add(tweetsView)
+      ..add(timelineUpdatedAtView)
+      ..add(timelineTweetsView)
       ..add(ownerUserView);
   }
 

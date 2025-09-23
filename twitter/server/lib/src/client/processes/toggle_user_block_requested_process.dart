@@ -16,7 +16,7 @@ Future<FlowResult> clientToggleUserBlockRequested(
 ) async {
   await context.callEntityDynamic(
     name: 'UserAccountEntity',
-    id: context.senderId,
+    id: context.senderId!,
     cmd: ToggleUserBlock(
       event.userId,
     ),

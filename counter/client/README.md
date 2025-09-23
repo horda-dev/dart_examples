@@ -18,10 +18,9 @@ The connection to the Counter backend is established in the `main.dart` file. Th
 
 1.  A `projectId` and `apiKey` are defined to identify the backend project.
 2.  A WebSocket URL is constructed in the format `wss://api.horda.ai/[PROJECT_ID]/client`.
-3.  A configuration object (`NoAuthConfig`) is created using the URL and API key.
-4.  This configuration is used to initialize the `HordaClientSystem`.
-5.  The `system.start()` method is called to initiate the connection.
-6.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.
+3.  The `HordaClientSystem` is initialized directly with the `url` and `apiKey`. The `HordaClientSystem` constructor also accepts an optional `authProvider` parameter, but it is not supplied here as this project does not feature authentication.
+4.  The `system.start()` method is called to initiate the connection.
+5.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.
 
 ```dart
 // In main.dart
@@ -30,10 +29,9 @@ The connection to the Counter backend is established in the `main.dart` file. Th
 final projectId = '[PROJECT_ID]';
 final apiKey = '[API_KEY]';
 final url = 'wss://api.horda.ai/$projectId/client';
-final conn = NoAuthConfig(url: url, apiKey: apiKey);
 
 // 2. System Initialization
-final system = HordaClientSystem(conn, NoAuth());
+final system = HordaClientSystem(url: url, apiKey: apiKey);
 system.start();
 
 // 3. Provider Setup

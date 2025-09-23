@@ -18,7 +18,7 @@ Future<FlowResult> clientToggleCommentLikeRequested(
   await context.callEntityDynamic(
     name: 'CommentEntity',
     id: event.commentId,
-    cmd: ToggleCommentLike(context.senderId),
+    cmd: ToggleCommentLike(context.senderId!),
     fac: [
       CommentLiked.fromJson,
       CommentUnliked.fromJson,

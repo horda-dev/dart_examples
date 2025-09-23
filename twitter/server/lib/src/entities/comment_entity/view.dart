@@ -8,7 +8,7 @@ import 'messages.dart';
 /// {@category View Group}
 class CommentViewGroup implements EntityViewGroup {
   CommentViewGroup()
-    : likedByUsersView = RefListView<UserAccountEntity>(
+    : commentLikedByUsersView = RefListView<UserAccountEntity>(
         name: 'commentLikedByUsersView',
       ),
       parentCommentView = RefView<CommentEntity>(
@@ -20,22 +20,22 @@ class CommentViewGroup implements EntityViewGroup {
         value: null,
       ),
       repliesView = RefListView<CommentEntity>(name: 'repliesView'),
-      likeCountView = CounterView(name: 'commentLikeCountView'),
-      createdAtView = ValueView<DateTime>(
+      commentLikeCountView = CounterView(name: 'commentLikeCountView'),
+      commentCreatedAtView = ValueView<DateTime>(
         name: 'commentCreatedAtView',
         value: DateTime.fromMicrosecondsSinceEpoch(0),
       ),
-      textView = ValueView<String>(
+      commentTextView = ValueView<String>(
         name: 'commentTextView',
         value: '',
       ),
-      authorUserView = RefView<UserAccountEntity>(
+      commentAuthorUserView = RefView<UserAccountEntity>(
         name: 'commentAuthorUserView',
         value: null,
       );
 
   CommentViewGroup.fromInitEvent(CommentCreated event)
-    : likedByUsersView = RefListView<UserAccountEntity>(
+    : commentLikedByUsersView = RefListView<UserAccountEntity>(
         name: 'commentLikedByUsersView',
       ),
       parentCommentView = RefView<CommentEntity>(
@@ -47,22 +47,22 @@ class CommentViewGroup implements EntityViewGroup {
         value: event.parentTweetId,
       ),
       repliesView = RefListView<CommentEntity>(name: 'repliesView'),
-      likeCountView = CounterView(name: 'commentLikeCountView'),
-      createdAtView = ValueView<DateTime>(
+      commentLikeCountView = CounterView(name: 'commentLikeCountView'),
+      commentCreatedAtView = ValueView<DateTime>(
         name: 'commentCreatedAtView',
         value: DateTime.now().toUtc(), // Use UTC time
       ),
-      textView = ValueView<String>(
+      commentTextView = ValueView<String>(
         name: 'commentTextView',
         value: event.text,
       ),
-      authorUserView = RefView<UserAccountEntity>(
+      commentAuthorUserView = RefView<UserAccountEntity>(
         name: 'commentAuthorUserView',
         value: event.authorUserId,
       );
 
   /// View for the list of users who liked the comment
-  final RefListView<UserAccountEntity> likedByUsersView;
+  final RefListView<UserAccountEntity> commentLikedByUsersView;
 
   /// View referencing the parent comment entity
   final RefView<CommentEntity> parentCommentView;
@@ -74,25 +74,25 @@ class CommentViewGroup implements EntityViewGroup {
   final RefListView<CommentEntity> repliesView;
 
   /// View for the number of likes on the comment
-  final CounterView likeCountView;
+  final CounterView commentLikeCountView;
 
   /// View for the comment creation date and time
-  final ValueView<DateTime> createdAtView;
+  final ValueView<DateTime> commentCreatedAtView;
 
   /// View for the comment text
-  final ValueView<String> textView;
+  final ValueView<String> commentTextView;
 
   /// View for the comment author user's profile
-  final RefView<UserAccountEntity> authorUserView;
+  final RefView<UserAccountEntity> commentAuthorUserView;
 
   void commentLiked(CommentLiked event) {
-    likedByUsersView.addItem(event.userId);
-    likeCountView.increment(1);
+    commentLikedByUsersView.addItem(event.userId);
+    commentLikeCountView.increment(1);
   }
 
   void commentUnliked(CommentUnliked event) {
-    likedByUsersView.removeItem(event.userId);
-    likeCountView.decrement(1);
+    commentLikedByUsersView.removeItem(event.userId);
+    commentLikeCountView.decrement(1);
   }
 
   void commentReplyAdded(CommentReplyAdded event) {
@@ -102,14 +102,14 @@ class CommentViewGroup implements EntityViewGroup {
   @override
   void initViews(ViewGroup views) {
     views
-      ..add(likedByUsersView)
+      ..add(commentLikedByUsersView)
       ..add(parentCommentView)
       ..add(parentTweetView)
       ..add(repliesView)
-      ..add(likeCountView)
-      ..add(createdAtView)
-      ..add(textView)
-      ..add(authorUserView);
+      ..add(commentLikeCountView)
+      ..add(commentCreatedAtView)
+      ..add(commentTextView)
+      ..add(commentAuthorUserView);
   }
 
   @override

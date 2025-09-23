@@ -24,7 +24,7 @@ Future<FlowResult> clientRegisterUserRequested(
   ClientRegisterUserRequested event,
   ProcessContext context,
 ) async {
-  final userAccountId = context.senderId;
+  final userAccountId = context.senderId!;
   final userProfileId = Xid().toString();
   final userTimelineId = Xid().toString();
 

@@ -42,7 +42,7 @@ Future<FlowResult> clientCreateCommentRequested(
     name: 'CommentEntity',
     id: commentId,
     cmd: CreateComment(
-      context.senderId,
+      context.senderId!,
       event.text,
       event.parentTweetId,
       event.parentCommentId,

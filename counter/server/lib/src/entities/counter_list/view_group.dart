@@ -9,7 +9,7 @@ import 'messages.dart';
 /// managing the addition and removal of counter references from the view.
 class CounterListViewGroup extends EntityViewGroup {
   /// View displaying the list of counter references.
-  final RefListView<CounterEntity> countersView = RefListView(name: 'counters');
+  final RefListView<CounterEntity> counters = RefListView(name: 'counters');
 
   /// Creates a default counter list view group with an empty list.
   CounterListViewGroup();
@@ -23,19 +23,19 @@ class CounterListViewGroup extends EntityViewGroup {
   ///
   /// [event] contains the ID of the counter that was added to the list.
   void counterAdded(CounterAddedToList event) {
-    countersView.addItem(event.counterId);
+    counters.addItem(event.counterId);
   }
 
   /// Handles counter removal events by removing the counter reference from the view.
   ///
   /// [event] contains the ID of the counter that was removed from the list.
   void counterRemoved(CounterRemovedFromList event) {
-    countersView.removeItem(event.counterId);
+    counters.removeItem(event.counterId);
   }
 
   @override
   void initViews(ViewGroup views) {
-    views.add(countersView);
+    views.add(counters);
   }
 
   @override
