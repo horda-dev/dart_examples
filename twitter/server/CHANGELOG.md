@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Use horda_server 0.14.0.
+
 ## 0.1.1
 
 - Rename fields in view groups.

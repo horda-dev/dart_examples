@@ -16,12 +16,11 @@ dependencies:
   firebase_auth: ^6.0.2
   firebase_core: ^4.1.0
   go_router: ^14.0.0
-  horda_client: ^0.20.0
+  horda_client:  ^0.21.0
   logging: ^1.3.0
   image_picker: ^1.1.2
   twitter_server:
-    hosted: https://pub.horda.ai/d368c1sgc98s738ue7cg
-    version: ^0.1.1
+    path: ../server
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,6 @@
 name: twitter_server
 description: Horda server example. Twitter clone.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/horda-ai/dart_examples
 publish_to: https://pub.horda.ai/d368c1sgc98s738ue7cg
 license: MIT
@@ -11,7 +11,7 @@ environment:
 dependencies:
   gcloud: ^0.8.19
   googleapis_auth: ^1.6.0
-  horda_server: ^0.13.0
+  horda_server: ^0.14.0
   json_annotation: ^4.9.0
   xid: ^1.2.1
 
