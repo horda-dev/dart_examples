@@ -4,7 +4,7 @@
 
 A "Hello World" project showcasing basic Horda Server SDK concepts including Entity, State, and View Group, and how to use them to create a stateful serverless backend.
 
-You can view the Counter example in the [Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big).
+You can view the Counter example in the [Horda Console](https://console.horda.dev/?project=d2sqf8kgc98s73838big).
 
 ## Processes
 

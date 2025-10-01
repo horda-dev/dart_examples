@@ -10,7 +10,7 @@ This project consists of two main parts:
 
 ## Horda Console:
 
-You can view the Counter example in the [Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big).
+You can view the Counter example in the [Horda Console](https://console.horda.dev/?project=d2sqf8kgc98s73838big).
 
 ## Demo:
 

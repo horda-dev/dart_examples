@@ -4,7 +4,7 @@
 
 A Flutter application that mimics a Twitter-like social media platform, demonstrating the integration of the Horda Client SDK for real-time data synchronization and interaction with a Horda backend. This client showcases user authentication, tweet creation, timeline display, user profiles, and social interactions like following, liking, and commenting.
 
-You can view the Twitter example in the [Horda Console](https://console.horda.ai/?project=d368c1sgc98s738ue7cg).
+You can view the Twitter example in the [Horda Console](https://console.horda.dev/?project=d368c1sgc98s738ue7cg).
 
 ## Demo:
 

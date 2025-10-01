@@ -2,7 +2,7 @@ name: twitter_server
 description: Horda server example. Twitter clone.
 version: 0.1.2
 repository: https://github.com/horda-ai/dart_examples
-publish_to: https://pub.horda.ai/d368c1sgc98s738ue7cg
+publish_to: https://pub.horda.dev/d368c1sgc98s738ue7cg
 license: MIT
 
 environment:

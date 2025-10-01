@@ -4,7 +4,7 @@
 
 Counter Flutter app showcasing how to use Horda Client SDK to connect to Horda Counter backend, request business processes, query entity views, and display results.
 
-You can view the Counter example in the [Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big).
+You can view the Counter example in the [Horda Console](https://console.horda.dev/?project=d2sqf8kgc98s73838big).
 
 ## Demo:
 
@@ -17,7 +17,7 @@ You can view the Counter example in the [Horda Console](https://console.horda.ai
 The connection to the Counter backend is established in the `main.dart` file. The process involves these steps:
 
 1.  A `projectId` and `apiKey` are defined to identify the backend project.
-2.  A WebSocket URL is constructed in the format `wss://api.horda.ai/[PROJECT_ID]/client`.
+2.  A WebSocket URL is constructed in the format `wss://api.horda.dev/[PROJECT_ID]/client`.
 3.  The `HordaClientSystem` is initialized directly with the `url` and `apiKey`. The `HordaClientSystem` constructor also accepts an optional `authProvider` parameter, but it is not supplied here as this project does not feature authentication.
 4.  The `system.start()` method is called to initiate the connection.
 5.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.
@@ -28,7 +28,7 @@ The connection to the Counter backend is established in the `main.dart` file. Th
 // 1. Configuration
 final projectId = '[PROJECT_ID]';
 final apiKey = '[API_KEY]';
-final url = 'wss://api.horda.ai/$projectId/client';
+final url = 'wss://api.horda.dev/$projectId/client';
 
 // 2. System Initialization
 final system = HordaClientSystem(url: url, apiKey: apiKey);
