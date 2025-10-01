@@ -11,7 +11,7 @@ Projects are ordered by increasing complexity:
 
 ## Counter Example
 
-[View in Horda Console](https://console.horda.ai/?project=d2sqf8kgc98s73838big)
+[View in Horda Console](https://console.horda.dev/?project=d2sqf8kgc98s73838big)
 
 [View Code](counter/)
 
@@ -25,7 +25,7 @@ Use the Counter Flutter app to understand how the Horda Client SDK is used to co
 
 ## Twitter Example
 
-[View in Horda Console](https://console.horda.ai/?project=d368c1sgc98s738ue7cg)
+[View in Horda Console](https://console.horda.dev/?project=d368c1sgc98s738ue7cg)
 
 [View Code](twitter/)
 

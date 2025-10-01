@@ -1,6 +1,9 @@
 import 'package:horda_client/horda_client.dart';
 
 class TweetQuery extends EntityQuery {
+  @override
+  String get entityName => 'TweetEntity';
+
   final authorUser = EntityRefView(
     'tweetAuthorUserView',
     query: BasicUserInfoQuery(),
@@ -51,6 +54,9 @@ class TweetQuery extends EntityQuery {
 }
 
 class TweetCommentsQuery extends EntityQuery {
+  @override
+  String get entityName => 'TweetEntity';
+
   final comments = EntityListView(
     'commentsView',
     query: CommentQuery(),
@@ -63,6 +69,9 @@ class TweetCommentsQuery extends EntityQuery {
 }
 
 class CommentQuery extends EntityQuery {
+  @override
+  String get entityName => 'CommentEntity';
+
   final authorUser = EntityRefView(
     'commentAuthorUserView',
     query: BasicUserInfoQuery(),
@@ -104,6 +113,9 @@ class CommentQuery extends EntityQuery {
 }
 
 class CommentReplyQuery extends EntityQuery {
+  @override
+  String get entityName => 'CommentEntity';
+
   final authorUser = EntityRefView(
     'commentAuthorUserView',
     query: BasicUserInfoQuery(),
@@ -133,6 +145,9 @@ class CommentReplyQuery extends EntityQuery {
 }
 
 class UserAccountQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final handle = EntityValueView<String>(
     'handleView',
   );
@@ -177,6 +192,9 @@ class UserAccountQuery extends EntityQuery {
 }
 
 class UserProfileQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserProfileEntity';
+
   final displayName = EntityValueView<String>('displayNameView');
   final avatarUrl = EntityValueView<String>('avatarUrlView');
   final bio = EntityValueView<String>('bioView');
@@ -191,6 +209,9 @@ class UserProfileQuery extends EntityQuery {
 }
 
 class BasicUserInfoQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final handle = EntityValueView<String>('handleView');
   final profile = EntityRefView(
     'profileView',
@@ -206,6 +227,9 @@ class BasicUserInfoQuery extends EntityQuery {
 }
 
 class UserNameAndPictureQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserProfileEntity';
+
   final displayName = EntityValueView<String>('displayNameView');
   final avatarUrl = EntityValueView<String>('avatarUrlView');
 
@@ -218,6 +242,9 @@ class UserNameAndPictureQuery extends EntityQuery {
 }
 
 class UserTimelineQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final timeline = EntityRefView('timelineView', query: TimelineQuery());
 
   @override
@@ -227,6 +254,9 @@ class UserTimelineQuery extends EntityQuery {
 }
 
 class TimelineQuery extends EntityQuery {
+  @override
+  String get entityName => 'TimelineEntity';
+
   final tweets = EntityListView<TweetQuery>(
     'timelineTweetsView',
     query: TweetQuery(),
@@ -239,6 +269,9 @@ class TimelineQuery extends EntityQuery {
 }
 
 class ExploreFeedQuery extends EntityQuery {
+  @override
+  String get entityName => 'ExploreFeedEntity';
+
   final tweets = EntityListView<TweetQuery>(
     'exploreFeedTweetsView',
     query: TweetQuery(),
@@ -252,6 +285,9 @@ class ExploreFeedQuery extends EntityQuery {
 
 /// App-wide query used all over the application, to hide blocked user tweets, etc.
 class MeQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final blockedUsers = EntityListView(
     'blockedUsersView',
     query: EmptyQuery(),
@@ -283,6 +319,9 @@ class MeQuery extends EntityQuery {
 }
 
 class MyFollowerQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final timeline = EntityRefView(
     'timelineView',
     query: EmptyQuery(),
@@ -295,6 +334,9 @@ class MyFollowerQuery extends EntityQuery {
 }
 
 class UserFollowingQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final following = EntityListView(
     'followingView',
     query: BasicUserInfoQuery(),
@@ -307,6 +349,9 @@ class UserFollowingQuery extends EntityQuery {
 }
 
 class UserFollowersQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final followers = EntityListView(
     'followersView',
     query: BasicUserInfoQuery(),
@@ -319,6 +364,9 @@ class UserFollowersQuery extends EntityQuery {
 }
 
 class BlockedUsersQuery extends EntityQuery {
+  @override
+  String get entityName => 'UserAccountEntity';
+
   final blockedUsers = EntityListView(
     'blockedUsersView',
     query: BasicUserInfoQuery(),

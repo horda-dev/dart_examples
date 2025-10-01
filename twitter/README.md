@@ -10,7 +10,7 @@ This project consists of two main parts:
 
 ## Horda Console:
 
-You can view the Twitter example in the [Horda Console](https://console.horda.ai/?project=d368c1sgc98s738ue7cg).
+You can view the Twitter example in the [Horda Console](https://console.horda.dev/?project=d368c1sgc98s738ue7cg).
 
 ## Demo:
 

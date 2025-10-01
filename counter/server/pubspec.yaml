@@ -1,15 +1,15 @@
 name: counter_server
 description: Horda server example.
-version: 0.1.3
+version: 0.1.4
 repository: https://github.com/horda-ai/dart_examples
-publish_to: https://pub.horda.ai/d2sqf8kgc98s73838big
+publish_to: https://pub.horda.dev/d2sqf8kgc98s73838big
 license: MIT
 
 environment:
   sdk: ^3.9.0
 
 dependencies:
-  horda_server: ^0.13.0
+  horda_server: ^0.14.0
   json_annotation: ^4.9.0
   xid: ^1.2.1
 
