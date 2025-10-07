@@ -6,14 +6,14 @@ class AppLogger {
   static void init() {
     hierarchicalLoggingEnabled = true;
 
-    Logger.root.level = Level.ALL;
-    Logger('Messaging').level = Level.ALL;
-    Logger('Query').level = Level.ALL;
-    Logger('Flow').level = Level.ALL;
-    Logger('Script').level = Level.ALL;
-    Logger('Fluir.System').level = Level.ALL;
-    Logger('Fluir.Connection').level = Level.ALL;
-    Logger('Fluir.MessageStore').level = Level.ALL;
+    Logger.root.level = Level.WARNING;
+    Logger('Messaging').level = Level.WARNING;
+    Logger('Query').level = Level.WARNING;
+    Logger('Flow').level = Level.WARNING;
+    Logger('Script').level = Level.WARNING;
+    Logger('Fluir.System').level = Level.WARNING;
+    Logger('Fluir.Connection').level = Level.WARNING;
+    Logger('Fluir.MessageStore').level = Level.WARNING;
 
     Logger.root.onRecord.listen((r) {
       var msg = '${r.loggerName}: ${r.message}';
