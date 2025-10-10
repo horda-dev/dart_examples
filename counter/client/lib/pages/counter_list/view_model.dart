@@ -30,10 +30,7 @@ class CounterListViewModel {
   }
 
   Future<void> createCounterList() async {
-    final res = await system.dispatchEvent(CreateCounterListRequested());
-    if (res.isError) {
-      throw CounterListException(res.value ?? '');
-    }
+    await system.dispatchEvent(CreateCounterListRequested());
   }
 
   Future<void> addCounter(String name, int initialValue) async {

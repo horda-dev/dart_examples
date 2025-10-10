@@ -30,19 +30,14 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           TextButton(
             onPressed: () async {
-              await kAuthService.logout();
+              final router = GoRouter.of(context);
 
-              if (!context.mounted) {
-                return;
-              }
+              await Future.wait([
+                kAuthService.logout(),
+                context.logout(),
+              ]);
 
-              await context.logout();
-
-              if (!context.mounted) {
-                return;
-              }
-
-              context.go('/signin');
+              router.go('/signin');
             },
             child: const Text('Logout'),
           ),

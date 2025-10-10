@@ -33,6 +33,9 @@ The connection to the Horda backend is established in the `main.dart` file. The 
 
 1.  Firebase is initialized for authentication.
 2.  A `kUrl` and `kApiKey` are defined in `config.dart` to identify the backend project.
+    To connect to a locally hosted server package, clients must use:
+    - `"ws://localhost:8080/client"` for local development.
+    - `"ws://10.0.2.2:8080/client"` if running on an Android emulator.
 3.  An `authProvider` from `auth.dart` is provided for authentication.
 4.  The `HordaClientSystem` is initialized directly with the `kUrl`, `kApiKey`, and `authProvider`.
 5.  The `system.start()` method is called to initiate the connection.

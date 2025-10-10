@@ -18,6 +18,9 @@ The connection to the Counter backend is established in the `main.dart` file. Th
 
 1.  A `projectId` and `apiKey` are defined to identify the backend project.
 2.  A WebSocket URL is constructed in the format `wss://api.horda.dev/[PROJECT_ID]/client`.
+    To connect to a locally hosted server package, clients must use:
+    - `"ws://localhost:8080/client"` for local development.
+    - `"ws://10.0.2.2:8080/client"` if running on an Android emulator.
 3.  The `HordaClientSystem` is initialized directly with the `url` and `apiKey`. The `HordaClientSystem` constructor also accepts an optional `authProvider` parameter, but it is not supplied here as this project does not feature authentication.
 4.  The `system.start()` method is called to initiate the connection.
 5.  The root widget of the application is wrapped in a `HordaSystemProvider`, making the client system available to all descendant widgets.

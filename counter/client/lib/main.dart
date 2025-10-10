@@ -13,6 +13,8 @@ void main() {
       'sk-client-43b6916d2e6f733bHSaXZP17EP9Jyf5WxrtUPRzRxyx_-FQXmbp8hn7548Oouj3QC8Em65hYY1c8MJTtl2JuZfQBLwJIUZI_S-vg7w==';
 
   final url = 'wss://api.horda.dev/$projectId/client';
+  // final url = 'ws://localhost:8080/client'; // For local development
+  // final url = 'ws://10.0.2.2:8080/client'; // For local development with Android emulator
 
   final system = HordaClientSystem(url: url, apiKey: apiKey);
 
