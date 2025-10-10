@@ -6,6 +6,14 @@ A Horda server application that powers a Twitter-like social media platform. Thi
 
 You can view the Twitter example in the [Horda Console](https://console.horda.dev/?project=d368c1sgc98s738ue7cg).
 
+## Local Development
+
+This server package has a development dependency on the `horda_local_host` package. This allows you to run the build runner to generate a `main.dart` file and run the server package locally.
+
+To connect to the locally hosted server package, clients must use:
+- `"ws://localhost:8080/client"` for local development.
+- `"ws://10.0.2.2:8080/client"` if running on an Android emulator.
+
 ## Key Concepts
 
 ### Processes

@@ -34,3 +34,13 @@ Use the Counter Flutter app to understand how the Horda Client SDK is used to co
 </div>
 
 A comprehensive example showcasing how to build a Twitter-like social media platform using Horda. This example highlights the implementation of business logic on the backend and how the client is kept in sync with real-time data changes.
+
+## Running Projects Locally
+
+For local development, the server packages in these examples utilize the `horda_local_host` dev dependency. This package allows you to run the Horda server locally, enabling rapid iteration and testing without deploying to the Horda platform.
+
+To connect your client application to a locally hosted server, use the following WebSocket URLs:
+- `"ws://localhost:8080/client"` for local development on your machine.
+- `"ws://10.0.2.2:8080/client"` for local development with an Android emulator.
+
+The `horda_local_host` package is not limited to these examples; it can also be used when developing your own Horda server packages. You can find more information about `horda_local_host` on [pub.dev](https://pub.dev/packages/horda_local_host).

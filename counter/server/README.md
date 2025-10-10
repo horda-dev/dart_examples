@@ -6,6 +6,14 @@ A "Hello World" project showcasing basic Horda Server SDK concepts including Ent
 
 You can view the Counter example in the [Horda Console](https://console.horda.dev/?project=d2sqf8kgc98s73838big).
 
+## Local Development
+
+This server package has a development dependency on the `horda_local_host` package. This allows you to run the build runner to generate a `main.dart` file and run the server package locally.
+
+To connect to the locally hosted server package, clients must use:
+- `"ws://localhost:8080/client"` for local development.
+- `"ws://10.0.2.2:8080/client"` if running on an Android emulator.
+
 ## Processes
 
 **Location:** `lib/src/processes/counter.dart`
