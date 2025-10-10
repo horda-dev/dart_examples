@@ -1,3 +1,8 @@
+## 0.1.5
+
+- Use horda_server 0.15.0.
+- Add dev dependency horda_local_host 0.1.0
+
 ## 0.1.4
 
 - Use horda_server 0.14.0.
