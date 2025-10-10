@@ -54,8 +54,7 @@ class _LoadedPageState extends State<_LoadedPage> {
     super.initState();
     model = CounterListViewModel(context);
 
-    // Since the counter list is global, no need to do it if the project already has it created.
-    // model.createCounterList();
+    model.createCounterList();
   }
 
   @override
