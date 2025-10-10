@@ -8,8 +8,36 @@ You can view the Twitter example in the [Horda Console](https://console.horda.de
 
 ## Local Development
 
+### 1. Development Dependency `horda_local_host`
+
 This server package has a development dependency on the `horda_local_host` package. This allows you to run the build runner to generate a `main.dart` file and run the server package locally.
 
+When developing your own `horda_server` packages, you can add `horda_local_host` as a development dependency to your project.
+
+To ensure all necessary Dart packages are fetched, run:
+```bash
+dart pub get
+```
+
+### 2. Generate Code
+To generate the code:
+```bash
+dart run build_runner build
+```
+Note that `build_runner` will only regenerate `bin/main.dart` if it detects changes in other Dart files. If you have manually modified `bin/main.dart` and wish to regenerate it, you must first clean the build cache before running the build command again.
+
+```bash
+dart run build_runner clean
+dart run build_runner build
+```
+
+### 3. Run the Application
+After generating the `main.dart` file, you can run the local host in VSCode by pressing F5. Alternatively, you can run it from the command line as usual:
+```bash
+dart bin/main.dart
+```
+
+### 4. Connect Client
 To connect to the locally hosted server package, clients must use:
 - `"ws://localhost:8080/client"` for local development.
 - `"ws://10.0.2.2:8080/client"` if running on an Android emulator.
