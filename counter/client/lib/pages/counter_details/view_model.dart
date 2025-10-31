@@ -5,12 +5,9 @@ import 'package:counter_server/counter_server.dart';
 import 'query.dart';
 
 class CounterDetailsViewModel {
-  CounterDetailsViewModel(this.context)
-    : system = HordaSystemProvider.of(context);
+  CounterDetailsViewModel(this.context);
 
   final BuildContext context;
-
-  final HordaClientSystem system;
 
   String get id {
     return context.query<CounterQuery>().id();
@@ -33,31 +30,29 @@ class CounterDetailsViewModel {
   }
 
   Future<void> delete() async {
-    final res = await system.dispatchEvent(
-      DeleteCounterRequested(counterId: id),
-    );
+    final res = await context.runProcess(DeleteCounterRequested(counterId: id));
     if (res.isError) {
       throw CounterDetailsException(res.value ?? '');
     }
   }
 
   Future<void> increment() async {
-    await system.dispatchEvent(
+    await context.runProcess(
       IncrementCounterRequested(counterId: id, amount: 1),
     );
   }
 
   Future<void> decrement() async {
-    await system.dispatchEvent(
+    await context.runProcess(
       DecrementCounterRequested(counterId: id, amount: 1),
     );
   }
 
   Future<void> toggleStatus() async {
     if (status == 'frozen') {
-      await system.dispatchEvent(UnfreezeCounterRequested(counterId: id));
+      await context.runProcess(UnfreezeCounterRequested(counterId: id));
     } else {
-      await system.dispatchEvent(FreezeCounterRequested(counterId: id));
+      await context.runProcess(FreezeCounterRequested(counterId: id));
     }
   }
 }

@@ -19,7 +19,7 @@ import '../../services/validation/messages.dart';
 /// 6. Sends 'AddCounterToList' command to the CounterListEntity.
 /// 7. Waits for 'CounterAddedToList' event.
 /// 8. Completes the process, returning the new counter ID.
-Future<FlowResult> clientCreateCounterRequested(
+Future<ProcessResult> clientCreateCounterRequested(
   CreateCounterRequested event,
   ProcessContext context,
 ) async {
@@ -32,7 +32,7 @@ Future<FlowResult> clientCreateCounterRequested(
   );
 
   if (!validationResult.isValid) {
-    return FlowResult.error('counter name is invalid');
+    return ProcessResult.error('counter name is invalid');
   }
 
   await context.callEntity<CounterCreated>(
@@ -44,10 +44,10 @@ Future<FlowResult> clientCreateCounterRequested(
 
   await context.callEntity<CounterAddedToList>(
     name: 'CounterListEntity',
-    id: kCounterListEntityId,
+    id: kSingletonId,
     cmd: AddCounterToList(counterId: newCounterId),
     fac: CounterAddedToList.fromJson,
   );
 
-  return FlowResult.ok(newCounterId);
+  return ProcessResult.ok(newCounterId);
 }

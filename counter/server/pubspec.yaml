@@ -1,6 +1,6 @@
 name: counter_server
 description: Horda server example.
-version: 0.1.5
+version: 0.1.6
 repository: https://github.com/horda-dev/dart_examples
 publish_to: https://pub.horda.dev/d2sqf8kgc98s73838big
 license: MIT
@@ -9,13 +9,13 @@ environment:
   sdk: ^3.9.0
 
 dependencies:
-  horda_server: ^0.15.0
+  horda_server: ^0.18.0
   json_annotation: ^4.9.0
   xid: ^1.2.1
 
 dev_dependencies:
   build_runner: ^2.7.0
-  horda_local_host: ^0.1.0
+  horda_local_host: ^0.5.0
   json_serializable: ^6.11.0
   lints: ^6.0.0
   test: ^1.25.6

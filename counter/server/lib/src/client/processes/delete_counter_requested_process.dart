@@ -12,7 +12,7 @@ import '../../entities/counter_list/messages.dart';
 /// 1. Sends 'DeleteCounter' command to the CounterEntity (fire-and-forget).
 /// 2. Sends 'RemoveCounterFromList' command to the CounterListEntity (fire-and-forget).
 /// 3. Completes the process.
-Future<FlowResult> clientDeleteCounterRequested(
+Future<ProcessResult> clientDeleteCounterRequested(
   DeleteCounterRequested event,
   ProcessContext context,
 ) async {
@@ -24,9 +24,9 @@ Future<FlowResult> clientDeleteCounterRequested(
 
   context.sendEntity(
     name: 'CounterListEntity',
-    id: kCounterListEntityId,
+    id: kSingletonId,
     cmd: RemoveCounterFromList(counterId: event.counterId),
   );
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

@@ -2,7 +2,6 @@ library;
 
 export 'src/client/messages.dart';
 export 'src/client/processes.dart';
-export 'src/client/processes/create_counter_list_requested_process.dart';
 export 'src/client/processes/create_counter_requested_process.dart';
 export 'src/client/processes/decrement_counter_requested_process.dart';
 export 'src/client/processes/delete_counter_requested_process.dart';
