@@ -7,9 +7,8 @@ import '../router.dart';
 
 class SignUpViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
 
-  SignUpViewModel(this.context) : system = HordaSystemProvider.of(context);
+  SignUpViewModel(this.context);
 
   Future<void> signUp({
     required String handle,
@@ -31,7 +30,11 @@ class SignUpViewModel {
 
     await context.reopenConnection();
 
-    final result = await system.dispatchEvent(
+    if (!context.mounted) {
+      return;
+    }
+
+    final result = await context.runProcess(
       ClientRegisterUserRequested(
         handle,
         displayName,

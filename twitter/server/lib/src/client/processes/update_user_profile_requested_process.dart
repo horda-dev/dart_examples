@@ -17,7 +17,7 @@ import '../../../twitter_server.dart';
 /// 2. Sends 'UpdateUserProfile' command to the UserProfileEntity to update display name and bio.
 /// 3. Waits for 'UserProfileUpdated' event.
 /// 4. Completes the process.
-Future<FlowResult> clientUpdateUserProfileRequested(
+Future<ProcessResult> clientUpdateUserProfileRequested(
   ClientUpdateUserProfileRequested event,
   ProcessContext context,
 ) async {
@@ -32,7 +32,7 @@ Future<FlowResult> clientUpdateUserProfileRequested(
     );
 
     if (uploadResult is ProfilePictureUploadFailed) {
-      return FlowResult.error(uploadResult.reason);
+      return ProcessResult.error(uploadResult.reason);
     }
 
     uploadResult as ProfilePictureUploaded;
@@ -60,5 +60,5 @@ Future<FlowResult> clientUpdateUserProfileRequested(
     fac: UserProfileUpdated.fromJson,
   );
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

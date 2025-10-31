@@ -18,7 +18,7 @@ import '../../../twitter_server.dart';
 /// 8. Sends 'CreateUserAccount' command to the UserAccountEntity.
 /// 9. Waits for 'UserAccountCreated' event. If successful, proceeds; otherwise, ends in error.
 /// 10. Sends 'SendUserRegistrationEmail' command to the NotificationService.
-Future<FlowResult> clientRegisterUserRequested(
+Future<ProcessResult> clientRegisterUserRequested(
   ClientRegisterUserRequested event,
   ProcessContext context,
 ) async {
@@ -36,7 +36,7 @@ Future<FlowResult> clientRegisterUserRequested(
   );
 
   if (result is ProfilePictureUploadFailed) {
-    return FlowResult.error(result.reason);
+    return ProcessResult.error(result.reason);
   }
 
   result as ProfilePictureUploaded;
@@ -80,5 +80,5 @@ Future<FlowResult> clientRegisterUserRequested(
     ),
   );
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

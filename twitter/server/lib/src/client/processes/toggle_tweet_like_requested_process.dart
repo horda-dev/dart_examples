@@ -8,7 +8,7 @@ import '../../../twitter_server.dart';
 /// 1. Sends the 'ToggleTweetLike' command to the TweetEntity.
 /// 2. Awaits either the 'TweetLiked' or 'TweetUnliked' event to determine the resulting state.
 /// 3. Completes the process when the operation is acknowledged.
-Future<FlowResult> clientToggleTweetLikeRequested(
+Future<ProcessResult> clientToggleTweetLikeRequested(
   ClientToggleTweetLikeRequested event,
   ProcessContext context,
 ) async {
@@ -24,5 +24,5 @@ Future<FlowResult> clientToggleTweetLikeRequested(
     ],
   );
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

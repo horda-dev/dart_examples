@@ -221,9 +221,8 @@ body: context.entityQuery(
 // In home/home_view_model.dart
 class HomeViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
 
-  HomeViewModel(this.context) : system = HordaSystemProvider.of(context);
+  HomeViewModel(this.context);
 
   EntityQueryDependencyBuilder<TimelineQuery> get timelineQuery {
     return context.query<UserTimelineQuery>().ref((q) => q.timeline);
@@ -245,11 +244,9 @@ class HomeViewModel {
 // In shared/tweet_view_model.dart
 class TweetViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
   final EntityQueryDependencyBuilder<TweetQuery> tweetQuery;
 
-  TweetViewModel(this.context, this.tweetQuery)
-    : system = HordaSystemProvider.of(context);
+  TweetViewModel(this.context, this.tweetQuery);
 
   String get id {
     return tweetQuery.id();
@@ -464,9 +461,8 @@ body: context.entityQuery(
 // In profile/profile_view_model.dart
 class ProfileViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
 
-  ProfileViewModel(this.context) : system = HordaSystemProvider.of(context);
+  ProfileViewModel(this.context);
 
   EntityQueryDependencyBuilder<UserAccountQuery> get userAccountQuery {
     return context.query<UserAccountQuery>();
@@ -679,13 +675,13 @@ if (viewModel.isNotCurrentUser) ...[
 
 ### Requesting Server Business Processes
 
-User interactions, such as composing a tweet, following a user, or liking a tweet, are handled by dispatching client events to the Horda backend using `system.dispatchEvent()`. These events trigger corresponding business processes on the server.
+User interactions, such as composing a tweet, following a user, or liking a tweet, are handled by dispatching client events to the Horda backend using `context.runProcess()`. These events trigger corresponding business processes on the server.
 
 For example, sending a tweet:
 
 ```dart
 // In compose_tweet/compose_tweet_view_model.dart
-final result = await _hordaSystem.dispatchEvent(
+final result = await context.runProcess(
   ClientCreateTweetRequested(
     authorUserId: context.hordaAuthUserId!,
     text: text,

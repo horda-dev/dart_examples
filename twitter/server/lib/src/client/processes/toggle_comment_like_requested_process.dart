@@ -9,7 +9,7 @@ import '../../../twitter_server.dart';
 /// 1. Sends a 'ToggleCommentLike' command to the CommentEntity.
 /// 2. Waits for the result event: either 'CommentLiked' or 'CommentUnliked'.
 /// 3. Ends the process after receiving the outcome.
-Future<FlowResult> clientToggleCommentLikeRequested(
+Future<ProcessResult> clientToggleCommentLikeRequested(
   ClientToggleCommentLikeRequested event,
   ProcessContext context,
 ) async {
@@ -23,5 +23,5 @@ Future<FlowResult> clientToggleCommentLikeRequested(
     ],
   );
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

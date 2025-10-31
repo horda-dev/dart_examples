@@ -1,3 +1,13 @@
+## 0.1.4
+
+- **BREAKING CHANGE**: Update process naming to match horda_server API changes:
+  - `Process` → `ProcessGroup`
+  - `initHandlers()` → `registerFuncs()`
+  - `ProcessHandlers` → `ProcessFuncs`
+  - `FlowResult` → `ProcessResult`
+- **BREAKING CHANGE**: Convert `ExploreFeedEntity` to singleton entity using `kSingletonId`.
+- Remove `CreateExploreFeed` command, `ExploreFeedCreated` and associated initialization handler.
+
 ## 0.1.3
 
 - Use horda_server 0.15.0.

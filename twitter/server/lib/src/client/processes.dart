@@ -11,42 +11,42 @@ import 'processes/toggle_user_follow_requested_process.dart';
 import 'processes/update_user_profile_requested_process.dart';
 import 'messages.dart';
 
-class ClientProcesses extends Process {
+class ClientProcesses extends ProcessGroup {
   @override
-  void initHandlers(ProcessHandlers handlers) {
-    handlers.add<ClientRegisterUserRequested>(
+  void registerFuncs(ProcessFuncs funcs) {
+    funcs.add<ClientRegisterUserRequested>(
       clientRegisterUserRequested,
       ClientRegisterUserRequested.fromJson,
     );
-    handlers.add<ClientToggleUserFollowRequested>(
+    funcs.add<ClientToggleUserFollowRequested>(
       clientToggleUserFollowRequested,
       ClientToggleUserFollowRequested.fromJson,
     );
-    handlers.add<ClientToggleTweetLikeRequested>(
+    funcs.add<ClientToggleTweetLikeRequested>(
       clientToggleTweetLikeRequested,
       ClientToggleTweetLikeRequested.fromJson,
     );
-    handlers.add<ClientRetweetRequested>(
+    funcs.add<ClientRetweetRequested>(
       clientRetweetRequested,
       ClientRetweetRequested.fromJson,
     );
-    handlers.add<ClientToggleUserBlockRequested>(
+    funcs.add<ClientToggleUserBlockRequested>(
       clientToggleUserBlockRequested,
       ClientToggleUserBlockRequested.fromJson,
     );
-    handlers.add<ClientToggleCommentLikeRequested>(
+    funcs.add<ClientToggleCommentLikeRequested>(
       clientToggleCommentLikeRequested,
       ClientToggleCommentLikeRequested.fromJson,
     );
-    handlers.add<ClientCreateCommentRequested>(
+    funcs.add<ClientCreateCommentRequested>(
       clientCreateCommentRequested,
       ClientCreateCommentRequested.fromJson,
     );
-    handlers.add<ClientCreateTweetRequested>(
+    funcs.add<ClientCreateTweetRequested>(
       clientCreateTweetRequested,
       ClientCreateTweetRequested.fromJson,
     );
-    handlers.add<ClientUpdateUserProfileRequested>(
+    funcs.add<ClientUpdateUserProfileRequested>(
       clientUpdateUserProfileRequested,
       ClientUpdateUserProfileRequested.fromJson,
     );

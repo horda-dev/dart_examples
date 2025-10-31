@@ -6,9 +6,8 @@ import '../queries.dart';
 
 class ProfileViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
 
-  ProfileViewModel(this.context) : system = HordaSystemProvider.of(context);
+  ProfileViewModel(this.context);
 
   EntityQueryDependencyBuilder<UserAccountQuery> get userAccountQuery {
     return context.query<UserAccountQuery>();
@@ -62,7 +61,7 @@ class ProfileViewModel {
   }
 
   Future<void> toggleFollow() async {
-    final result = await system.dispatchEvent(
+    final result = await context.runProcess(
       ClientToggleUserFollowRequested(userAccountQuery.id()),
     );
 
@@ -72,7 +71,7 @@ class ProfileViewModel {
   }
 
   Future<void> toggleBlock() async {
-    final result = await system.dispatchEvent(
+    final result = await context.runProcess(
       ClientToggleUserBlockRequested(userAccountQuery.id()),
     );
 

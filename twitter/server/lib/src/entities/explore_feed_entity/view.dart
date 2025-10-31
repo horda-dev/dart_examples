@@ -12,15 +12,6 @@ class ExploreFeedViewGroup implements EntityViewGroup {
       ),
       exploreFeedUpdatedAtView = ValueView<DateTime>(
         name: 'exploreFeedUpdatedAtView',
-        value: DateTime.fromMicrosecondsSinceEpoch(0),
-      );
-
-  ExploreFeedViewGroup.fromInitEvent(ExploreFeedCreated event)
-    : exploreFeedTweetsView = RefListView<TweetEntity>(
-        name: 'exploreFeedTweetsView',
-      ),
-      exploreFeedUpdatedAtView = ValueView<DateTime>(
-        name: 'exploreFeedUpdatedAtView',
         value: DateTime.now().toUtc(),
       );
 
@@ -44,8 +35,6 @@ class ExploreFeedViewGroup implements EntityViewGroup {
 
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
-    projectors
-      ..addInit<ExploreFeedCreated>(ExploreFeedViewGroup.fromInitEvent)
-      ..add<TweetAddedToExploreFeed>(tweetAddedToExploreFeed);
+    projectors.add<TweetAddedToExploreFeed>(tweetAddedToExploreFeed);
   }
 }

@@ -13,7 +13,7 @@ part 'state.g.dart';
 class ExploreFeedEntityState implements EntityState {
   ExploreFeedEntityState._json();
 
-  ExploreFeedEntityState.fromExploreFeedCreated(ExploreFeedCreated event);
+  ExploreFeedEntityState();
 
   @override
   void project(RemoteEvent event) {

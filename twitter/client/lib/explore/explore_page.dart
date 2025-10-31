@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart';
 
 import '../home/home_page.dart';
 import '../queries.dart';
@@ -24,7 +23,7 @@ class ExplorePage extends StatelessWidget {
         ),
       ),
       body: context.entityQuery(
-        entityId: kExploreFeedEntityId,
+        entityId: kSingletonId,
         query: ExploreFeedQuery(),
         loading: const Center(
           child: CircularProgressIndicator(),

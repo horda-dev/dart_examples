@@ -16,7 +16,7 @@ class TweetDetailsViewModel extends TweetViewModel {
   }
 
   Future<void> addComment(String commentText) async {
-    final result = await system.dispatchEvent(
+    final result = await context.runProcess(
       ClientCreateCommentRequested(
         text: commentText,
         parentTweetId: id,
@@ -31,9 +31,8 @@ class TweetDetailsViewModel extends TweetViewModel {
 
 class CommentListViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
 
-  CommentListViewModel(this.context) : system = HordaSystemProvider.of(context);
+  CommentListViewModel(this.context);
 
   EntityQueryDependencyBuilder<TweetCommentsQuery> get commentsQuery {
     return context.query<TweetCommentsQuery>();
@@ -48,7 +47,6 @@ class CommentListViewModel {
   CommentViewModel getComment(int index) {
     return CommentViewModel(
       context,
-      system,
       commentsQuery.listItem((q) => q.comments, index),
       index,
     );
@@ -57,12 +55,11 @@ class CommentListViewModel {
 
 class CommentViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
 
   final EntityQueryDependencyBuilder<CommentQuery> commentQuery;
   final int index;
 
-  CommentViewModel(this.context, this.system, this.commentQuery, this.index);
+  CommentViewModel(this.context, this.commentQuery, this.index);
 
   AuthorUserViewModel get author {
     return AuthorUserViewModel(
@@ -104,7 +101,7 @@ class CommentViewModel {
   }
 
   Future<void> toggleLikeComment() async {
-    final result = await system.dispatchEvent(
+    final result = await context.runProcess(
       ClientToggleCommentLikeRequested(id),
     );
 

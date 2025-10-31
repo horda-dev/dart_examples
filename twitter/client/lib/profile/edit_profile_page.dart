@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:twitter_client/queries.dart';
 
+import '../queries.dart';
 import 'edit_profile_view_model.dart';
 
 class EditProfilePage extends StatelessWidget {

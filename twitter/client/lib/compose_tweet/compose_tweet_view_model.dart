@@ -6,11 +6,8 @@ import '../queries.dart';
 
 class ComposeTweetViewModel {
   final BuildContext context;
-  late final HordaClientSystem _hordaSystem;
 
-  ComposeTweetViewModel(this.context) {
-    _hordaSystem = HordaSystemProvider.of(context);
-  }
+  ComposeTweetViewModel(this.context);
 
   Future<String> sendTweet({
     required String text,
@@ -30,7 +27,7 @@ class ComposeTweetViewModel {
             .refId((q) => q.timeline),
     ];
 
-    final result = await _hordaSystem.dispatchEvent(
+    final result = await context.runProcess(
       ClientCreateTweetRequested(
         authorUserId: context.hordaAuthUserId!,
         text: text,

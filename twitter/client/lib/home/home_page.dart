@@ -1,30 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
-import 'package:twitter_server/twitter_server.dart';
 
 import '../queries.dart';
 import '../shared/tweet_view_model.dart';
 import 'home_view_model.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-
-    HordaSystemProvider.of(context).sendRemote(
-      'ExploreFeedEntity',
-      kExploreFeedEntityId,
-      CreateExploreFeed(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

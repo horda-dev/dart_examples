@@ -3,40 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'messages.g.dart';
 
-/// Creates a new Explore feed.
-///
-/// {@category Entity Command}
-@JsonSerializable()
-class CreateExploreFeed extends RemoteCommand {
-  CreateExploreFeed();
-
-  factory CreateExploreFeed.fromJson(Map<String, dynamic> json) {
-    return _$CreateExploreFeedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$CreateExploreFeedToJson(this);
-  }
-}
-
-/// Event indicating an Explore feed was created.
-///
-/// {@category Entity Event}
-@JsonSerializable()
-class ExploreFeedCreated extends RemoteEvent {
-  ExploreFeedCreated();
-
-  factory ExploreFeedCreated.fromJson(Map<String, dynamic> json) {
-    return _$ExploreFeedCreatedFromJson(json);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ExploreFeedCreatedToJson(this);
-  }
-}
-
 /// Command to add a tweet to the explore feed.
 ///
 /// {@category Entity Command}
