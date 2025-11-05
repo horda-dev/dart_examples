@@ -3,40 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'messages.g.dart';
 
-/// Command to create a new counter list.
-///
-/// This initializes an empty list that can hold references to counter entities.
-///
-/// {@category Entity Command}
-@JsonSerializable()
-class CreateCounterList extends RemoteCommand {
-  /// Creates a new counter list creation command.
-  CreateCounterList();
-
-  factory CreateCounterList.fromJson(Map<String, dynamic> json) =>
-      _$CreateCounterListFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$CreateCounterListToJson(this);
-}
-
-/// Event indicating a counter list has been successfully created.
-///
-/// This event is emitted when a new counter list entity is initialized.
-///
-/// {@category Entity Event}
-@JsonSerializable()
-class CounterListCreated extends RemoteEvent {
-  /// Creates a new counter list created event.
-  CounterListCreated();
-
-  factory CounterListCreated.fromJson(Map<String, dynamic> json) =>
-      _$CounterListCreatedFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$CounterListCreatedToJson(this);
-}
-
 /// Command to add a counter reference to the list.
 ///
 /// This adds a reference to an existing counter entity to the managed list.

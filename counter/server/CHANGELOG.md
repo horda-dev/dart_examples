@@ -1,6 +1,13 @@
 ## 0.1.5
 
-- Use horda_server 0.15.0.
+- **BREAKING CHANGE**: Update process naming to match horda_server API changes:
+  - `Process` → `ProcessGroup`
+  - `initHandlers()` → `registerFuncs()`
+  - `ProcessHandlers` → `ProcessFuncs`
+  - `FlowResult` → `ProcessResult`
+- **BREAKING CHANGE**: Convert `CounterListEntity` to singleton entity using `kSingletonId`.
+- Remove `CreateCounterList` command and `CreateCounterListRequested` process.
+- Use horda_server 0.18.0.
 - Add dev dependency horda_local_host 0.1.0
 
 ## 0.1.4

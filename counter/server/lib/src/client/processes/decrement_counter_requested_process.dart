@@ -11,7 +11,7 @@ import '../messages.dart';
 /// Flow:
 /// 1. Sends 'DecrementCounter' command to the CounterEntity (fire-and-forget).
 /// 2. Completes the process.
-Future<FlowResult> clientDecrementCounterRequested(
+Future<ProcessResult> clientDecrementCounterRequested(
   DecrementCounterRequested event,
   ProcessContext context,
 ) async {
@@ -20,5 +20,5 @@ Future<FlowResult> clientDecrementCounterRequested(
     id: event.counterId,
     cmd: DecrementCounter(amount: event.amount),
   );
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

@@ -7,11 +7,9 @@ import 'author_user_view_model.dart';
 
 class TweetViewModel {
   final BuildContext context;
-  final HordaClientSystem system;
   final EntityQueryDependencyBuilder<TweetQuery> tweetQuery;
 
-  TweetViewModel(this.context, this.tweetQuery)
-    : system = HordaSystemProvider.of(context);
+  TweetViewModel(this.context, this.tweetQuery);
 
   String get id {
     return tweetQuery.id();
@@ -61,7 +59,7 @@ class TweetViewModel {
   }
 
   Future<void> toggleLikeTweet() async {
-    final result = await system.dispatchEvent(
+    final result = await context.runProcess(
       ClientToggleTweetLikeRequested(id),
     );
     if (result.isError) {
@@ -86,7 +84,7 @@ class TweetViewModel {
             .refId((q) => q.timeline),
     ];
 
-    final result = await system.dispatchEvent(
+    final result = await context.runProcess(
       ClientRetweetRequested(
         id,
         [

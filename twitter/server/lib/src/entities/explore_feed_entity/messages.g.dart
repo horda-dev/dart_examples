@@ -6,18 +6,6 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateExploreFeed _$CreateExploreFeedFromJson(Map<String, dynamic> json) =>
-    CreateExploreFeed();
-
-Map<String, dynamic> _$CreateExploreFeedToJson(CreateExploreFeed instance) =>
-    <String, dynamic>{};
-
-ExploreFeedCreated _$ExploreFeedCreatedFromJson(Map<String, dynamic> json) =>
-    ExploreFeedCreated();
-
-Map<String, dynamic> _$ExploreFeedCreatedToJson(ExploreFeedCreated instance) =>
-    <String, dynamic>{};
-
 AddTweetToExploreFeed _$AddTweetToExploreFeedFromJson(
   Map<String, dynamic> json,
 ) => AddTweetToExploreFeed(json['tweetId'] as String);

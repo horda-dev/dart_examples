@@ -6,18 +6,6 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateCounterList _$CreateCounterListFromJson(Map<String, dynamic> json) =>
-    CreateCounterList();
-
-Map<String, dynamic> _$CreateCounterListToJson(CreateCounterList instance) =>
-    <String, dynamic>{};
-
-CounterListCreated _$CounterListCreatedFromJson(Map<String, dynamic> json) =>
-    CounterListCreated();
-
-Map<String, dynamic> _$CounterListCreatedToJson(CounterListCreated instance) =>
-    <String, dynamic>{};
-
 AddCounterToList _$AddCounterToListFromJson(Map<String, dynamic> json) =>
     AddCounterToList(counterId: json['counterId'] as String);
 

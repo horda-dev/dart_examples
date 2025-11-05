@@ -9,20 +9,12 @@ import 'messages.dart';
 /// within the Horda serverless platform. It maintains a list of counter IDs
 /// that can be added to or removed from.
 ///
+/// This is a singleton entity, automatically created at deployment time.
+///
 /// {@category Entity}
 class CounterListEntity extends Entity<CounterListState> {
-  /// Creates a new empty counter list.
-  ///
-  /// [command] the creation command
-  /// [context] provides the entity execution context
-  ///
-  /// Returns a [CounterListCreated] event.
-  Future<CounterListCreated> create(
-    CreateCounterList command,
-    EntityContext context,
-  ) async {
-    return CounterListCreated();
-  }
+  @override
+  CounterListState? get singleton => CounterListState();
 
   /// Adds a counter reference to the list.
   ///
@@ -58,11 +50,6 @@ class CounterListEntity extends Entity<CounterListState> {
   void initHandlers(EntityHandlers<CounterListState> handlers) {
     handlers
       ..addStateFromJson(CounterListState.fromJson)
-      ..addInit<CreateCounterList, CounterListCreated>(
-        create,
-        CreateCounterList.fromJson,
-        (_) => CounterListState(),
-      )
       ..add<AddCounterToList>(add, AddCounterToList.fromJson)
       ..add<RemoveCounterFromList>(remove, RemoveCounterFromList.fromJson);
   }

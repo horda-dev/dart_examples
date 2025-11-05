@@ -114,19 +114,18 @@ The screens define the following custom `EntityQuery` classes to specify which d
 
 User interactions, such as pressing a button to increment a counter or create a new one, are handled by a `ViewModel`. The ViewModel methods dispatch client events to the server to request specific business process. For example, when a user creates a counter, the client sends a `CreateCounterRequested` event, which triggers the corresponding `create` business process on the server.
 
-For instance, the `CounterDetailsViewModel` first retrieves the `HordaClientSystem` from the context, and then uses its `dispatchEvent` method to send an event to the server:
+For instance, the `CounterDetailsViewModel` uses the `dispatchEvent` context extension method to send an event to the server:
 
 ```dart
 class CounterDetailsViewModel {
-  CounterDetailsViewModel(this.context)
-    : system = HordaSystemProvider.of(context);
+  CounterDetailsViewModel(this.context);
 
-  final HordaClientSystem system;
+  final BuildContext context;
 
   // ...
 
   Future<void> increment() async {
-    await system.dispatchEvent(
+    await context.runProcess(
       IncrementCounterRequested(counterId: id, amount: 1),
     );
   }

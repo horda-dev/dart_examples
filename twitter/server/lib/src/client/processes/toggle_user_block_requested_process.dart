@@ -8,7 +8,7 @@ import '../../../twitter_server.dart';
 /// 1. Sends 'ToggleUserBlock' command to 'UserAccountEntity'.
 /// 2. Waits for 'UserBlocked' or 'UserUnblocked' event.
 /// 3. Completes the process upon successful toggling.
-Future<FlowResult> clientToggleUserBlockRequested(
+Future<ProcessResult> clientToggleUserBlockRequested(
   ClientToggleUserBlockRequested event,
   ProcessContext context,
 ) async {
@@ -24,5 +24,5 @@ Future<FlowResult> clientToggleUserBlockRequested(
     ],
   );
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

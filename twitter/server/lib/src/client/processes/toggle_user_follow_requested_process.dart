@@ -12,7 +12,7 @@ import '../../../twitter_server.dart';
 /// 3. Sends 'ToggleFollowing' command to UserAccountEntity.
 /// 4. Waits for either 'FollowingAdded' or 'FollowingRemoved' event
 /// 5. Completes the process.
-Future<FlowResult> clientToggleUserFollowRequested(
+Future<ProcessResult> clientToggleUserFollowRequested(
   ClientToggleUserFollowRequested event,
   ProcessContext context,
 ) async {
@@ -41,5 +41,5 @@ Future<FlowResult> clientToggleUserFollowRequested(
     ),
   ]);
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

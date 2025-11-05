@@ -16,12 +16,12 @@ import '../../../twitter_server.dart';
 /// 6. Sends 'AddTweetComment' command to the TweetEntity (if parentTweetId is provided).
 /// 7. Waits for 'TweetCommentAdded' event.
 /// 8. Completes the process.
-Future<FlowResult> clientCreateCommentRequested(
+Future<ProcessResult> clientCreateCommentRequested(
   ClientCreateCommentRequested event,
   ProcessContext context,
 ) async {
   if (event.parentTweetId.isEmpty) {
-    return FlowResult.error('parent tweet id can not be empty');
+    return ProcessResult.error('parent tweet id can not be empty');
   }
 
   final result = await context.callService(
@@ -31,7 +31,7 @@ Future<FlowResult> clientCreateCommentRequested(
   );
 
   if (!result.isValid) {
-    return FlowResult.error('text did not pass moderation');
+    return ProcessResult.error('text did not pass moderation');
   }
 
   final commentId = Xid().toString();
@@ -64,5 +64,5 @@ Future<FlowResult> clientCreateCommentRequested(
     );
   }
 
-  return FlowResult.ok(commentId);
+  return ProcessResult.ok(commentId);
 }

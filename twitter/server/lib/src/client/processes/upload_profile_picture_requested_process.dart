@@ -13,7 +13,7 @@ import '../../../twitter_server.dart';
 /// 4. Sends 'UpdateProfilePictureUrl' command to the UserProfileEntity.
 /// 5. Waits for 'ProfilePictureUrlUpdated' event.
 /// 6. Completes the process.
-Future<FlowResult> clientUploadProfilePictureRequested(
+Future<ProcessResult> clientUploadProfilePictureRequested(
   ClientUploadProfilePictureRequested event,
   ProcessContext context,
 ) async {
@@ -27,7 +27,7 @@ Future<FlowResult> clientUploadProfilePictureRequested(
   );
 
   if (uploadResult is ProfilePictureUploadFailed) {
-    return FlowResult.error(uploadResult.reason);
+    return ProcessResult.error(uploadResult.reason);
   }
 
   uploadResult as ProfilePictureUploaded;
@@ -46,5 +46,5 @@ Future<FlowResult> clientUploadProfilePictureRequested(
     );
   }
 
-  return FlowResult.ok(uploadResult.pictureUrl);
+  return ProcessResult.ok(uploadResult.pictureUrl);
 }

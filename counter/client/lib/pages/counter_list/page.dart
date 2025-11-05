@@ -1,4 +1,3 @@
-import 'package:counter_server/counter_server.dart';
 import 'package:flutter/material.dart';
 import 'package:horda_client/horda_client.dart';
 
@@ -12,7 +11,7 @@ class CounterListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return context.entityQuery(
-      entityId: kCounterListEntityId,
+      entityId: kSingletonId,
       query: CounterListQuery(),
       loading: const _LoadingPage(),
       error: const _ErrorPage(),
@@ -39,26 +38,13 @@ class _ErrorPage extends StatelessWidget {
   }
 }
 
-class _LoadedPage extends StatefulWidget {
-  const _LoadedPage(); // No longer needs model as a parameter
-
-  @override
-  State<_LoadedPage> createState() => _LoadedPageState();
-}
-
-class _LoadedPageState extends State<_LoadedPage> {
-  late final CounterListViewModel model;
-
-  @override
-  void initState() {
-    super.initState();
-    model = CounterListViewModel(context);
-
-    model.createCounterList();
-  }
+class _LoadedPage extends StatelessWidget {
+  const _LoadedPage();
 
   @override
   Widget build(BuildContext context) {
+    final model = CounterListViewModel(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Counters')),
       body: (model.countersLength == 0)
@@ -96,14 +82,17 @@ class _LoadedPageState extends State<_LoadedPage> {
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _onAddCounterPressed,
+        onPressed: () => _onAddCounterPressed(context, model),
         tooltip: 'Add Counter',
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  Future<void> _onAddCounterPressed() async {
+  Future<void> _onAddCounterPressed(
+    BuildContext context,
+    CounterListViewModel model,
+  ) async {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

@@ -11,7 +11,7 @@ import '../messages.dart';
 /// Flow:
 /// 1. Sends 'FreezeCounter' command to the CounterEntity (fire-and-forget).
 /// 2. Completes the process.
-Future<FlowResult> clientFreezeCounterRequested(
+Future<ProcessResult> clientFreezeCounterRequested(
   FreezeCounterRequested event,
   ProcessContext context,
 ) async {
@@ -20,5 +20,5 @@ Future<FlowResult> clientFreezeCounterRequested(
     id: event.counterId,
     cmd: FreezeCounter(),
   );
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }

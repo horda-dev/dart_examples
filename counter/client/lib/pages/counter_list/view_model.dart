@@ -5,11 +5,9 @@ import 'package:horda_client/horda_client.dart';
 import 'query.dart';
 
 class CounterListViewModel {
-  CounterListViewModel(this.context) : system = HordaSystemProvider.of(context);
+  CounterListViewModel(this.context);
 
   final BuildContext context;
-
-  final HordaClientSystem system;
 
   int get countersLength {
     return context.query<CounterListQuery>().listLength((q) => q.counters);
@@ -29,12 +27,8 @@ class CounterListViewModel {
     );
   }
 
-  Future<void> createCounterList() async {
-    await system.dispatchEvent(CreateCounterListRequested());
-  }
-
   Future<void> addCounter(String name, int initialValue) async {
-    final res = await system.dispatchEvent(
+    final res = await context.runProcess(
       CreateCounterRequested(name: name, initialValue: initialValue),
     );
 

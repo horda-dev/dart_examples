@@ -16,11 +16,6 @@ class CounterListViewGroup extends EntityViewGroup {
   /// Creates a default counter list view group with an empty list.
   CounterListViewGroup();
 
-  /// Creates a counter list view group initialized from a [CounterListCreated] event.
-  ///
-  /// [event] the initialization event (currently contains no specific data).
-  CounterListViewGroup.fromInitEvent(CounterListCreated event);
-
   /// Handles counter addition events by adding the counter reference to the view.
   ///
   /// [event] contains the ID of the counter that was added to the list.
@@ -43,7 +38,6 @@ class CounterListViewGroup extends EntityViewGroup {
   @override
   void initProjectors(EntityViewGroupProjectors projectors) {
     projectors
-      ..addInit<CounterListCreated>(CounterListViewGroup.fromInitEvent)
       ..add<CounterAddedToList>(counterAdded)
       ..add<CounterRemovedFromList>(counterRemoved);
   }

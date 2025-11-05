@@ -15,7 +15,7 @@ import '../../../twitter_server.dart';
 /// 7. Waits for 'TweetCreated' event.
 /// 8. Sends 'AddTweetToExploreFeed'.
 /// 9. Sends 'AddTweetToTimeline' for each timeline id in the client event.
-Future<FlowResult> clientCreateTweetRequested(
+Future<ProcessResult> clientCreateTweetRequested(
   ClientCreateTweetRequested event,
   ProcessContext context,
 ) async {
@@ -26,7 +26,7 @@ Future<FlowResult> clientCreateTweetRequested(
   );
 
   if (!moderationResult.isValid) {
-    return FlowResult.error('text did not pass moderation');
+    return ProcessResult.error('text did not pass moderation');
   }
 
   final tweetId = Xid().toString();
@@ -43,7 +43,7 @@ Future<FlowResult> clientCreateTweetRequested(
     );
 
     if (attachmentResult is TweetAttachmentUploadFailed) {
-      return FlowResult.error(
+      return ProcessResult.error(
         'attachment failed to upload: ${attachmentResult.reason}',
       );
     }
@@ -65,7 +65,7 @@ Future<FlowResult> clientCreateTweetRequested(
 
   context.sendEntity(
     name: 'ExploreFeedEntity',
-    id: kExploreFeedEntityId,
+    id: kSingletonId,
     cmd: AddTweetToExploreFeed(tweetId),
   );
 
@@ -77,5 +77,5 @@ Future<FlowResult> clientCreateTweetRequested(
     );
   }
 
-  return FlowResult.ok(tweetId);
+  return ProcessResult.ok(tweetId);
 }

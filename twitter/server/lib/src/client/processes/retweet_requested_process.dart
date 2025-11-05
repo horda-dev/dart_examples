@@ -9,7 +9,7 @@ import '../../../twitter_server.dart';
 /// 1. Sends the 'RetweetTweet' command to the TweetEntity.
 /// 2. Waits for the 'TweetRetweeted' event, fails on error.
 /// 3. Sends 'AddTweetToTimeLine' for each timeline id in the client event.
-Future<FlowResult> clientRetweetRequested(
+Future<ProcessResult> clientRetweetRequested(
   ClientRetweetRequested event,
   ProcessContext context,
 ) async {
@@ -30,5 +30,5 @@ Future<FlowResult> clientRetweetRequested(
     );
   }
 
-  return FlowResult.ok();
+  return ProcessResult.ok();
 }
