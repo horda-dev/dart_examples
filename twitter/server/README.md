@@ -90,8 +90,8 @@ Entities represent the core data models of the application, managing their own s
     *   **Views:** `timelineTweetsView`, `ownerUserView`, `timelineUpdatedAtView`.
 
 *   **ExploreFeedEntity** (`lib/src/entities/explore_feed_entity/`)
-    *   A global entity that holds a list of tweets for the explore feed.
-    *   **Commands:** `CreateExploreFeed`, `AddTweetToExploreFeed`.
+    *   A singleton entity that manages the global explore feed, holding a list of tweets for users to discover. As a singleton, only one instance exists in the system and it doesn't need to be manually created.
+    *   **Commands:** `AddTweetToExploreFeed`.
     *   **Views:** `exploreFeedTweetsView`, `exploreFeedUpdatedAtView`.
 
 ### Services

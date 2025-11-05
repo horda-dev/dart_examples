@@ -47,7 +47,6 @@ To connect to the locally hosted server package, clients must use:
 **Location:** `lib/src/processes/counter.dart`
 
 **Process Request Events:**
-- `CreateCounterListRequested` - Request to create the global counter list entity
 - `CreateCounterRequested` - Request to create a new counter with validation
 - `DeleteCounterRequested` - Request to delete a counter and remove from list
 - `IncrementCounterRequested` - Request to increment a counter
@@ -78,10 +77,9 @@ An entity representing a simple counter with freeze/unfreeze functionality.
 ### CounterListEntity
 **Location:** `lib/src/entities/counter_list/`
 
-An entity that manages a list of counter references.
+A singleton entity that manages the global list of counter references. As a singleton, only one instance exists in the system and it doesn't need to be manually created.
 
 #### Entity Commands
-- `CreateCounterList` - Command to create a new counter list
 - `AddCounterToList` - Command to add a counter reference to the list
 - `RemoveCounterFromList` - Command to remove a counter reference from the list
 
