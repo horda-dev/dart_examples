@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../queries.dart';
 import '../shared/image_compression_helper.dart';
+import '../shared/profile_image_picker.dart';
 import 'edit_profile_view_model.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -155,21 +156,10 @@ class _EditProfileLoadedViewState extends State<_EditProfileLoadedView> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            GestureDetector(
+            ProfileImagePicker(
+              selectedImage: _selectedImage,
+              existingAvatarUrl: model.avatarUrl,
               onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: _selectedImage != null
-                    ? FileImage(_selectedImage!)
-                    : NetworkImage(model.avatarUrl) as ImageProvider,
-                child: _selectedImage == null && model.avatarUrl.isEmpty
-                    ? Icon(
-                        Icons.camera_alt,
-                        size: 40,
-                        color: Colors.grey[800],
-                      )
-                    : null,
-              ),
             ),
             const SizedBox(height: 24.0),
             TextField(
