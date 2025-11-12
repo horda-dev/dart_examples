@@ -66,9 +66,10 @@ class _LoadedView extends StatelessWidget {
     if (tweetsLength == 0) {
       return const Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 48.0),
           child: Text(
             'Post a new tweet, or tap the compass icon to explore tweets from others.',
+            textAlign: TextAlign.center,
           ),
         ),
       );
