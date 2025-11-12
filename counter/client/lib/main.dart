@@ -10,7 +10,7 @@ void main() {
 
   final projectId = 'd2sqf8kgc98s73838big';
   final apiKey =
-      'sk-client-UCcOxMn4MIKXTY_BBCvronXvGrJXEvbeedH6wR30EHlZ0Uh8Q_LUaOlM3vReWPBTZd5wm8NXQdmVlGQCVBTIWA';
+      'sk-client-UPSq-BgHNnDZVGdnaIsB8rPzTL4kpQnNJeTyTr7YZVcjdpDu-ArIbDOe1K-Ppi5wWuwk3bp3wmZUwA_pwng_zg';
 
   final url = 'wss://api.horda.dev/$projectId/client';
   // final url = 'ws://localhost:8080/client'; // For local development

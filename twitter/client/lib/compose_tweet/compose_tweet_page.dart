@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../shared/image_compression_helper.dart';
 import 'compose_tweet_view_model.dart';
 
 class ComposeTweetPage extends StatefulWidget {
@@ -40,10 +41,13 @@ class _ComposeTweetPageState extends State<ComposeTweetPage> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      // Read the image bytes
       final bytes = await pickedFile.readAsBytes();
+      // Compress the image before encoding
+      final compressedBytes = await ImageCompressionHelper.compressImage(bytes);
       setState(() {
         _selectedImage = File(pickedFile.path);
-        _attachmentBase64 = base64Encode(bytes);
+        _attachmentBase64 = base64Encode(compressedBytes);
       });
     }
   }

@@ -34,19 +34,43 @@ class SignUpViewModel {
       return;
     }
 
-    final result = await context.runProcess(
-      ClientRegisterUserRequested(
-        handle,
-        displayName,
-        email,
-        avatarBase64,
-      ),
-    );
+    try {
+      final result = await context.runProcess(
+        ClientRegisterUserRequested(
+          handle,
+          displayName,
+          email,
+          avatarBase64,
+        ),
+      );
 
-    gIsSigningUp = false;
+      if (result.isError) {
+        throw Exception(result.value ?? 'Failed to register user profile.');
+      }
+    } catch (e) {
+      await _rollbackPartialSignUp();
+      rethrow;
+    } finally {
+      gIsSigningUp = false;
+    }
+  }
 
-    if (result.isError) {
-      throw Exception(result.value ?? 'Failed to register user profile.');
+  /// Must be called when backend registration failed but Firebase Auth succeeded.
+  ///
+  /// Deletes the Firebase user to avoid orphaned accounts.
+  Future<void> _rollbackPartialSignUp() async {
+    try {
+      await kAuthService.deleteCurrentUser();
+
+      if (!context.mounted) {
+        return;
+      }
+
+      await context.reopenConnection();
+    } catch (e) {
+      print(
+        'Failed to rollback partial sign up: $e',
+      );
     }
   }
 }

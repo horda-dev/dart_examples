@@ -54,7 +54,13 @@ class _LoadedView extends StatelessWidget {
 
     if (tweetsLength == 0) {
       return const Center(
-        child: Text('No trending tweets right now.'),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 48.0),
+          child: Text(
+            'No trending tweets right now.',
+            textAlign: TextAlign.center,
+          ),
+        ),
       );
     }
 
