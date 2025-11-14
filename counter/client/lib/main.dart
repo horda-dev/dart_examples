@@ -12,7 +12,7 @@ void main() {
   final apiKey =
       'sk-client-UPSq-BgHNnDZVGdnaIsB8rPzTL4kpQnNJeTyTr7YZVcjdpDu-ArIbDOe1K-Ppi5wWuwk3bp3wmZUwA_pwng_zg';
 
-  final url = 'wss://api.horda.dev/$projectId/client';
+  final url = 'wss://api.horda.dev/runtime/client/$projectId';
   // final url = 'ws://localhost:8080/client'; // For local development
   // final url = 'ws://10.0.2.2:8080/client'; // For local development with Android emulator
 
