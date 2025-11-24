@@ -104,4 +104,3 @@ class CounterLifecycleProcesses extends ProcessGroup {
       );
   }
 }
-
