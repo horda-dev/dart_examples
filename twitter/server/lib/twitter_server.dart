@@ -1,5 +1,7 @@
 export 'src/client/messages.dart';
-export 'src/client/processes.dart';
+export 'src/client/user_processes.dart';
+export 'src/client/tweet_processes.dart';
+export 'src/client/comment_processes.dart';
 export 'src/client/processes/create_comment_requested_process.dart';
 export 'src/client/processes/create_tweet_requested_process.dart';
 export 'src/client/processes/register_user_requested_process.dart';
