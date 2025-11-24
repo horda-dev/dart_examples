@@ -28,7 +28,7 @@ class ComposeTweetViewModel {
     ];
 
     final result = await context.runProcess(
-      ClientCreateTweetRequested(
+      CreateTweetRequested(
         authorUserId: context.hordaAuthUserId!,
         text: text,
         attachmentBase64: attachmentBase64,

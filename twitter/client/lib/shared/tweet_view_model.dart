@@ -60,7 +60,7 @@ class TweetViewModel {
 
   Future<void> toggleLikeTweet() async {
     final result = await context.runProcess(
-      ClientToggleTweetLikeRequested(id),
+      ToggleTweetLikeRequested(id),
     );
     if (result.isError) {
       throw TweetException(
@@ -85,7 +85,7 @@ class TweetViewModel {
     ];
 
     final result = await context.runProcess(
-      ClientRetweetRequested(
+      RetweetRequested(
         id,
         [
           myTimelineId,
