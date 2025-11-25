@@ -6,12 +6,6 @@ import '../entities/counter/messages.dart';
 import '../entities/counter_list/messages.dart';
 import '../services/validation/messages.dart';
 
-// Process groups organize business processes into logical units.
-//
-// A ProcessGroup is a collection of related process functions that respond to
-// client requests. Each process function implements business logic by coordinating
-// between entities, services, and other system components.
-
 /// Process group for counter lifecycle management.
 ///
 /// Handles the creation and deletion of counter entities. These processes
