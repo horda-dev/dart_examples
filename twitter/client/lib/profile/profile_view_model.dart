@@ -62,7 +62,7 @@ class ProfileViewModel {
 
   Future<void> toggleFollow() async {
     final result = await context.runProcess(
-      ClientToggleUserFollowRequested(userAccountQuery.id()),
+      ToggleUserFollowRequested(userAccountQuery.id()),
     );
 
     if (result.isError) {
@@ -72,7 +72,7 @@ class ProfileViewModel {
 
   Future<void> toggleBlock() async {
     final result = await context.runProcess(
-      ClientToggleUserBlockRequested(userAccountQuery.id()),
+      ToggleUserBlockRequested(userAccountQuery.id()),
     );
 
     if (result.isError) {

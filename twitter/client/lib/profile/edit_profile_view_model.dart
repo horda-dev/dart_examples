@@ -28,7 +28,7 @@ class EditProfileViewModel {
     String? avatarBase64,
   }) async {
     final result = await context.runProcess(
-      ClientUpdateUserProfileRequested(
+      UpdateUserProfileRequested(
         profileId: profileId,
         displayName: displayName,
         bio: bio,

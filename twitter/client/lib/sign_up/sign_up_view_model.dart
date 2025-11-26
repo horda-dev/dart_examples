@@ -36,7 +36,7 @@ class SignUpViewModel {
 
     try {
       final result = await context.runProcess(
-        ClientRegisterUserRequested(
+        RegisterUserRequested(
           handle,
           displayName,
           email,

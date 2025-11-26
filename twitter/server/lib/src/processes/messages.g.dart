@@ -6,25 +6,25 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ClientCreateCommentRequested _$ClientCreateCommentRequestedFromJson(
+CreateCommentRequested _$CreateCommentRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientCreateCommentRequested(
+) => CreateCommentRequested(
   text: json['text'] as String,
   parentTweetId: json['parentTweetId'] as String,
   parentCommentId: json['parentCommentId'] as String?,
 );
 
-Map<String, dynamic> _$ClientCreateCommentRequestedToJson(
-  ClientCreateCommentRequested instance,
+Map<String, dynamic> _$CreateCommentRequestedToJson(
+  CreateCommentRequested instance,
 ) => <String, dynamic>{
   'text': instance.text,
   'parentTweetId': instance.parentTweetId,
   'parentCommentId': instance.parentCommentId,
 };
 
-ClientCreateTweetRequested _$ClientCreateTweetRequestedFromJson(
+CreateTweetRequested _$CreateTweetRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientCreateTweetRequested(
+) => CreateTweetRequested(
   authorUserId: json['authorUserId'] as String,
   text: json['text'] as String,
   attachmentBase64: json['attachmentBase64'] as String?,
@@ -33,8 +33,8 @@ ClientCreateTweetRequested _$ClientCreateTweetRequestedFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$ClientCreateTweetRequestedToJson(
-  ClientCreateTweetRequested instance,
+Map<String, dynamic> _$CreateTweetRequestedToJson(
+  CreateTweetRequested instance,
 ) => <String, dynamic>{
   'authorUserId': instance.authorUserId,
   'text': instance.text,
@@ -42,17 +42,17 @@ Map<String, dynamic> _$ClientCreateTweetRequestedToJson(
   'timelineIds': instance.timelineIds,
 };
 
-ClientRegisterUserRequested _$ClientRegisterUserRequestedFromJson(
+RegisterUserRequested _$RegisterUserRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientRegisterUserRequested(
+) => RegisterUserRequested(
   json['handle'] as String,
   json['displayName'] as String,
   json['email'] as String,
   json['avatarBase64'] as String,
 );
 
-Map<String, dynamic> _$ClientRegisterUserRequestedToJson(
-  ClientRegisterUserRequested instance,
+Map<String, dynamic> _$RegisterUserRequestedToJson(
+  RegisterUserRequested instance,
 ) => <String, dynamic>{
   'handle': instance.handle,
   'displayName': instance.displayName,
@@ -60,63 +60,61 @@ Map<String, dynamic> _$ClientRegisterUserRequestedToJson(
   'avatarBase64': instance.avatarBase64,
 };
 
-ClientRetweetRequested _$ClientRetweetRequestedFromJson(
+RetweetRequested _$RetweetRequestedFromJson(Map<String, dynamic> json) =>
+    RetweetRequested(
+      json['tweetId'] as String,
+      (json['timelineIds'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$RetweetRequestedToJson(RetweetRequested instance) =>
+    <String, dynamic>{
+      'tweetId': instance.tweetId,
+      'timelineIds': instance.timelineIds,
+    };
+
+ToggleCommentLikeRequested _$ToggleCommentLikeRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientRetweetRequested(
-  json['tweetId'] as String,
-  (json['timelineIds'] as List<dynamic>).map((e) => e as String).toList(),
-);
+) => ToggleCommentLikeRequested(json['commentId'] as String);
 
-Map<String, dynamic> _$ClientRetweetRequestedToJson(
-  ClientRetweetRequested instance,
-) => <String, dynamic>{
-  'tweetId': instance.tweetId,
-  'timelineIds': instance.timelineIds,
-};
-
-ClientToggleCommentLikeRequested _$ClientToggleCommentLikeRequestedFromJson(
-  Map<String, dynamic> json,
-) => ClientToggleCommentLikeRequested(json['commentId'] as String);
-
-Map<String, dynamic> _$ClientToggleCommentLikeRequestedToJson(
-  ClientToggleCommentLikeRequested instance,
+Map<String, dynamic> _$ToggleCommentLikeRequestedToJson(
+  ToggleCommentLikeRequested instance,
 ) => <String, dynamic>{'commentId': instance.commentId};
 
-ClientToggleTweetLikeRequested _$ClientToggleTweetLikeRequestedFromJson(
+ToggleTweetLikeRequested _$ToggleTweetLikeRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientToggleTweetLikeRequested(json['tweetId'] as String);
+) => ToggleTweetLikeRequested(json['tweetId'] as String);
 
-Map<String, dynamic> _$ClientToggleTweetLikeRequestedToJson(
-  ClientToggleTweetLikeRequested instance,
+Map<String, dynamic> _$ToggleTweetLikeRequestedToJson(
+  ToggleTweetLikeRequested instance,
 ) => <String, dynamic>{'tweetId': instance.tweetId};
 
-ClientToggleUserBlockRequested _$ClientToggleUserBlockRequestedFromJson(
+ToggleUserBlockRequested _$ToggleUserBlockRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientToggleUserBlockRequested(json['userId'] as String);
+) => ToggleUserBlockRequested(json['userId'] as String);
 
-Map<String, dynamic> _$ClientToggleUserBlockRequestedToJson(
-  ClientToggleUserBlockRequested instance,
+Map<String, dynamic> _$ToggleUserBlockRequestedToJson(
+  ToggleUserBlockRequested instance,
 ) => <String, dynamic>{'userId': instance.userId};
 
-ClientToggleUserFollowRequested _$ClientToggleUserFollowRequestedFromJson(
+ToggleUserFollowRequested _$ToggleUserFollowRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientToggleUserFollowRequested(json['followedUserId'] as String);
+) => ToggleUserFollowRequested(json['followedUserId'] as String);
 
-Map<String, dynamic> _$ClientToggleUserFollowRequestedToJson(
-  ClientToggleUserFollowRequested instance,
+Map<String, dynamic> _$ToggleUserFollowRequestedToJson(
+  ToggleUserFollowRequested instance,
 ) => <String, dynamic>{'followedUserId': instance.followedUserId};
 
-ClientUpdateUserProfileRequested _$ClientUpdateUserProfileRequestedFromJson(
+UpdateUserProfileRequested _$UpdateUserProfileRequestedFromJson(
   Map<String, dynamic> json,
-) => ClientUpdateUserProfileRequested(
+) => UpdateUserProfileRequested(
   profileId: json['profileId'] as String,
   displayName: json['displayName'] as String,
   bio: json['bio'] as String,
   avatarBase64: json['avatarBase64'] as String?,
 );
 
-Map<String, dynamic> _$ClientUpdateUserProfileRequestedToJson(
-  ClientUpdateUserProfileRequested instance,
+Map<String, dynamic> _$UpdateUserProfileRequestedToJson(
+  UpdateUserProfileRequested instance,
 ) => <String, dynamic>{
   'profileId': instance.profileId,
   'displayName': instance.displayName,

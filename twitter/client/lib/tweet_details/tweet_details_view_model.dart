@@ -17,7 +17,7 @@ class TweetDetailsViewModel extends TweetViewModel {
 
   Future<void> addComment(String commentText) async {
     final result = await context.runProcess(
-      ClientCreateCommentRequested(
+      CreateCommentRequested(
         text: commentText,
         parentTweetId: id,
         parentCommentId: null,
@@ -102,7 +102,7 @@ class CommentViewModel {
 
   Future<void> toggleLikeComment() async {
     final result = await context.runProcess(
-      ClientToggleCommentLikeRequested(id),
+      ToggleCommentLikeRequested(id),
     );
 
     if (result.isError) {

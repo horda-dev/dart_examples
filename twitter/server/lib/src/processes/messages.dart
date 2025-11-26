@@ -5,8 +5,8 @@ part 'messages.g.dart';
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientCreateCommentRequested extends RemoteEvent {
-  ClientCreateCommentRequested({
+class CreateCommentRequested extends RemoteEvent {
+  CreateCommentRequested({
     required this.text,
     required this.parentTweetId,
     this.parentCommentId,
@@ -21,20 +21,20 @@ class ClientCreateCommentRequested extends RemoteEvent {
   /// ID of the parent comment (optional, for replies to comments)
   final String? parentCommentId;
 
-  factory ClientCreateCommentRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientCreateCommentRequestedFromJson(json);
+  factory CreateCommentRequested.fromJson(Map<String, dynamic> json) {
+    return _$CreateCommentRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientCreateCommentRequestedToJson(this);
+    return _$CreateCommentRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientCreateTweetRequested extends RemoteEvent {
-  ClientCreateTweetRequested({
+class CreateTweetRequested extends RemoteEvent {
+  CreateTweetRequested({
     required this.authorUserId,
     required this.text,
     required this.attachmentBase64,
@@ -53,20 +53,20 @@ class ClientCreateTweetRequested extends RemoteEvent {
   /// IDs of timelines in which this tweet will show up
   final List<String> timelineIds;
 
-  factory ClientCreateTweetRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientCreateTweetRequestedFromJson(json);
+  factory CreateTweetRequested.fromJson(Map<String, dynamic> json) {
+    return _$CreateTweetRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientCreateTweetRequestedToJson(this);
+    return _$CreateTweetRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientRegisterUserRequested extends RemoteEvent {
-  ClientRegisterUserRequested(
+class RegisterUserRequested extends RemoteEvent {
+  RegisterUserRequested(
     this.handle,
     this.displayName,
     this.email,
@@ -85,20 +85,20 @@ class ClientRegisterUserRequested extends RemoteEvent {
   /// User's profile picture in base64 encoding.
   String avatarBase64;
 
-  factory ClientRegisterUserRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientRegisterUserRequestedFromJson(json);
+  factory RegisterUserRequested.fromJson(Map<String, dynamic> json) {
+    return _$RegisterUserRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientRegisterUserRequestedToJson(this);
+    return _$RegisterUserRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientRetweetRequested extends RemoteEvent {
-  ClientRetweetRequested(this.tweetId, this.timelineIds);
+class RetweetRequested extends RemoteEvent {
+  RetweetRequested(this.tweetId, this.timelineIds);
 
   /// ID of the tweet to retweet
   String tweetId;
@@ -106,92 +106,92 @@ class ClientRetweetRequested extends RemoteEvent {
   /// IDs of timelines in which this tweet will show up
   List<String> timelineIds;
 
-  factory ClientRetweetRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientRetweetRequestedFromJson(json);
+  factory RetweetRequested.fromJson(Map<String, dynamic> json) {
+    return _$RetweetRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientRetweetRequestedToJson(this);
+    return _$RetweetRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientToggleCommentLikeRequested extends RemoteEvent {
-  ClientToggleCommentLikeRequested(this.commentId);
+class ToggleCommentLikeRequested extends RemoteEvent {
+  ToggleCommentLikeRequested(this.commentId);
 
   /// ID of the comment to like or unlike
   String commentId;
 
-  factory ClientToggleCommentLikeRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientToggleCommentLikeRequestedFromJson(json);
+  factory ToggleCommentLikeRequested.fromJson(Map<String, dynamic> json) {
+    return _$ToggleCommentLikeRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientToggleCommentLikeRequestedToJson(this);
+    return _$ToggleCommentLikeRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientToggleTweetLikeRequested extends RemoteEvent {
-  ClientToggleTweetLikeRequested(this.tweetId);
+class ToggleTweetLikeRequested extends RemoteEvent {
+  ToggleTweetLikeRequested(this.tweetId);
 
   /// ID of the tweet to like or unlike
   String tweetId;
 
-  factory ClientToggleTweetLikeRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientToggleTweetLikeRequestedFromJson(json);
+  factory ToggleTweetLikeRequested.fromJson(Map<String, dynamic> json) {
+    return _$ToggleTweetLikeRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientToggleTweetLikeRequestedToJson(this);
+    return _$ToggleTweetLikeRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientToggleUserBlockRequested extends RemoteEvent {
-  ClientToggleUserBlockRequested(this.userId);
+class ToggleUserBlockRequested extends RemoteEvent {
+  ToggleUserBlockRequested(this.userId);
 
   /// ID of the user which should be blocked/unblocked
   String userId;
 
-  factory ClientToggleUserBlockRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientToggleUserBlockRequestedFromJson(json);
+  factory ToggleUserBlockRequested.fromJson(Map<String, dynamic> json) {
+    return _$ToggleUserBlockRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientToggleUserBlockRequestedToJson(this);
+    return _$ToggleUserBlockRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientToggleUserFollowRequested extends RemoteEvent {
-  ClientToggleUserFollowRequested(this.followedUserId);
+class ToggleUserFollowRequested extends RemoteEvent {
+  ToggleUserFollowRequested(this.followedUserId);
 
   /// ID of the user to follow or unfollow
   String followedUserId;
 
-  factory ClientToggleUserFollowRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientToggleUserFollowRequestedFromJson(json);
+  factory ToggleUserFollowRequested.fromJson(Map<String, dynamic> json) {
+    return _$ToggleUserFollowRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientToggleUserFollowRequestedToJson(this);
+    return _$ToggleUserFollowRequestedToJson(this);
   }
 }
 
 /// {@category Client Event}
 @JsonSerializable()
-class ClientUpdateUserProfileRequested extends RemoteEvent {
-  ClientUpdateUserProfileRequested({
+class UpdateUserProfileRequested extends RemoteEvent {
+  UpdateUserProfileRequested({
     required this.profileId,
     required this.displayName,
     required this.bio,
@@ -203,13 +203,13 @@ class ClientUpdateUserProfileRequested extends RemoteEvent {
   final String bio;
   final String? avatarBase64;
 
-  factory ClientUpdateUserProfileRequested.fromJson(Map<String, dynamic> json) {
-    return _$ClientUpdateUserProfileRequestedFromJson(json);
+  factory UpdateUserProfileRequested.fromJson(Map<String, dynamic> json) {
+    return _$UpdateUserProfileRequestedFromJson(json);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientUpdateUserProfileRequestedToJson(this);
+    return _$UpdateUserProfileRequestedToJson(this);
   }
 }
 
