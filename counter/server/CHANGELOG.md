@@ -1,3 +1,7 @@
+## 0.1.6
+
+- Reorganize business processes
+
 ## 0.1.5
 
 - **BREAKING CHANGE**: Update process naming to match horda_server API changes:
