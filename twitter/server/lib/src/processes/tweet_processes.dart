@@ -1,7 +1,12 @@
 import 'package:horda_server/horda_server.dart';
 import 'package:xid/xid.dart';
 
-import '../../../twitter_server.dart';
+import '../entities/explore_feed_entity/messages.dart';
+import '../entities/timeline_entity/messages.dart';
+import '../entities/tweet_entity/messages.dart';
+import '../services/content_moderation_service/messages.dart';
+import '../services/user_profile_picture_service/messages.dart';
+import 'messages.dart';
 
 class TweetProcesses extends ProcessGroup {
   /// {@category Process}
