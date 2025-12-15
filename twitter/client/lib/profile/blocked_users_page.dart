@@ -44,7 +44,7 @@ class BlockedUsersPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final blockedUserQuery = context
                     .query<BlockedUsersQuery>()
-                    .listItem(
+                    .listItemQuery(
                       (q) => q.blockedUsers,
                       blockedUsersLength - index - 1,
                     );

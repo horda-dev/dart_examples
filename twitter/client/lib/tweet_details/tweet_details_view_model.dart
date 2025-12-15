@@ -47,7 +47,7 @@ class CommentListViewModel {
   CommentViewModel getComment(int index) {
     return CommentViewModel(
       context,
-      commentsQuery.listItem((q) => q.comments, index),
+      commentsQuery.listItemQuery((q) => q.comments, index),
       index,
     );
   }
@@ -90,13 +90,17 @@ class CommentViewModel {
     if (currentUserId == null) return false;
     return commentQuery
         .listItems((q) => q.likedByUsers)
+        .map((item) => item.value)
         .contains(currentUserId);
   }
 
   bool get isAuthorBlocked {
-    final blockedUsers = context.query<MeQuery>().listItems(
-      (q) => q.blockedUsers,
-    );
+    final blockedUsers = context
+        .query<MeQuery>()
+        .listItems(
+          (q) => q.blockedUsers,
+        )
+        .map((item) => item.value);
     return blockedUsers.contains(author.id);
   }
 

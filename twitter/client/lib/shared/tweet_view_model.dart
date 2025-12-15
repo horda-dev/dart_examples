@@ -44,13 +44,19 @@ class TweetViewModel {
   bool get isLikedByCurrentUser {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;
-    return tweetQuery.listItems((q) => q.likedByUsers).contains(currentUserId);
+    return tweetQuery
+        .listItems((q) => q.likedByUsers)
+        .map((item) => item.value)
+        .contains(currentUserId);
   }
 
   bool get isAuthorBlocked {
-    final blockedUsers = context.query<MeQuery>().listItems(
-      (q) => q.blockedUsers,
-    );
+    final blockedUsers = context
+        .query<MeQuery>()
+        .listItems(
+          (q) => q.blockedUsers,
+        )
+        .map((item) => item.value);
     return blockedUsers.contains(author.id);
   }
 
@@ -80,7 +86,7 @@ class TweetViewModel {
       for (var i = 0; i < followerCount; i++)
         context
             .query<MeQuery>()
-            .listItem((q) => q.followers, i)
+            .listItemQuery((q) => q.followers, i)
             .refId((q) => q.timeline),
     ];
 

@@ -254,12 +254,24 @@ class UserTimelineQuery extends EntityQuery {
 }
 
 class TimelineQuery extends EntityQuery {
+  TimelineQuery({
+    this.endBefore = '',
+    this.pageSize = 10,
+  });
+
+  final String endBefore;
+  final int pageSize;
+
   @override
   String get entityName => 'TimelineEntity';
 
-  final tweets = EntityListView<TweetQuery>(
+  late final tweets = EntityListView<TweetQuery>(
     'timelineTweetsView',
     query: TweetQuery(),
+    pagination: ReversePagination(
+      endBefore: endBefore,
+      limitToLast: pageSize,
+    ),
   );
 
   @override
@@ -269,12 +281,24 @@ class TimelineQuery extends EntityQuery {
 }
 
 class ExploreFeedQuery extends EntityQuery {
+  ExploreFeedQuery({
+    this.endBefore = '',
+    this.pageSize = 10,
+  });
+
+  final String endBefore;
+  final int pageSize;
+
   @override
   String get entityName => 'ExploreFeedEntity';
 
-  final tweets = EntityListView<TweetQuery>(
+  late final tweets = EntityListView<TweetQuery>(
     'exploreFeedTweetsView',
     query: TweetQuery(),
+    pagination: ReversePagination(
+      endBefore: endBefore,
+      limitToLast: pageSize,
+    ),
   );
 
   @override

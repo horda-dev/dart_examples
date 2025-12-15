@@ -42,9 +42,12 @@ class ProfileViewModel {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;
 
-    final followingUsers = context.query<MeQuery>().listItems(
-      (q) => q.following,
-    );
+    final followingUsers = context
+        .query<MeQuery>()
+        .listItems(
+          (q) => q.following,
+        )
+        .map((item) => item.value);
 
     return followingUsers.contains(userAccountQuery.id());
   }
@@ -53,9 +56,12 @@ class ProfileViewModel {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;
 
-    final blockedUsers = context.query<MeQuery>().listItems(
-      (q) => q.blockedUsers,
-    );
+    final blockedUsers = context
+        .query<MeQuery>()
+        .listItems(
+          (q) => q.blockedUsers,
+        )
+        .map((item) => item.value);
 
     return blockedUsers.contains(userAccountQuery.id());
   }

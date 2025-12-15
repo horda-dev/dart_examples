@@ -19,7 +19,7 @@ class HomeViewModel {
   }
 
   TweetViewModel getTweet(int index) {
-    final tweetQuery = timelineQuery.listItem((q) => q.tweets, index);
+    final tweetQuery = timelineQuery.listItemQuery((q) => q.tweets, index);
 
     return TweetViewModel(context, tweetQuery);
   }
