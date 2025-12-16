@@ -60,6 +60,7 @@ class TweetCommentsQuery extends EntityQuery {
   final comments = EntityListView(
     'commentsView',
     query: CommentQuery(),
+    pagination: ForwardPagination(limitToFirst: 20),
   );
 
   @override

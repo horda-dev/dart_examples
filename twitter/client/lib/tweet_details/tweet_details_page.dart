@@ -243,16 +243,31 @@ class _CommentListLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: model.commentsLength,
-      itemBuilder: (context, index) {
-        final commentModel = model.getComment(
-          model.commentsLength - index - 1,
-        );
-        return CommentCard(
-          model: commentModel,
-        );
-      },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Showing 20 first comments',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontSize: 14.0,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: model.commentsLength,
+            itemBuilder: (context, index) {
+              final commentModel = model.getComment(index);
+              return CommentCard(
+                model: commentModel,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
