@@ -27,7 +27,7 @@ class CounterListViewGroup extends EntityViewGroup {
   ///
   /// [event] contains the ID of the counter that was removed from the list.
   void counterRemoved(CounterRemovedFromList event) {
-    counters.removeItem(event.counterId);
+    counters.removeItem(event.counterKey);
   }
 
   @override

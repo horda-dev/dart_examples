@@ -33,12 +33,12 @@ class AddCounterToList extends RemoteCommand {
 @JsonSerializable()
 class RemoveCounterFromList extends RemoteCommand {
   /// The unique identifier of the counter to remove from the list.
-  final String counterId;
+  final String counterKey;
 
   /// Creates a new remove counter from list command.
   ///
-  /// [counterId] is required and should exist in the current list.
-  RemoveCounterFromList({required this.counterId});
+  /// [counterKey] is required and should exist in the current list.
+  RemoveCounterFromList({required this.counterKey});
 
   factory RemoveCounterFromList.fromJson(Map<String, dynamic> json) =>
       _$RemoveCounterFromListFromJson(json);
@@ -77,12 +77,12 @@ class CounterAddedToList extends RemoteEvent {
 @JsonSerializable()
 class CounterRemovedFromList extends RemoteEvent {
   /// The unique identifier of the counter that was removed.
-  final String counterId;
+  final String counterKey;
 
   /// Creates a new counter removed from list event.
   ///
-  /// [counterId] is required and identifies the removed counter.
-  CounterRemovedFromList({required this.counterId});
+  /// [counterKey] is required and identifies the removed counter.
+  CounterRemovedFromList({required this.counterKey});
 
   factory CounterRemovedFromList.fromJson(Map<String, dynamic> json) =>
       _$CounterRemovedFromListFromJson(json);

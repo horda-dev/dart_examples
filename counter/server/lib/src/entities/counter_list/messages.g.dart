@@ -14,11 +14,11 @@ Map<String, dynamic> _$AddCounterToListToJson(AddCounterToList instance) =>
 
 RemoveCounterFromList _$RemoveCounterFromListFromJson(
   Map<String, dynamic> json,
-) => RemoveCounterFromList(counterId: json['counterId'] as String);
+) => RemoveCounterFromList(counterKey: json['counterKey'] as String);
 
 Map<String, dynamic> _$RemoveCounterFromListToJson(
   RemoveCounterFromList instance,
-) => <String, dynamic>{'counterId': instance.counterId};
+) => <String, dynamic>{'counterKey': instance.counterKey};
 
 CounterAddedToList _$CounterAddedToListFromJson(Map<String, dynamic> json) =>
     CounterAddedToList(counterId: json['counterId'] as String);
@@ -28,8 +28,8 @@ Map<String, dynamic> _$CounterAddedToListToJson(CounterAddedToList instance) =>
 
 CounterRemovedFromList _$CounterRemovedFromListFromJson(
   Map<String, dynamic> json,
-) => CounterRemovedFromList(counterId: json['counterId'] as String);
+) => CounterRemovedFromList(counterKey: json['counterKey'] as String);
 
 Map<String, dynamic> _$CounterRemovedFromListToJson(
   CounterRemovedFromList instance,
-) => <String, dynamic>{'counterId': instance.counterId};
+) => <String, dynamic>{'counterKey': instance.counterKey};
