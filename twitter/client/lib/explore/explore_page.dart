@@ -31,7 +31,9 @@ class ExplorePage extends StatelessWidget {
         ),
         listSelector: (q) => q.tweets,
         itemBuilder: (context, pageIndex) {
-          return ExploreFeedListPage();
+          return ExploreFeedListPage(
+            key: ValueKey('explore-feed-page-$pageIndex'),
+          );
         },
         emptyWidget: const Center(
           child: Padding(
@@ -57,7 +59,7 @@ class ExploreFeedListPage extends StatelessWidget {
     final tweetsLength = context.query<ExploreFeedQuery>().listLength(
       (q) => q.tweets,
     );
-    
+
     return Column(
       children: [
         for (var i = tweetsLength - 1; i >= 0; i--)
