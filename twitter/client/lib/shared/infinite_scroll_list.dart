@@ -18,28 +18,28 @@ class InfiniteScrollListView<Q extends EntityQuery> extends StatefulWidget {
     this.errorWidget,
   });
 
-  /// The entity ID to query
+  /// The entity ID to query.
   final String entityId;
 
-  /// Factory function to create a query with pagination parameters
+  /// Factory function to create a query with pagination parameters.
   final Q Function(String endBefore, int pageSize) createQuery;
 
   /// Function which selects the list view in the query.
   final ListSelector<Q> listSelector;
 
-  /// Builder for rendering items from the loaded page
+  /// Builder for rendering items from the loaded page. Query [Q] is available via context of this builder function.
   final Widget Function(BuildContext context, int pageIndex) itemBuilder;
 
-  /// Number of items per page
+  /// Number of items per page.
   final int pageSize;
 
-  /// Widget to show when the list is empty
+  /// Widget to show when a page is empty.
   final Widget? emptyWidget;
 
-  /// Widget to show while loading
+  /// Widget to show while a page is loading.
   final Widget? loadingWidget;
 
-  /// Widget to show on error
+  /// Widget to show when a page failed to load.
   final Widget? errorWidget;
 
   @override
@@ -49,12 +49,6 @@ class InfiniteScrollListView<Q extends EntityQuery> extends StatefulWidget {
 
 class _InfiniteScrollListViewState<Q extends EntityQuery>
     extends State<InfiniteScrollListView<Q>> {
-  final List<Q> _pages = [];
-  final ScrollController _scrollController = ScrollController();
-  String _nextEndBefore = '';
-  bool _isLoadingNextPage = false;
-  int _lastPageItemCount = 0;
-
   @override
   void initState() {
     super.initState();
@@ -67,54 +61,6 @@ class _InfiniteScrollListViewState<Q extends EntityQuery>
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _onScroll() {
-    if (_isLoadingNextPage) return;
-
-    // Check if near bottom (200px from bottom)
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-
-    if (maxScroll - currentScroll < 200) {
-      _loadNextPage();
-    }
-  }
-
-  void _loadNextPage() {
-    if (!mounted) return;
-
-    // Don't load more if last page wasn't full
-    if (_lastPageItemCount < widget.pageSize) return;
-
-    setState(() {
-      _isLoadingNextPage = true;
-      _pages.add(widget.createQuery(_nextEndBefore, widget.pageSize));
-    });
-  }
-
-  void _onPageLoaded(int pageIndex, int itemCount, String? cursor) {
-    if (!mounted) return;
-
-    // Update the cursor for the next page
-    if (pageIndex == _pages.length - 1) {
-      if (cursor != null) {
-        _nextEndBefore = cursor;
-      }
-      _isLoadingNextPage = false;
-    }
-    _lastPageItemCount = itemCount;
-  }
-
-  /// Sync cursor during build without triggering setState.
-  void _syncCursor(int pageIndex, int itemCount, String? cursor) {
-    // Only update for the last page
-    if (pageIndex == _pages.length - 1) {
-      _lastPageItemCount = itemCount;
-      if (cursor != null) {
-        _nextEndBefore = cursor;
-      }
-    }
   }
 
   @override
@@ -142,12 +88,77 @@ class _InfiniteScrollListViewState<Q extends EntityQuery>
             syncCursor: _syncCursor,
             itemBuilder: widget.itemBuilder,
             listSelector: widget.listSelector,
-            onEmpty: widget.emptyWidget,
+            emptyWidget: widget.emptyWidget,
           ),
         );
       },
     );
   }
+
+  void _onScroll() {
+    if (_isLoadingNextPage) return;
+
+    // Check if near bottom (200px from bottom)
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+
+    if (maxScroll - currentScroll < 200) {
+      _loadNextPage();
+    }
+  }
+
+  void _loadNextPage() {
+    if (!mounted) return;
+
+    // Don't load more if last page wasn't full
+    if (_lastPageItemCount < widget.pageSize) return;
+
+    setState(() {
+      _isLoadingNextPage = true;
+      _pages.add(widget.createQuery(_nextEndBefore, widget.pageSize));
+    });
+  }
+
+  // A callback which let's the child page signal to it's parent that it has finished loading.
+  void _onPageLoaded(int pageIndex, int itemCount, String? cursor) {
+    if (!mounted) return;
+
+    // Update the cursor for the next page
+    if (pageIndex == _pages.length - 1) {
+      if (cursor != null) {
+        _nextEndBefore = cursor;
+      }
+      _isLoadingNextPage = false;
+    }
+    _lastPageItemCount = itemCount;
+  }
+
+  /// A callback which allows the child page sync the pagination cursor data - [_lastPageItemCount] and [_nextEndBefore].
+  /// Must not perfrom [setState] or trigger parent rebuilds in any other way, because this callback is executed in child page's build method.
+  void _syncCursor(int pageIndex, int itemCount, String? firstItemKey) {
+    // Only update for the last page
+    if (pageIndex == _pages.length - 1) {
+      _lastPageItemCount = itemCount;
+      if (firstItemKey != null) {
+        _nextEndBefore = firstItemKey;
+      }
+    }
+  }
+
+  /// This infinite list is essentially a list of pages. Each page contains [InfiniteScrollListView.pageSize] elements.
+  /// Pages are actually [EntityQuery]s of type [Q]. Each page simply runs it's query and calls [InfiniteScrollListView.itemBuilder] to render items.
+  final List<Q> _pages = [];
+
+  final ScrollController _scrollController = ScrollController();
+
+  /// The pagination cursor. Used as the "endBefore" pagination parameter in the query for the next page.
+  String _nextEndBefore = '';
+
+  /// Let's us avoid loading any more pages while there is a page in the loading state.
+  bool _isLoadingNextPage = false;
+
+  /// Let's us start loading the next page only if the last page is or has become full.
+  int _lastPageItemCount = 0;
 }
 
 class _PageLoadingWidget extends StatelessWidget {
@@ -177,7 +188,7 @@ class _PageLoadedWidget<Q extends EntityQuery> extends StatefulWidget {
     required this.syncCursor,
     required this.itemBuilder,
     required this.listSelector,
-    this.onEmpty,
+    this.emptyWidget,
   });
 
   final int pageIndex;
@@ -186,14 +197,14 @@ class _PageLoadedWidget<Q extends EntityQuery> extends StatefulWidget {
   final void Function(int pageIndex, int itemCount, String? cursor) syncCursor;
   final Widget Function(BuildContext context, int pageIndex) itemBuilder;
   final ListSelector<Q> listSelector;
-  final Widget? onEmpty;
+  final Widget? emptyWidget;
 
   @override
-  State<_PageLoadedWidget> createState() => _PageLoadedWidgetState<Q>();
+  State<_PageLoadedWidget<Q>> createState() => _PageLoadedWidgetState<Q>();
 }
 
 class _PageLoadedWidgetState<Q extends EntityQuery>
-    extends State<_PageLoadedWidget> {
+    extends State<_PageLoadedWidget<Q>> {
   @override
   void initState() {
     super.initState();
@@ -223,7 +234,7 @@ class _PageLoadedWidgetState<Q extends EntityQuery>
     if (itemCount == 0) {
       // Empty page - might be the first page with no items
       if (widget.pageIndex == 0) {
-        return widget.onEmpty ??
+        return widget.emptyWidget ??
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(16.0),

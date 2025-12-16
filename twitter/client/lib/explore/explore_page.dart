@@ -4,7 +4,8 @@ import 'package:horda_client/horda_client.dart';
 
 import '../home/home_page.dart';
 import '../queries.dart';
-import 'explore_view_model.dart';
+import '../shared/infinite_scroll_list.dart';
+import '../shared/tweet_view_model.dart';
 
 class ExplorePage extends StatelessWidget {
   const ExplorePage({super.key});
@@ -22,54 +23,54 @@ class ExplorePage extends StatelessWidget {
           },
         ),
       ),
-      body: context.entityQuery(
+      body: InfiniteScrollListView(
         entityId: kSingletonId,
-        query: ExploreFeedQuery(),
-        loading: const Center(
-          child: CircularProgressIndicator(),
+        createQuery: (endBefore, pageSize) => ExploreFeedQuery(
+          endBefore: endBefore,
+          pageSize: pageSize,
         ),
-        error: const Center(
-          child: Text('Failed to load explore feed'),
-        ),
-        child: Builder(
-          builder: (context) {
-            return _LoadedView(
-              model: ExploreViewModel(context),
-            );
-          },
+        listSelector: (q) => q.tweets,
+        itemBuilder: (context, pageIndex) {
+          return ExploreFeedListPage();
+        },
+        emptyWidget: const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 48.0),
+            child: Text(
+              'No trending tweets right now.',
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
-class _LoadedView extends StatelessWidget {
-  final ExploreViewModel model;
-
-  const _LoadedView({required this.model});
+class ExploreFeedListPage extends StatelessWidget {
+  const ExploreFeedListPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final tweetsLength = model.tweetsLength;
-
-    if (tweetsLength == 0) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 48.0),
-          child: Text(
-            'No trending tweets right now.',
-            textAlign: TextAlign.center,
+    final tweetsLength = context.query<ExploreFeedQuery>().listLength(
+      (q) => q.tweets,
+    );
+    
+    return Column(
+      children: [
+        for (var i = tweetsLength - 1; i >= 0; i--)
+          TweetCard(
+            tweet: TweetViewModel(
+              context,
+              context.query<ExploreFeedQuery>().listItemQuery(
+                (q) => q.tweets,
+                i,
+              ),
+            ),
           ),
-        ),
-      );
-    }
-
-    return ListView.builder(
-      itemCount: tweetsLength,
-      itemBuilder: (context, index) {
-        final tweet = model.getTweet(tweetsLength - index - 1);
-        return TweetCard(tweet: tweet);
-      },
+      ],
     );
   }
 }
