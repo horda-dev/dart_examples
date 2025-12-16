@@ -245,7 +245,10 @@ class UserTimelineQuery extends EntityQuery {
   @override
   String get entityName => 'UserAccountEntity';
 
-  final timeline = EntityRefView('timelineView', query: TimelineQuery());
+  final timeline = EntityRefView(
+    'timelineView',
+    query: EmptyQuery(),
+  );
 
   @override
   void initViews(EntityQueryGroup views) {
