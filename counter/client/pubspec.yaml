@@ -14,10 +14,10 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  horda_client:  ^0.25.0
+  horda_client:  ^0.28.0
   counter_server:
     hosted: https://pub.horda.dev/d2sqf8kgc98s73838big
-    version: ^0.1.6
+    version: ^0.1.7
   logging: ^1.3.0
 
 dev_dependencies:
