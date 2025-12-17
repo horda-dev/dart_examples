@@ -104,9 +104,17 @@ class CommentViewModel {
     return blockedUsers.contains(author.id);
   }
 
+  String? get likeUserKey {
+    return commentQuery
+        .listItems((q) => q.likedByUsers)
+        .where((i) => i.value == context.hordaAuthUserId)
+        .firstOrNull
+        ?.key;
+  }
+
   Future<void> toggleLikeComment() async {
     final result = await context.runProcess(
-      ToggleCommentLikeRequested(id),
+      ToggleCommentLikeRequested(likeUserKey, id),
     );
 
     if (result.isError) {

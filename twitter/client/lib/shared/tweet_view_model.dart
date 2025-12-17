@@ -64,9 +64,17 @@ class TweetViewModel {
     return tweetQuery.value((q) => q.attachmentUrl);
   }
 
+  String? get likeUserKey {
+    return tweetQuery
+        .listItems((q) => q.likedByUsers)
+        .where((i) => i.value == context.hordaAuthUserId)
+        .firstOrNull
+        ?.key;
+  }
+
   Future<void> toggleLikeTweet() async {
     final result = await context.runProcess(
-      ToggleTweetLikeRequested(id),
+      ToggleTweetLikeRequested(likeUserKey, id),
     );
     if (result.isError) {
       throw TweetException(

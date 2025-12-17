@@ -179,6 +179,11 @@ class UserAccountQuery extends EntityQuery {
     isUtc: true,
   );
 
+  final followers = EntityListView(
+    'followersView',
+    query: EmptyQuery(),
+  );
+
   @override
   void initViews(EntityQueryGroup views) {
     views
@@ -188,7 +193,8 @@ class UserAccountQuery extends EntityQuery {
       ..add(followerCount)
       ..add(followingCount)
       ..add(blockedCount)
-      ..add(registeredAt);
+      ..add(registeredAt)
+      ..add(followers);
   }
 }
 
