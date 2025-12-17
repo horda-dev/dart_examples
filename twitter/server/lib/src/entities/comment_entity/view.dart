@@ -90,7 +90,7 @@ class CommentViewGroup implements EntityViewGroup {
   }
 
   void commentUnliked(CommentUnliked event) {
-    commentLikedByUsersView.removeItem(event.userId);
+    commentLikedByUsersView.removeItem(event.userKey);
     commentLikeCountView.decrement(1);
   }
 

@@ -5,7 +5,7 @@ import '../entities/timeline_entity/messages.dart';
 import '../entities/user_account_entity/messages.dart';
 import '../entities/user_profile_entity/messages.dart';
 import '../services/notification_service/messages.dart';
-import '../services/user_profile_picture_service/messages.dart';
+import '../services/media_store_service/messages.dart';
 import 'messages.dart';
 
 class UserProcesses extends ProcessGroup {
@@ -169,6 +169,7 @@ class UserProcesses extends ProcessGroup {
         name: 'UserAccountEntity',
         id: event.followedUserId, // The user being followed/unfollowed
         cmd: ToggleFollower(
+          event.followerUserKey,
           context.senderId!, // The current user is the follower
         ),
         fac: [
@@ -180,11 +181,12 @@ class UserProcesses extends ProcessGroup {
         name: 'UserAccountEntity',
         id: context.senderId!, // The current user
         cmd: ToggleFollowing(
+          event.followingUserKey,
           event.followedUserId, // The user being followed/unfollowed
         ),
         fac: [
           FollowingAdded.fromJson,
-          FollowerRemoved.fromJson,
+          FollowingRemoved.fromJson,
         ],
       ),
     ]);
@@ -206,6 +208,7 @@ class UserProcesses extends ProcessGroup {
       name: 'UserAccountEntity',
       id: context.senderId!,
       cmd: ToggleUserBlock(
+        event.userKey,
         event.userId,
       ),
       fac: [

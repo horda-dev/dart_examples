@@ -21,10 +21,20 @@ class TweetEntity extends Entity<TweetEntityState> {
     EntityContext context,
   ) async {
     if (state.likedByUsers.contains(cmd.userId)) {
-      return TweetUnliked(cmd.userId);
-    } else {
-      return TweetLiked(cmd.userId);
+      final userKey = cmd.userKey;
+
+      if (userKey == null) {
+        throw ArgumentError.value(
+          userKey,
+          "userKey",
+          "User key must not be null when unliking a tweet",
+        );
+      }
+
+      return TweetUnliked(userKey, cmd.userId);
     }
+
+    return TweetLiked(cmd.userId);
   }
 
   /// For command description, see [RetweetTweet].

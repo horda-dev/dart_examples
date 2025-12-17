@@ -58,7 +58,10 @@ class TweetCreated extends RemoteEvent {
 /// {@category Entity Command}
 @JsonSerializable()
 class ToggleTweetLike extends RemoteCommand {
-  ToggleTweetLike(this.userId);
+  ToggleTweetLike(this.userKey, this.userId);
+
+  /// Key of the user in the liked users list (for removal)
+  String? userKey;
 
   /// ID of the user toggling like status on the tweet
   String userId;
@@ -94,7 +97,10 @@ class TweetLiked extends RemoteEvent {
 /// {@category Entity Event}
 @JsonSerializable()
 class TweetUnliked extends RemoteEvent {
-  TweetUnliked(this.userId);
+  TweetUnliked(this.userKey, this.userId);
+
+  /// Key of the user in the liked users list
+  String userKey;
 
   /// ID of the user who unliked the tweet
   String userId;

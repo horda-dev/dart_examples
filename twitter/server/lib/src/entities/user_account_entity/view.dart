@@ -90,7 +90,7 @@ class UserAccountViewGroup implements EntityViewGroup {
   }
 
   void followerRemoved(FollowerRemoved event) {
-    followersView.removeItem(event.userId);
+    followersView.removeItem(event.userKey);
     followerCountView.decrement(1);
   }
 
@@ -100,7 +100,7 @@ class UserAccountViewGroup implements EntityViewGroup {
   }
 
   void followingRemoved(FollowingRemoved event) {
-    followingView.removeItem(event.userId);
+    followingView.removeItem(event.userKey);
     followingCountView.decrement(1);
   }
 
@@ -110,7 +110,7 @@ class UserAccountViewGroup implements EntityViewGroup {
   }
 
   void userUnblocked(UserUnblocked event) {
-    blockedUsersView.removeItem(event.userId);
+    blockedUsersView.removeItem(event.userKey);
     blockedCountView.decrement(1);
   }
 
