@@ -60,6 +60,7 @@ class TweetCommentsQuery extends EntityQuery {
   final comments = EntityListView(
     'commentsView',
     query: CommentQuery(),
+    pagination: ForwardPagination(limitToFirst: 20),
   );
 
   @override
@@ -178,6 +179,11 @@ class UserAccountQuery extends EntityQuery {
     isUtc: true,
   );
 
+  final followers = EntityListView(
+    'followersView',
+    query: EmptyQuery(),
+  );
+
   @override
   void initViews(EntityQueryGroup views) {
     views
@@ -187,7 +193,8 @@ class UserAccountQuery extends EntityQuery {
       ..add(followerCount)
       ..add(followingCount)
       ..add(blockedCount)
-      ..add(registeredAt);
+      ..add(registeredAt)
+      ..add(followers);
   }
 }
 
@@ -245,7 +252,10 @@ class UserTimelineQuery extends EntityQuery {
   @override
   String get entityName => 'UserAccountEntity';
 
-  final timeline = EntityRefView('timelineView', query: TimelineQuery());
+  final timeline = EntityRefView(
+    'timelineView',
+    query: EmptyQuery(),
+  );
 
   @override
   void initViews(EntityQueryGroup views) {
@@ -254,12 +264,24 @@ class UserTimelineQuery extends EntityQuery {
 }
 
 class TimelineQuery extends EntityQuery {
+  TimelineQuery({
+    this.endBefore = '',
+    this.pageSize = 10,
+  });
+
+  final String endBefore;
+  final int pageSize;
+
   @override
   String get entityName => 'TimelineEntity';
 
-  final tweets = EntityListView<TweetQuery>(
+  late final tweets = EntityListView<TweetQuery>(
     'timelineTweetsView',
     query: TweetQuery(),
+    pagination: ReversePagination(
+      endBefore: endBefore,
+      limitToLast: pageSize,
+    ),
   );
 
   @override
@@ -269,12 +291,24 @@ class TimelineQuery extends EntityQuery {
 }
 
 class ExploreFeedQuery extends EntityQuery {
+  ExploreFeedQuery({
+    this.endBefore = '',
+    this.pageSize = 10,
+  });
+
+  final String endBefore;
+  final int pageSize;
+
   @override
   String get entityName => 'ExploreFeedEntity';
 
-  final tweets = EntityListView<TweetQuery>(
+  late final tweets = EntityListView<TweetQuery>(
     'exploreFeedTweetsView',
     query: TweetQuery(),
+    pagination: ReversePagination(
+      endBefore: endBefore,
+      limitToLast: pageSize,
+    ),
   );
 
   @override

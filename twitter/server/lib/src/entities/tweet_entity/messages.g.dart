@@ -33,10 +33,10 @@ Map<String, dynamic> _$TweetCreatedToJson(TweetCreated instance) =>
     };
 
 ToggleTweetLike _$ToggleTweetLikeFromJson(Map<String, dynamic> json) =>
-    ToggleTweetLike(json['userId'] as String);
+    ToggleTweetLike(json['userKey'] as String?, json['userId'] as String);
 
 Map<String, dynamic> _$ToggleTweetLikeToJson(ToggleTweetLike instance) =>
-    <String, dynamic>{'userId': instance.userId};
+    <String, dynamic>{'userKey': instance.userKey, 'userId': instance.userId};
 
 TweetLiked _$TweetLikedFromJson(Map<String, dynamic> json) =>
     TweetLiked(json['userId'] as String);
@@ -45,10 +45,10 @@ Map<String, dynamic> _$TweetLikedToJson(TweetLiked instance) =>
     <String, dynamic>{'userId': instance.userId};
 
 TweetUnliked _$TweetUnlikedFromJson(Map<String, dynamic> json) =>
-    TweetUnliked(json['userId'] as String);
+    TweetUnliked(json['userKey'] as String, json['userId'] as String);
 
 Map<String, dynamic> _$TweetUnlikedToJson(TweetUnliked instance) =>
-    <String, dynamic>{'userId': instance.userId};
+    <String, dynamic>{'userKey': instance.userKey, 'userId': instance.userId};
 
 RetweetTweet _$RetweetTweetFromJson(Map<String, dynamic> json) =>
     RetweetTweet(json['userId'] as String);

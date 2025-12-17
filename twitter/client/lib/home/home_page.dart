@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:horda_client/horda_client.dart';
 
 import '../queries.dart';
+import '../shared/infinite_scroll_list.dart';
 import '../shared/tweet_view_model.dart';
-import 'home_view_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,12 +37,7 @@ class HomePage extends StatelessWidget {
         query: UserTimelineQuery(),
         loading: const Center(child: CircularProgressIndicator()),
         error: const Center(child: Text('Failed to load user account')),
-        child: Builder(
-          builder: (context) {
-            final model = HomeViewModel(context);
-            return _LoadedView(model: model);
-          },
-        ),
+        child: _TimelineTweetList(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -54,17 +49,24 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _LoadedView extends StatelessWidget {
-  final HomeViewModel model;
-
-  const _LoadedView({required this.model});
+class _TimelineTweetList extends StatelessWidget {
+  const _TimelineTweetList();
 
   @override
   Widget build(BuildContext context) {
-    final tweetsLength = model.tweetsLength;
-
-    if (tweetsLength == 0) {
-      return const Center(
+    return InfiniteScrollListView(
+      entityId: context.query<UserTimelineQuery>().refId((q) => q.timeline),
+      createQuery: (endBefore, pageSize) => TimelineQuery(
+        endBefore: endBefore,
+        pageSize: pageSize,
+      ),
+      listSelector: (q) => q.tweets,
+      itemBuilder: (context, pageIndex) {
+        return _TimelineTweetPage(
+          key: ValueKey('tweet-page-$pageIndex'),
+        );
+      },
+      emptyWidget: const Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 48.0),
           child: Text(
@@ -72,15 +74,33 @@ class _LoadedView extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
+}
 
-    return ListView.builder(
-      itemCount: tweetsLength,
-      itemBuilder: (context, index) {
-        final tweet = model.getTweet(tweetsLength - index - 1);
-        return TweetCard(tweet: tweet);
-      },
+class _TimelineTweetPage extends StatelessWidget {
+  const _TimelineTweetPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final tweetsLength = context.query<TimelineQuery>().listLength(
+      (q) => q.tweets,
+    );
+
+    return Column(
+      children: [
+        for (var i = tweetsLength - 1; i >= 0; i--)
+          TweetCard(
+            tweet: TweetViewModel(
+              context,
+              context.query<TimelineQuery>().listItemQuery(
+                (q) => q.tweets,
+                i,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
@@ -123,21 +143,31 @@ class TweetCard extends StatelessWidget {
                   context.go('./profile/${tweet.author.id}');
                 },
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(tweet.author.avatarUrl),
                     ),
                     const SizedBox(width: 8.0),
-                    Text(
-                      authorDisplayName,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            authorDisplayName,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '@$authorHandle',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      ' @$authorHandle',
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    const Spacer(),
                     Text(
                       _formatTimestamp(createdAt),
                       style: const TextStyle(

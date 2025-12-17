@@ -85,7 +85,7 @@ class CommentProcesses extends ProcessGroup {
     await context.callEntityDynamic(
       name: 'CommentEntity',
       id: event.commentId,
-      cmd: ToggleCommentLike(context.senderId!),
+      cmd: ToggleCommentLike(event.userKey, context.senderId!),
       fac: [
         CommentLiked.fromJson,
         CommentUnliked.fromJson,

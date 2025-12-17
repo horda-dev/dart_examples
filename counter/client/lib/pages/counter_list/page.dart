@@ -76,7 +76,7 @@ class _LoadedPage extends StatelessWidget {
                   onTap: () => Navigator.pushNamed(
                     context,
                     '/counter',
-                    arguments: counter.id,
+                    arguments: {'id': counter.id, 'itemKey': counter.itemKey},
                   ),
                 );
               },

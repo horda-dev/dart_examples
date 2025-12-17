@@ -30,5 +30,5 @@ export 'src/services/content_moderation_service/messages.dart';
 export 'src/services/content_moderation_service/service.dart';
 export 'src/services/notification_service/messages.dart';
 export 'src/services/notification_service/service.dart';
-export 'src/services/user_profile_picture_service/messages.dart';
-export 'src/services/user_profile_picture_service/service.dart';
+export 'src/services/media_store_service/messages.dart';
+export 'src/services/media_store_service/service.dart';

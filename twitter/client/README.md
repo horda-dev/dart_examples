@@ -84,26 +84,31 @@ Various custom `EntityQuery` classes (defined in `lib/queries.dart`) are used to
 
 ---
 
-### Displaying Tweets in a Timeline
+### Pagination and Infinite Scroll
 
-The application displays a personalized timeline of tweets. This involves several queries: `UserTimelineQuery` (which contains `TimelineQuery`) to fetch the list of tweet IDs for the timeline, `TweetQuery` which is used as a subquery to fetch the details of each individual tweet, and `BasicUserInfoQuery` (which itself contains `UserNameAndPictureQuery`) for fetching basic user information like handle, display name, and avatar URL.
+The Twitter client uses pagination to efficiently load large lists of tweets and comments. There are two types of pagination:
 
-**`UserTimelineQuery` and `TimelineQuery` Definitions:**
+*   **Reverse Pagination** (`ReversePagination`): Used for timelines and feeds where newer items appear first. The `endBefore` parameter specifies the cursor position, and `limitToLast` specifies how many items to fetch.
+*   **Forward Pagination** (`ForwardPagination`): Used for comments where items are displayed in chronological order. The `limitToFirst` parameter specifies how many items to fetch from the beginning.
+
+**Example - Timeline with Reverse Pagination:**
 ```dart
-// In lib/queries.dart
-class UserTimelineQuery extends EntityQuery {
-  final timeline = EntityRefView('timelineView', query: TimelineQuery());
-
-  @override
-  void initViews(EntityQueryGroup views) {
-    views.add(timeline);
-  }
-}
-
 class TimelineQuery extends EntityQuery {
-  final tweets = EntityListView<TweetQuery>(
+  TimelineQuery({
+    this.endBefore = '',
+    this.pageSize = 10,
+  });
+
+  final String endBefore;
+  final int pageSize;
+
+  late final tweets = EntityListView<TweetQuery>(
     'timelineTweetsView',
     query: TweetQuery(),
+    pagination: ReversePagination(
+      endBefore: endBefore,
+      limitToLast: pageSize,
+    ),
   );
 
   @override
@@ -112,6 +117,48 @@ class TimelineQuery extends EntityQuery {
   }
 }
 ```
+
+**Example - Comments with Forward Pagination:**
+```dart
+class TweetCommentsQuery extends EntityQuery {
+  final comments = EntityListView(
+    'commentsView',
+    query: CommentQuery(),
+    pagination: ForwardPagination(limitToFirst: 20),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(comments);
+  }
+}
+```
+
+The application uses a custom `InfiniteScrollListView` widget (located in `lib/shared/infinite_scroll_list.dart`) to automatically handle infinite scrolling for paginated lists. This widget manages scroll state, page loading, and pagination logic for any entity query that supports reverse pagination.
+
+---
+
+### Displaying Tweets in a Timeline
+
+The application displays a personalized timeline of tweets using infinite scroll and pagination. This involves several queries: `UserTimelineQuery` (which contains a reference to the timeline) to get the timeline entity, `TimelineQuery` with pagination parameters to fetch pages of tweet IDs, `TweetQuery` which is used as a subquery to fetch the details of each individual tweet, and `BasicUserInfoQuery` (which itself contains `UserNameAndPictureQuery`) for fetching basic user information like handle, display name, and avatar URL.
+
+**`UserTimelineQuery` Definition:**
+```dart
+// In lib/queries.dart
+class UserTimelineQuery extends EntityQuery {
+  final timeline = EntityRefView(
+    'timelineView',
+    query: EmptyQuery(),
+  );
+
+  @override
+  void initViews(EntityQueryGroup views) {
+    views.add(timeline);
+  }
+}
+```
+
+The `UserTimelineQuery` uses `EmptyQuery()` to fetch only the timeline entity ID without loading any tweets initially. The actual tweet loading is handled separately with pagination through `TimelineQuery`.
 
 **`TweetQuery` Definition (used as a subquery):**
 ```dart
@@ -198,8 +245,8 @@ class UserNameAndPictureQuery extends EntityQuery {
 }
 ```
 
-**Usage Example (`HomePage`, `HomeViewModel`, `TweetViewModel`, and `AuthorUserViewModel`):**
-The `HomePage` runs the `UserTimelineQuery` to get the current user's timeline. The `HomeViewModel` then accesses the list of tweets from this timeline, and for each tweet, a `TweetViewModel` is created, which internally uses the `TweetQuery` to fetch the tweet's details, including the `BasicUserInfoQuery` for the author and users who liked the tweet. The `AuthorUserViewModel` then consumes this `BasicUserInfoQuery` to provide author-specific details.
+**Usage Example (`HomePage`, `InfiniteScrollListView`, `TweetViewModel`, and `AuthorUserViewModel`):**
+The `HomePage` runs the `UserTimelineQuery` to get the current user's timeline entity ID. It then uses the `InfiniteScrollListView` widget to display tweets with pagination. For each tweet, a `TweetViewModel` is created, which internally uses the `TweetQuery` to fetch the tweet's details, including the `BasicUserInfoQuery` for the author and users who liked the tweet. The `AuthorUserViewModel` then consumes this `BasicUserInfoQuery` to provide author-specific details.
 
 ```dart
 // In home/home_page.dart
@@ -208,34 +255,65 @@ body: context.entityQuery(
   query: UserTimelineQuery(),
   loading: const Center(child: CircularProgressIndicator()),
   error: const Center(child: Text('Failed to load user account')),
-  child: Builder(
-    builder: (context) {
-      final model = HomeViewModel(context);
-      return _LoadedView(model: model);
-    },
-  ),
+  child: _TimelineTweetList(),
 ),
 ```
 
 ```dart
-// In home/home_view_model.dart
-class HomeViewModel {
-  final BuildContext context;
+// In home/home_page.dart
+class _TimelineTweetList extends StatelessWidget {
+  const _TimelineTweetList();
 
-  HomeViewModel(this.context);
-
-  EntityQueryDependencyBuilder<TimelineQuery> get timelineQuery {
-    return context.query<UserTimelineQuery>().ref((q) => q.timeline);
+  @override
+  Widget build(BuildContext context) {
+    return InfiniteScrollListView(
+      entityId: context.query<UserTimelineQuery>().refId((q) => q.timeline),
+      createQuery: (endBefore, pageSize) => TimelineQuery(
+        endBefore: endBefore,
+        pageSize: pageSize,
+      ),
+      listSelector: (q) => q.tweets,
+      itemBuilder: (context, pageIndex) {
+        return _TimelineTweetPage(
+          key: ValueKey('tweet-page-$pageIndex'),
+        );
+      },
+      emptyWidget: const Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 48.0),
+          child: Text(
+            'Your timeline is empty. Follow some users to see their tweets!',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
   }
+}
 
-  int get tweetsLength {
-    return timelineQuery.listLength((q) => q.tweets);
-  }
+class _TimelineTweetPage extends StatelessWidget {
+  const _TimelineTweetPage({super.key});
 
-  TweetViewModel getTweet(int index) {
-    final tweetQuery = timelineQuery.listItem((q) => q.tweets, index);
+  @override
+  Widget build(BuildContext context) {
+    final tweetsLength = context.query<TimelineQuery>().listLength(
+      (q) => q.tweets,
+    );
 
-    return TweetViewModel(context, tweetQuery);
+    return Column(
+      children: [
+        for (var i = tweetsLength - 1; i >= 0; i--)
+          TweetCard(
+            tweet: TweetViewModel(
+              context,
+              context.query<TimelineQuery>().listItemQuery(
+                (q) => q.tweets,
+                i,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }
 ```
@@ -368,7 +446,7 @@ class TweetCard extends StatelessWidget {
 ```
 
 **Real-time UI Updates:**
-The `HomePage` initiates the `UserTimelineQuery`. When the timeline data changes (e.g., new tweets are added or removed), the `HomeViewModel` is updated. For each tweet in the timeline, a `TweetViewModel` is created, which in turn uses `TweetQuery` to fetch and subscribe to the individual tweet's details. This includes fetching author and liked-by-user information via `BasicUserInfoQuery` and `UserNameAndPictureQuery`. Any changes to the tweet's data (e.g., like count, text) or associated user data will automatically trigger a rebuild of the `TweetCard` widget, ensuring the UI reflects the latest information in real-time.
+The `HomePage` initiates the `UserTimelineQuery` to get the timeline entity ID. The `InfiniteScrollListView` widget manages pagination by creating multiple `TimelineQuery` instances for different pages of tweets. When the timeline data changes (e.g., new tweets are added or removed), the relevant pages are updated. For each tweet in a page, a `TweetViewModel` is created, which uses `TweetQuery` to fetch and subscribe to the individual tweet's details. This includes fetching author and liked-by-user information via `BasicUserInfoQuery` and `UserNameAndPictureQuery`. Any changes to the tweet's data (e.g., like count, text) or associated user data will automatically trigger a rebuild of the `TweetCard` widget, ensuring the UI reflects the latest information in real-time.
 
 ---
 

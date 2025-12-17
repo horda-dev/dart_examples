@@ -15,7 +15,7 @@ class ExploreViewModel {
   }
 
   TweetViewModel getTweet(int index) {
-    final tweetQuery = context.query<ExploreFeedQuery>().listItem(
+    final tweetQuery = context.query<ExploreFeedQuery>().listItemQuery(
       (q) => q.tweets,
       index,
     );

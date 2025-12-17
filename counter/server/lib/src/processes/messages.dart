@@ -60,12 +60,12 @@ class CreateCounterRequested extends RemoteEvent {
 @JsonSerializable()
 class DeleteCounterRequested extends RemoteEvent {
   /// The unique identifier of the counter to delete.
-  final String counterId;
+  final String counterKey;
 
   /// Creates a new counter deletion request.
   ///
-  /// [counterId] must be a valid existing counter entity ID.
-  DeleteCounterRequested({required this.counterId});
+  /// [counterKey] must be the item key of the counter in the list.
+  DeleteCounterRequested({required this.counterKey});
 
   factory DeleteCounterRequested.fromJson(Map<String, dynamic> json) =>
       _$DeleteCounterRequestedFromJson(json);

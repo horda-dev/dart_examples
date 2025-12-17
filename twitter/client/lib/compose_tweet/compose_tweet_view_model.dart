@@ -23,7 +23,7 @@ class ComposeTweetViewModel {
       for (var i = 0; i < followerCount; i++)
         context
             .query<MeQuery>()
-            .listItem((q) => q.followers, i)
+            .listItemQuery((q) => q.followers, i)
             .refId((q) => q.timeline),
     ];
 

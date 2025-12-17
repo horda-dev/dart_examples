@@ -42,9 +42,12 @@ class ProfileViewModel {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;
 
-    final followingUsers = context.query<MeQuery>().listItems(
-      (q) => q.following,
-    );
+    final followingUsers = context
+        .query<MeQuery>()
+        .listItems(
+          (q) => q.following,
+        )
+        .map((item) => item.value);
 
     return followingUsers.contains(userAccountQuery.id());
   }
@@ -53,16 +56,59 @@ class ProfileViewModel {
     final currentUserId = context.hordaAuthUserId;
     if (currentUserId == null) return false;
 
-    final blockedUsers = context.query<MeQuery>().listItems(
-      (q) => q.blockedUsers,
-    );
+    final blockedUsers = context
+        .query<MeQuery>()
+        .listItems(
+          (q) => q.blockedUsers,
+        )
+        .map((item) => item.value);
 
     return blockedUsers.contains(userAccountQuery.id());
   }
 
+  String? get followerUserKey {
+    final currentUserId = context.hordaAuthUserId;
+    if (currentUserId == null) return null;
+
+    // Find current user's key in target user's followers list
+    return userAccountQuery
+        .listItems((q) => q.followers)
+        .where((i) => i.value == currentUserId)
+        .firstOrNull
+        ?.key;
+  }
+
+  String? get followingUserKey {
+    final targetUserId = userAccountQuery.id();
+
+    // Find target user's key in current user's following list
+    return context
+        .query<MeQuery>()
+        .listItems((q) => q.following)
+        .where((i) => i.value == targetUserId)
+        .firstOrNull
+        ?.key;
+  }
+
+  String? get blockedUserKey {
+    final targetUserId = userAccountQuery.id();
+
+    // Find target user's key in current user's blocked users list
+    return context
+        .query<MeQuery>()
+        .listItems((q) => q.blockedUsers)
+        .where((i) => i.value == targetUserId)
+        .firstOrNull
+        ?.key;
+  }
+
   Future<void> toggleFollow() async {
     final result = await context.runProcess(
-      ToggleUserFollowRequested(userAccountQuery.id()),
+      ToggleUserFollowRequested(
+        followerUserKey,
+        followingUserKey,
+        userAccountQuery.id(),
+      ),
     );
 
     if (result.isError) {
@@ -72,7 +118,10 @@ class ProfileViewModel {
 
   Future<void> toggleBlock() async {
     final result = await context.runProcess(
-      ToggleUserBlockRequested(userAccountQuery.id()),
+      ToggleUserBlockRequested(
+        blockedUserKey,
+        userAccountQuery.id(),
+      ),
     );
 
     if (result.isError) {

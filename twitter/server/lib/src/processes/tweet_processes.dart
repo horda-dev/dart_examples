@@ -5,7 +5,7 @@ import '../entities/explore_feed_entity/messages.dart';
 import '../entities/timeline_entity/messages.dart';
 import '../entities/tweet_entity/messages.dart';
 import '../services/content_moderation_service/messages.dart';
-import '../services/user_profile_picture_service/messages.dart';
+import '../services/media_store_service/messages.dart';
 import 'messages.dart';
 
 class TweetProcesses extends ProcessGroup {
@@ -131,6 +131,7 @@ class TweetProcesses extends ProcessGroup {
       name: 'TweetEntity',
       id: event.tweetId,
       cmd: ToggleTweetLike(
+        event.userKey,
         context.senderId!,
       ),
       fac: [

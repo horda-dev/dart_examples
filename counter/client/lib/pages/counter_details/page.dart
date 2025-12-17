@@ -10,20 +10,21 @@ class CounterDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context)?.settings.arguments as String?;
+    final routeArgs =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
-    if (id == null) {
-      return const _ErrorPage(
-        message: 'Counter ID not found in route arguments.',
+    if (routeArgs case {'id': String id, 'itemKey': String itemKey}) {
+      return context.entityQuery(
+        entityId: id,
+        query: CounterQuery(),
+        loading: const _LoadingPage(),
+        error: const _ErrorPage(),
+        child: _LoadedPage(itemKey),
       );
     }
 
-    return context.entityQuery(
-      entityId: id,
-      query: CounterQuery(),
-      loading: const _LoadingPage(),
-      error: const _ErrorPage(),
-      child: const _LoadedPage(),
+    return const _ErrorPage(
+      message: 'Counter details page arguments are incomplete',
     );
   }
 }
@@ -55,7 +56,9 @@ class _LoadingPage extends StatelessWidget {
 }
 
 class _LoadedPage extends StatefulWidget {
-  const _LoadedPage();
+  const _LoadedPage(this.itemKey);
+
+  final String itemKey;
 
   @override
   State<_LoadedPage> createState() => _LoadedPageState();
@@ -68,7 +71,7 @@ class _LoadedPageState extends State<_LoadedPage> {
   @override
   void initState() {
     super.initState();
-    model = CounterDetailsViewModel(context);
+    model = CounterDetailsViewModel(context, widget.itemKey);
   }
 
   Future<void> _onDelete() async {

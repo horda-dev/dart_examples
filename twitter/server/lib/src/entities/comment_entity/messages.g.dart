@@ -39,10 +39,10 @@ Map<String, dynamic> _$CommentCreatedToJson(CommentCreated instance) =>
     };
 
 ToggleCommentLike _$ToggleCommentLikeFromJson(Map<String, dynamic> json) =>
-    ToggleCommentLike(json['userId'] as String);
+    ToggleCommentLike(json['userKey'] as String?, json['userId'] as String);
 
 Map<String, dynamic> _$ToggleCommentLikeToJson(ToggleCommentLike instance) =>
-    <String, dynamic>{'userId': instance.userId};
+    <String, dynamic>{'userKey': instance.userKey, 'userId': instance.userId};
 
 CommentLiked _$CommentLikedFromJson(Map<String, dynamic> json) =>
     CommentLiked(json['userId'] as String);
@@ -51,10 +51,10 @@ Map<String, dynamic> _$CommentLikedToJson(CommentLiked instance) =>
     <String, dynamic>{'userId': instance.userId};
 
 CommentUnliked _$CommentUnlikedFromJson(Map<String, dynamic> json) =>
-    CommentUnliked(json['userId'] as String);
+    CommentUnliked(json['userKey'] as String, json['userId'] as String);
 
 Map<String, dynamic> _$CommentUnlikedToJson(CommentUnliked instance) =>
-    <String, dynamic>{'userId': instance.userId};
+    <String, dynamic>{'userKey': instance.userKey, 'userId': instance.userId};
 
 AddCommentReply _$AddCommentReplyFromJson(Map<String, dynamic> json) =>
     AddCommentReply(json['replyCommentId'] as String);

@@ -119,7 +119,10 @@ class RetweetRequested extends RemoteEvent {
 /// {@category Client Event}
 @JsonSerializable()
 class ToggleCommentLikeRequested extends RemoteEvent {
-  ToggleCommentLikeRequested(this.commentId);
+  ToggleCommentLikeRequested(this.userKey, this.commentId);
+
+  /// Key of the user in the liked users list (for removal)
+  String? userKey;
 
   /// ID of the comment to like or unlike
   String commentId;
@@ -137,7 +140,10 @@ class ToggleCommentLikeRequested extends RemoteEvent {
 /// {@category Client Event}
 @JsonSerializable()
 class ToggleTweetLikeRequested extends RemoteEvent {
-  ToggleTweetLikeRequested(this.tweetId);
+  ToggleTweetLikeRequested(this.userKey, this.tweetId);
+
+  /// Key of the user in the liked users list (for removal)
+  String? userKey;
 
   /// ID of the tweet to like or unlike
   String tweetId;
@@ -155,7 +161,10 @@ class ToggleTweetLikeRequested extends RemoteEvent {
 /// {@category Client Event}
 @JsonSerializable()
 class ToggleUserBlockRequested extends RemoteEvent {
-  ToggleUserBlockRequested(this.userId);
+  ToggleUserBlockRequested(this.userKey, this.userId);
+
+  /// Key of the user in the blocked users list (for removal)
+  String? userKey;
 
   /// ID of the user which should be blocked/unblocked
   String userId;
@@ -173,7 +182,17 @@ class ToggleUserBlockRequested extends RemoteEvent {
 /// {@category Client Event}
 @JsonSerializable()
 class ToggleUserFollowRequested extends RemoteEvent {
-  ToggleUserFollowRequested(this.followedUserId);
+  ToggleUserFollowRequested(
+    this.followerUserKey,
+    this.followingUserKey,
+    this.followedUserId,
+  );
+
+  /// Key of the follower user in the followers list (for removal)
+  String? followerUserKey;
+
+  /// Key of the following user in the following list (for removal)
+  String? followingUserKey;
 
   /// ID of the user to follow or unfollow
   String followedUserId;
