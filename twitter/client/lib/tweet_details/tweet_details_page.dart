@@ -73,21 +73,33 @@ class _LoadedViewState extends State<_LoadedView> {
                     context.go('./profile/${model.author.id}');
                   },
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(model.author.avatarUrl),
                       ),
                       const SizedBox(width: 8.0),
-                      Text(
-                        model.author.displayName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              model.author.displayName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '@${model.author.handle}',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(
-                        ' @${model.author.handle}',
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                      const Spacer(),
                       Text(
                         model.createdAtString,
                         style: const TextStyle(
@@ -298,21 +310,31 @@ class CommentCard extends StatelessWidget {
                 context.go('./profile/${model.author.id}');
               },
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
                     radius: 15,
                     backgroundImage: NetworkImage(model.author.avatarUrl),
                   ),
                   const SizedBox(width: 8.0),
-                  Text(
-                    model.author.displayName,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.author.displayName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '@${model.author.handle}',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    ' @${model.author.handle}',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  const Spacer(),
                   Text(
                     model.createdAt,
                     style: const TextStyle(color: Colors.grey, fontSize: 10.0),
