@@ -143,21 +143,31 @@ class TweetCard extends StatelessWidget {
                   context.go('./profile/${tweet.author.id}');
                 },
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(tweet.author.avatarUrl),
                     ),
                     const SizedBox(width: 8.0),
-                    Text(
-                      authorDisplayName,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            authorDisplayName,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '@$authorHandle',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      ' @$authorHandle',
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    const Spacer(),
                     Text(
                       _formatTimestamp(createdAt),
                       style: const TextStyle(
