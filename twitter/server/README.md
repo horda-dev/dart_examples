@@ -49,15 +49,15 @@ To connect to the locally hosted server package, clients must use:
 Processes define the business logic and orchestrate interactions between different entities and services based on client requests. They are located in `lib/src/client/processes/`.
 
 **Process Request Events:**
-*   `ClientRegisterUserRequested`: Handles user registration, including profile picture upload and account creation.
-*   `ClientCreateTweetRequested`: Manages tweet creation, content moderation, attachment upload, and distribution to timelines.
-*   `ClientCreateCommentRequested`: Handles comment creation, content moderation, and linking to parent tweets/comments.
-*   `ClientToggleTweetLikeRequested`: Toggles the like status of a tweet.
-*   `ClientRetweetRequested`: Handles retweeting a tweet and distributing it to relevant timelines.
-*   `ClientToggleUserFollowRequested`: Toggles the follow status between users.
-*   `ClientToggleUserBlockRequested`: Toggles the block status between users.
-*   `ClientUpdateUserProfileRequested`: Updates user profile information, including display name, bio, and avatar.
-*   `ClientToggleCommentLikeRequested`: Toggles the like status of a comment.
+*   `RegisterUserRequested`: Handles user registration, including profile picture upload and account creation.
+*   `CreateTweetRequested`: Manages tweet creation, content moderation, attachment upload, and distribution to timelines.
+*   `CreateCommentRequested`: Handles comment creation, content moderation, and linking to parent tweets/comments.
+*   `ToggleTweetLikeRequested`: Toggles the like status of a tweet.
+*   `RetweetRequested`: Handles retweeting a tweet and distributing it to relevant timelines.
+*   `ToggleUserFollowRequested`: Toggles the follow status between users.
+*   `ToggleUserBlockRequested`: Toggles the block status between users.
+*   `UpdateUserProfileRequested`: Updates user profile information, including display name, bio, and avatar.
+*   `ToggleCommentLikeRequested`: Toggles the like status of a comment.
 
 
 ### Entities
