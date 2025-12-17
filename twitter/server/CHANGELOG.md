@@ -1,6 +1,8 @@
 ## 0.1.4
 
 - Reorganize business processes
+- Use horda_server 0.21.0
+- Use list view item keys
 
 ## 0.1.3
 
